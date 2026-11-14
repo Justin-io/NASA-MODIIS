@@ -15,7 +15,7 @@ import {
 } from './types';
 import { NILGIRIS_EMPIRICAL_MONTHLY_ARCHIVE } from './empiricalArchiveData';
 import { HYPER_REALISTIC_HISTORICAL_ARCHIVE } from './fireObservationsData';
-import liveIncidentsJson from '../../dataset/live_incidents.json';
+import liveIncidentsJson from '../../dataset/live_incidents.json' with { type: 'json' };
 
 export interface MonitoredRegion {
   id: string;

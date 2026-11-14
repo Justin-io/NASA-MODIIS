@@ -394,3 +394,17 @@ test('SecurityHeaders - strips X-Powered-By and enforces HSTS preload and camera
   assert.equal(headersSet['Cross-Origin-Opener-Policy'], 'same-origin');
 });
 
+// ---------------------------------------------------------------------------
+// 5. Vercel Serverless Function & Express Export Verification
+// ---------------------------------------------------------------------------
+
+test('VercelServerless - exports Express app directly with cold-start middleware and Vercel CORS support', async () => {
+  const apiModule = await import('../api/index');
+  const serverlessApp = apiModule.default;
+
+  assert.equal(typeof serverlessApp, 'function');
+  assert.equal(typeof (serverlessApp as any).handle, 'function');
+  assert.equal(typeof (serverlessApp as any).use, 'function');
+});
+
+

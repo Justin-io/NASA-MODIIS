@@ -96,9 +96,10 @@ app.use(authenticateToken);
 app.use((req, res, next) => {
   const origin = req.headers.origin;
   const isLocalhost = Boolean(origin && /^http:\/\/(localhost|127\.0\.0\.1|0\.0\.0\.0)(:\d+)?$/.test(origin));
+  const isVercelDomain = Boolean(origin && /^https:\/\/[a-zA-Z0-9-]+\.vercel\.app$/.test(origin));
   const isConfiguredAppUrl = Boolean(process.env.APP_URL && origin === process.env.APP_URL);
   const isConfiguredPublicUrl = Boolean(process.env.ALEX_PUBLIC_URL && origin === process.env.ALEX_PUBLIC_URL);
-  const isAllowedOrigin = !origin || isLocalhost || isConfiguredAppUrl || isConfiguredPublicUrl;
+  const isAllowedOrigin = !origin || isLocalhost || isVercelDomain || isConfiguredAppUrl || isConfiguredPublicUrl;
 
   // Block cross-origin mutating operations from unauthorized external origins
   const isMutatingMethod = ['POST', 'PUT', 'PATCH', 'DELETE'].includes(req.method);
@@ -125,6 +126,16 @@ app.use((req, res, next) => {
     return;
   }
   next();
+});
+
+// Ensure server state & ledger are initialized before processing API routes (safe for cold starts)
+app.use(async (_req, _res, next) => {
+  try {
+    await ensureServerInitialized();
+    next();
+  } catch (err) {
+    next(err);
+  }
 });
 
 // SSE Client Connections
@@ -1328,7 +1339,12 @@ export async function startServer() {
   });
 }
 
-if (process.env.NODE_ENV !== 'test' && !process.env.VERCEL) {
+const isMainScript = Boolean(
+  process.argv[1] &&
+  (process.argv[1].endsWith('server/index.ts') || process.argv[1].endsWith('server/index.js'))
+);
+
+if (isMainScript && process.env.NODE_ENV !== 'test' && !process.env.VERCEL && !process.env.AWS_LAMBDA_FUNCTION_NAME) {
   startServer().catch((err) => {
     console.error('Failed to start ALEX backend server:', err);
   });

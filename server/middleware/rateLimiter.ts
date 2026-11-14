@@ -33,8 +33,8 @@ export class MemoryRateLimiter {
     this.code = options.code || 'RATE_LIMIT_EXCEEDED';
     this.skipInTests = options.skipInTests ?? true;
 
-    // Periodic cleanup of expired buckets every 60 seconds
-    if (process.env.NODE_ENV !== 'test') {
+    // Periodic cleanup of expired buckets every 60 seconds (disabled in serverless/tests)
+    if (process.env.NODE_ENV !== 'test' && !process.env.VERCEL && !process.env.AWS_LAMBDA_FUNCTION_NAME) {
       this.cleanupTimer = setInterval(() => this.pruneExpired(), 60000);
       if (this.cleanupTimer.unref) {
         this.cleanupTimer.unref();
