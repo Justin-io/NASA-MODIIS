@@ -619,6 +619,12 @@ app.post('/api/firms/ingest', requireRole(['incident_commander', 'system_adminis
   }
 });
 
+function getDatasetPath(filename: string): string {
+  const p = path.resolve(process.cwd(), 'dataset', filename);
+  if (fs.existsSync(p)) return p;
+  return path.resolve(process.cwd(), 'data', filename);
+}
+
 // 17. Raw Observations & Provenance
 app.get('/api/observations', (req: Request, res: Response) => {
   const stored = globalStore.getRawObservations();
@@ -626,7 +632,7 @@ app.get('/api/observations', (req: Request, res: Response) => {
     res.json(stored);
     return;
   }
-  const jsonPath = path.resolve(process.cwd(), 'data', 'firelens_nilgiris_2019_2026.json');
+  const jsonPath = getDatasetPath('firelens_nilgiris_2019_2026.json');
   if (fs.existsSync(jsonPath)) {
     try {
       const canonical = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
@@ -663,7 +669,7 @@ app.get('/api/observations', (req: Request, res: Response) => {
 // FireLens Canonical Earth Observation & Decomposition Endpoints
 app.get('/api/firelens/observations', (req: Request, res: Response) => {
   try {
-    const jsonPath = path.resolve(process.cwd(), 'data', 'firelens_nilgiris_2019_2026.json');
+    const jsonPath = getDatasetPath('firelens_nilgiris_2019_2026.json');
     if (!fs.existsSync(jsonPath)) {
       res.status(404).json({ error: 'FireLens dataset not yet compiled.' });
       return;
@@ -693,8 +699,8 @@ app.get('/api/firelens/observations', (req: Request, res: Response) => {
 
 app.get('/api/firelens/decomposition', (_req: Request, res: Response) => {
   try {
-    const jsonPath = path.resolve(process.cwd(), 'data', 'firelens_nilgiris_2019_2026.json');
-    const mcdPath = path.resolve(process.cwd(), 'data', 'firelens_validation_mcd64a1.json');
+    const jsonPath = getDatasetPath('firelens_nilgiris_2019_2026.json');
+    const mcdPath = getDatasetPath('firelens_validation_mcd64a1.json');
     if (!fs.existsSync(jsonPath)) {
       res.status(404).json({ error: 'FireLens dataset not found.' });
       return;
@@ -710,7 +716,7 @@ app.get('/api/firelens/decomposition', (_req: Request, res: Response) => {
 
 app.get('/api/firelens/validation', (_req: Request, res: Response) => {
   try {
-    const mcdPath = path.resolve(process.cwd(), 'data', 'firelens_validation_mcd64a1.json');
+    const mcdPath = getDatasetPath('firelens_validation_mcd64a1.json');
     if (!fs.existsSync(mcdPath)) {
       res.status(404).json({ error: 'Validation dataset not found.' });
       return;
@@ -722,7 +728,7 @@ app.get('/api/firelens/validation', (_req: Request, res: Response) => {
 });
 
 app.get('/api/firelens/export/csv', (_req: Request, res: Response) => {
-  const csvPath = path.resolve(process.cwd(), 'data', 'firelens_nilgiris_2019_2026.csv');
+  const csvPath = getDatasetPath('firelens_nilgiris_2019_2026.csv');
   if (fs.existsSync(csvPath)) {
     res.setHeader('Content-Type', 'text/csv');
     res.setHeader('Content-Disposition', 'attachment; filename="firelens_nilgiris_2019_2026.csv"');
@@ -734,7 +740,7 @@ app.get('/api/firelens/export/csv', (_req: Request, res: Response) => {
 
 app.get('/api/firelens/export/geojson', (req: Request, res: Response) => {
   try {
-    const jsonPath = path.resolve(process.cwd(), 'data', 'firelens_nilgiris_2019_2026.json');
+    const jsonPath = getDatasetPath('firelens_nilgiris_2019_2026.json');
     if (!fs.existsSync(jsonPath)) {
       res.status(404).json({ error: 'FireLens dataset not found.' });
       return;

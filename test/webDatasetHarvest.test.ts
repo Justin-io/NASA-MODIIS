@@ -7,7 +7,9 @@ import { weatherAdapter } from '../server/adapters/weatherAdapter';
 import { nasaEonetAdapter } from '../server/adapters/nasaEonet';
 
 test('WebDatasetHarvest - verifies authoritative web data files and integrity', () => {
-  const dataDir = path.resolve(process.cwd(), 'data');
+  const dataDir = fs.existsSync(path.resolve(process.cwd(), 'dataset'))
+    ? path.resolve(process.cwd(), 'dataset')
+    : path.resolve(process.cwd(), 'data');
 
   // 1. CelesTrak TLEs
   const tlePath = path.join(dataDir, 'celestrak_tles.json');

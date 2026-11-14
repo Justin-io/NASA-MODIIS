@@ -11,7 +11,9 @@ export class WeatherAdapter {
 
   private loadPersistedGrid(): void {
     try {
-      const p = path.resolve(process.cwd(), 'data', 'open_meteo_weather_grid.json');
+      const p = fs.existsSync(path.resolve(process.cwd(), 'dataset', 'open_meteo_weather_grid.json'))
+        ? path.resolve(process.cwd(), 'dataset', 'open_meteo_weather_grid.json')
+        : path.resolve(process.cwd(), 'data', 'open_meteo_weather_grid.json');
       if (fs.existsSync(p)) {
         this.cachedGrid = JSON.parse(fs.readFileSync(p, 'utf8'));
       }

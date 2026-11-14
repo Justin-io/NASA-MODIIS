@@ -1,7 +1,7 @@
 {
   "type": "FeatureCollection",
   "source": "National Interagency Fire Center (NIFC) WFIGS Current Perimeters",
-  "fetchedAt": "2026-11-14T14:44:00.355Z",
+  "fetchedAt": "2026-11-14T14:52:21.416Z",
   "count": 25,
   "features": [
     {
@@ -220639,7 +220639,7 @@
         "state": "US-OR",
         "fuelModel": "Timber (Litter and Understory)",
         "uniqueFireIdentifier": "2026-ORWWF-000531",
-        "polygonDateTime": "2026-11-14T14:44:00.355Z",
+        "polygonDateTime": "2026-11-14T14:52:21.416Z",
         "totalPersonnel": 1,
         "mapMethod": "Mixed Methods"
       },
@@ -233019,7 +233019,7 @@
         "state": "US-MI",
         "fuelModel": "Timber (Grass and Understory)",
         "uniqueFireIdentifier": "2026-MIMIS-520021",
-        "polygonDateTime": "2026-11-14T14:44:00.355Z",
+        "polygonDateTime": "2026-11-14T14:52:21.416Z",
         "totalPersonnel": 1,
         "mapMethod": "Mixed Methods"
       },

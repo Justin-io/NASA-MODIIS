@@ -10,13 +10,17 @@ import fs from 'fs';
 import path from 'path';
 
 test('FireLens - decomposes observing effort vs actual burning on empirical dataset', () => {
-  const jsonPath = path.resolve(process.cwd(), 'data', 'firelens_nilgiris_2019_2026.json');
+  const jsonPath = fs.existsSync(path.resolve(process.cwd(), 'dataset', 'firelens_nilgiris_2019_2026.json'))
+    ? path.resolve(process.cwd(), 'dataset', 'firelens_nilgiris_2019_2026.json')
+    : path.resolve(process.cwd(), 'data', 'firelens_nilgiris_2019_2026.json');
   assert.ok(fs.existsSync(jsonPath), 'Frozen research dataset must exist on disk');
 
   const rawObs: CanonicalObservation[] = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
   assert.ok(rawObs.length >= 10000, `Dataset must contain >= 10,000 empirical observations, found ${rawObs.length}`);
 
-  const mcdPath = path.resolve(process.cwd(), 'data', 'firelens_validation_mcd64a1.json');
+  const mcdPath = fs.existsSync(path.resolve(process.cwd(), 'dataset', 'firelens_validation_mcd64a1.json'))
+    ? path.resolve(process.cwd(), 'dataset', 'firelens_validation_mcd64a1.json')
+    : path.resolve(process.cwd(), 'data', 'firelens_validation_mcd64a1.json');
   const mcdData: Mcd64BurnedAreaGroundTruth[] = JSON.parse(fs.readFileSync(mcdPath, 'utf8'));
   assert.ok(mcdData.length >= 12, 'Validation dataset must contain >= 12 months');
 
@@ -88,7 +92,9 @@ test('FireLens - harmonizeObservations enforces strict temporal pass gating', ()
 });
 
 test('FireLens - canonical observations preserve native confidence without lossy conversion', () => {
-  const jsonPath = path.resolve(process.cwd(), 'data', 'firelens_nilgiris_2019_2026.json');
+  const jsonPath = fs.existsSync(path.resolve(process.cwd(), 'dataset', 'firelens_nilgiris_2019_2026.json'))
+    ? path.resolve(process.cwd(), 'dataset', 'firelens_nilgiris_2019_2026.json')
+    : path.resolve(process.cwd(), 'data', 'firelens_nilgiris_2019_2026.json');
   const rawObs: CanonicalObservation[] = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
 
   const modisRecords = rawObs.filter((o) => o.sensor === 'MODIS');

@@ -21,9 +21,9 @@ from collections import defaultdict
 from datetime import datetime
 
 ROOT = Path(__file__).resolve().parent.parent.parent
-DATA_OBS = ROOT / "data" / "firelens_nilgiris_2019_2026.json"
-DATA_MCD = ROOT / "data" / "firelens_validation_mcd64a1.json"
-DATA_MONTHLY = ROOT / "data" / "nilgiris_empirical_monthly.json"
+DATA_OBS = ROOT / "dataset" / "firelens_nilgiris_2019_2026.json" if (ROOT / "dataset" / "firelens_nilgiris_2019_2026.json").exists() else ROOT / "data" / "firelens_nilgiris_2019_2026.json"
+DATA_MCD = ROOT / "dataset" / "firelens_validation_mcd64a1.json" if (ROOT / "dataset" / "firelens_validation_mcd64a1.json").exists() else ROOT / "data" / "firelens_validation_mcd64a1.json"
+DATA_MONTHLY = ROOT / "dataset" / "nilgiris_empirical_monthly.json" if (ROOT / "dataset" / "nilgiris_empirical_monthly.json").exists() else ROOT / "data" / "nilgiris_empirical_monthly.json"
 
 def parse_time(ts):
     return datetime.fromisoformat(ts.replace("Z", "+00:00")).timestamp()

@@ -60,7 +60,9 @@ export class NasaEonetAdapter {
     } catch (err: any) {
       // Fallback to persisted real EONET events if offline/timeout
       try {
-        const p = path.resolve(process.cwd(), 'data', 'nasa_eonet_wildfires.json');
+        const p = fs.existsSync(path.resolve(process.cwd(), 'dataset', 'nasa_eonet_wildfires.json'))
+          ? path.resolve(process.cwd(), 'dataset', 'nasa_eonet_wildfires.json')
+          : path.resolve(process.cwd(), 'data', 'nasa_eonet_wildfires.json');
         if (fs.existsSync(p)) {
           const raw = JSON.parse(fs.readFileSync(p, 'utf8'));
           const events: NasaEonetWildfire[] = raw.map((ev: any) => ({
@@ -82,7 +84,9 @@ export class NasaEonetAdapter {
 
   public getGroundedIncidents(): IncidentRecord[] {
     try {
-      const p = path.resolve(process.cwd(), 'data', 'live_incidents.json');
+      const p = fs.existsSync(path.resolve(process.cwd(), 'dataset', 'live_incidents.json'))
+        ? path.resolve(process.cwd(), 'dataset', 'live_incidents.json')
+        : path.resolve(process.cwd(), 'data', 'live_incidents.json');
       if (fs.existsSync(p)) {
         return JSON.parse(fs.readFileSync(p, 'utf8'));
       }

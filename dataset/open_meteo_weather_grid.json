@@ -1,0 +1,554 @@
+[
+  {
+    "stationId": "AWS-NILGIRI-01",
+    "regionName": "Nilgiris Biosphere Core (Ooty)",
+    "lat": 11.4064,
+    "lng": 76.6932,
+    "observedAt": "2026-11-14T14:52:22.942Z",
+    "forecastWindow": "Live Sensor Observation + 12h NWP Forecast",
+    "source": "Open-Meteo High-Resolution Gridded Weather Service",
+    "freshnessMinutes": 1,
+    "isSimulated": false,
+    "isAvailable": true,
+    "status": "OPERATIONAL",
+    "temperatureC": 12.5,
+    "humidityPct": 92,
+    "windSpeedKmh": 4.5,
+    "windGustKmh": 16.2,
+    "windDirectionDeg": 344,
+    "windCompass": "NNW",
+    "rainfallMm24h": 0,
+    "precipProbabilityPct": 0,
+    "soilMoisturePct": 32.5,
+    "fuelDrynessPct": 22,
+    "lightningStrikes1h": 0,
+    "warningText": null,
+    "hourlyTrend": [
+      {
+        "hour": "00:00",
+        "tempC": 11,
+        "windKmh": 1,
+        "humidityPct": 88,
+        "rainMm": 0
+      },
+      {
+        "hour": "02:00",
+        "tempC": 13,
+        "windKmh": 2,
+        "humidityPct": 72,
+        "rainMm": 0
+      },
+      {
+        "hour": "04:00",
+        "tempC": 17,
+        "windKmh": 2,
+        "humidityPct": 65,
+        "rainMm": 0
+      },
+      {
+        "hour": "06:00",
+        "tempC": 19,
+        "windKmh": 4,
+        "humidityPct": 57,
+        "rainMm": 0
+      },
+      {
+        "hour": "08:00",
+        "tempC": 18,
+        "windKmh": 9,
+        "humidityPct": 76,
+        "rainMm": 0.5
+      },
+      {
+        "hour": "10:00",
+        "tempC": 16,
+        "windKmh": 12,
+        "humidityPct": 77,
+        "rainMm": 0.3
+      }
+    ]
+  },
+  {
+    "stationId": "AWS-BHAVANI-02",
+    "regionName": "Bhavani River Basin (Siruvani)",
+    "lat": 11.1,
+    "lng": 76.75,
+    "observedAt": "2026-11-14T14:52:23.151Z",
+    "forecastWindow": "Live Sensor Observation + 12h NWP Forecast",
+    "source": "Open-Meteo High-Resolution Gridded Weather Service",
+    "freshnessMinutes": 1,
+    "isSimulated": false,
+    "isAvailable": true,
+    "status": "OPERATIONAL",
+    "temperatureC": 25.9,
+    "humidityPct": 58,
+    "windSpeedKmh": 0.3,
+    "windGustKmh": 5,
+    "windDirectionDeg": 135,
+    "windCompass": "SE",
+    "rainfallMm24h": 0,
+    "precipProbabilityPct": 53,
+    "soilMoisturePct": 28,
+    "fuelDrynessPct": 63,
+    "lightningStrikes1h": 0,
+    "warningText": null,
+    "hourlyTrend": [
+      {
+        "hour": "00:00",
+        "tempC": 21,
+        "windKmh": 2,
+        "humidityPct": 87,
+        "rainMm": 0
+      },
+      {
+        "hour": "02:00",
+        "tempC": 22,
+        "windKmh": 2,
+        "humidityPct": 81,
+        "rainMm": 0
+      },
+      {
+        "hour": "04:00",
+        "tempC": 25,
+        "windKmh": 3,
+        "humidityPct": 63,
+        "rainMm": 0
+      },
+      {
+        "hour": "06:00",
+        "tempC": 28,
+        "windKmh": 3,
+        "humidityPct": 52,
+        "rainMm": 0
+      },
+      {
+        "hour": "08:00",
+        "tempC": 29,
+        "windKmh": 7,
+        "humidityPct": 46,
+        "rainMm": 0
+      },
+      {
+        "hour": "10:00",
+        "tempC": 28,
+        "windKmh": 4,
+        "humidityPct": 45,
+        "rainMm": 0
+      }
+    ]
+  },
+  {
+    "stationId": "AWS-BANDIPUR-03",
+    "regionName": "Bandipur Tiger Reserve & Mudumalai",
+    "lat": 11.66,
+    "lng": 76.63,
+    "observedAt": "2026-11-14T14:52:23.570Z",
+    "forecastWindow": "Live Sensor Observation + 12h NWP Forecast",
+    "source": "Open-Meteo High-Resolution Gridded Weather Service",
+    "freshnessMinutes": 1,
+    "isSimulated": false,
+    "isAvailable": true,
+    "status": "OPERATIONAL",
+    "temperatureC": 21.8,
+    "humidityPct": 79,
+    "windSpeedKmh": 2,
+    "windGustKmh": 10.4,
+    "windDirectionDeg": 185,
+    "windCompass": "S",
+    "rainfallMm24h": 0,
+    "precipProbabilityPct": 0,
+    "soilMoisturePct": 26.6,
+    "fuelDrynessPct": 43,
+    "lightningStrikes1h": 0,
+    "warningText": null,
+    "hourlyTrend": [
+      {
+        "hour": "00:00",
+        "tempC": 17,
+        "windKmh": 2,
+        "humidityPct": 87,
+        "rainMm": 0
+      },
+      {
+        "hour": "02:00",
+        "tempC": 19,
+        "windKmh": 5,
+        "humidityPct": 85,
+        "rainMm": 0
+      },
+      {
+        "hour": "04:00",
+        "tempC": 23,
+        "windKmh": 10,
+        "humidityPct": 65,
+        "rainMm": 0
+      },
+      {
+        "hour": "06:00",
+        "tempC": 27,
+        "windKmh": 6,
+        "humidityPct": 46,
+        "rainMm": 0
+      },
+      {
+        "hour": "08:00",
+        "tempC": 29,
+        "windKmh": 5,
+        "humidityPct": 38,
+        "rainMm": 0
+      },
+      {
+        "hour": "10:00",
+        "tempC": 29,
+        "windKmh": 7,
+        "humidityPct": 33,
+        "rainMm": 0
+      }
+    ]
+  },
+  {
+    "stationId": "AWS-WAYANAD-04",
+    "regionName": "Wayanad Wildlife Sanctuary Interface",
+    "lat": 11.68,
+    "lng": 76.25,
+    "observedAt": "2026-11-14T14:52:23.960Z",
+    "forecastWindow": "Live Sensor Observation + 12h NWP Forecast",
+    "source": "Open-Meteo High-Resolution Gridded Weather Service",
+    "freshnessMinutes": 1,
+    "isSimulated": false,
+    "isAvailable": true,
+    "status": "OPERATIONAL",
+    "temperatureC": 21.2,
+    "humidityPct": 80,
+    "windSpeedKmh": 1.9,
+    "windGustKmh": 4,
+    "windDirectionDeg": 292,
+    "windCompass": "WNW",
+    "rainfallMm24h": 0,
+    "precipProbabilityPct": 0,
+    "soilMoisturePct": 33.9,
+    "fuelDrynessPct": 42,
+    "lightningStrikes1h": 0,
+    "warningText": null,
+    "hourlyTrend": [
+      {
+        "hour": "00:00",
+        "tempC": 17,
+        "windKmh": 1,
+        "humidityPct": 83,
+        "rainMm": 0
+      },
+      {
+        "hour": "02:00",
+        "tempC": 19,
+        "windKmh": 2,
+        "humidityPct": 84,
+        "rainMm": 0
+      },
+      {
+        "hour": "04:00",
+        "tempC": 24,
+        "windKmh": 7,
+        "humidityPct": 72,
+        "rainMm": 0.1
+      },
+      {
+        "hour": "06:00",
+        "tempC": 26,
+        "windKmh": 6,
+        "humidityPct": 60,
+        "rainMm": 0
+      },
+      {
+        "hour": "08:00",
+        "tempC": 26,
+        "windKmh": 5,
+        "humidityPct": 58,
+        "rainMm": 0
+      },
+      {
+        "hour": "10:00",
+        "tempC": 26,
+        "windKmh": 6,
+        "humidityPct": 50,
+        "rainMm": 0
+      }
+    ]
+  },
+  {
+    "stationId": "AWS-PANTANAL-01",
+    "regionName": "Pantanal Wetland Reserve Basin",
+    "lat": -17.842,
+    "lng": -56.812,
+    "observedAt": "2026-11-14T14:52:24.160Z",
+    "forecastWindow": "Live Sensor Observation + 12h NWP Forecast",
+    "source": "Open-Meteo High-Resolution Gridded Weather Service",
+    "freshnessMinutes": 1,
+    "isSimulated": false,
+    "isAvailable": true,
+    "status": "OPERATIONAL",
+    "temperatureC": 34.6,
+    "humidityPct": 51,
+    "windSpeedKmh": 14.1,
+    "windGustKmh": 30.6,
+    "windDirectionDeg": 329,
+    "windCompass": "NNW",
+    "rainfallMm24h": 0,
+    "precipProbabilityPct": 4,
+    "soilMoisturePct": 15.8,
+    "fuelDrynessPct": 66,
+    "lightningStrikes1h": 0,
+    "warningText": null,
+    "hourlyTrend": [
+      {
+        "hour": "00:00",
+        "tempC": 28,
+        "windKmh": 7,
+        "humidityPct": 79,
+        "rainMm": 0
+      },
+      {
+        "hour": "02:00",
+        "tempC": 27,
+        "windKmh": 5,
+        "humidityPct": 84,
+        "rainMm": 0
+      },
+      {
+        "hour": "04:00",
+        "tempC": 27,
+        "windKmh": 7,
+        "humidityPct": 84,
+        "rainMm": 0
+      },
+      {
+        "hour": "06:00",
+        "tempC": 25,
+        "windKmh": 5,
+        "humidityPct": 88,
+        "rainMm": 0
+      },
+      {
+        "hour": "08:00",
+        "tempC": 25,
+        "windKmh": 5,
+        "humidityPct": 91,
+        "rainMm": 0
+      },
+      {
+        "hour": "10:00",
+        "tempC": 26,
+        "windKmh": 8,
+        "humidityPct": 87,
+        "rainMm": 0
+      }
+    ]
+  },
+  {
+    "stationId": "AWS-SIERRA-01",
+    "regionName": "Sierra Nevada Plumas Ridge",
+    "lat": 39.9921,
+    "lng": -120.8031,
+    "observedAt": "2026-11-14T14:52:24.392Z",
+    "forecastWindow": "Live Sensor Observation + 12h NWP Forecast",
+    "source": "Open-Meteo High-Resolution Gridded Weather Service",
+    "freshnessMinutes": 1,
+    "isSimulated": false,
+    "isAvailable": true,
+    "status": "OPERATIONAL",
+    "temperatureC": -1.6,
+    "humidityPct": 98,
+    "windSpeedKmh": 20.9,
+    "windGustKmh": 34.9,
+    "windDirectionDeg": 208,
+    "windCompass": "SSW",
+    "rainfallMm24h": 0,
+    "precipProbabilityPct": 91,
+    "soilMoisturePct": 34.1,
+    "fuelDrynessPct": 9,
+    "lightningStrikes1h": 0,
+    "warningText": null,
+    "hourlyTrend": [
+      {
+        "hour": "00:00",
+        "tempC": -2,
+        "windKmh": 28,
+        "humidityPct": 99,
+        "rainMm": 5.3
+      },
+      {
+        "hour": "02:00",
+        "tempC": -2,
+        "windKmh": 24,
+        "humidityPct": 99,
+        "rainMm": 0
+      },
+      {
+        "hour": "04:00",
+        "tempC": -2,
+        "windKmh": 9,
+        "humidityPct": 98,
+        "rainMm": 0
+      },
+      {
+        "hour": "06:00",
+        "tempC": -2,
+        "windKmh": 16,
+        "humidityPct": 98,
+        "rainMm": 0
+      },
+      {
+        "hour": "08:00",
+        "tempC": -2,
+        "windKmh": 16,
+        "humidityPct": 98,
+        "rainMm": 0
+      },
+      {
+        "hour": "10:00",
+        "tempC": -2,
+        "windKmh": 17,
+        "humidityPct": 98,
+        "rainMm": 0
+      }
+    ]
+  },
+  {
+    "stationId": "AWS-ARCADIA-01",
+    "regionName": "Peloponnese Arcadia Highlands",
+    "lat": 37.5102,
+    "lng": 22.3712,
+    "observedAt": "2026-11-14T14:52:24.614Z",
+    "forecastWindow": "Live Sensor Observation + 12h NWP Forecast",
+    "source": "Open-Meteo High-Resolution Gridded Weather Service",
+    "freshnessMinutes": 1,
+    "isSimulated": false,
+    "isAvailable": true,
+    "status": "OPERATIONAL",
+    "temperatureC": 18.3,
+    "humidityPct": 54,
+    "windSpeedKmh": 14,
+    "windGustKmh": 32.8,
+    "windDirectionDeg": 258,
+    "windCompass": "WSW",
+    "rainfallMm24h": 0,
+    "precipProbabilityPct": 0,
+    "soilMoisturePct": 21.9,
+    "fuelDrynessPct": 64,
+    "lightningStrikes1h": 0,
+    "warningText": null,
+    "hourlyTrend": [
+      {
+        "hour": "00:00",
+        "tempC": 15,
+        "windKmh": 10,
+        "humidityPct": 83,
+        "rainMm": 0
+      },
+      {
+        "hour": "02:00",
+        "tempC": 14,
+        "windKmh": 5,
+        "humidityPct": 86,
+        "rainMm": 0
+      },
+      {
+        "hour": "04:00",
+        "tempC": 14,
+        "windKmh": 6,
+        "humidityPct": 90,
+        "rainMm": 0
+      },
+      {
+        "hour": "06:00",
+        "tempC": 15,
+        "windKmh": 9,
+        "humidityPct": 89,
+        "rainMm": 0
+      },
+      {
+        "hour": "08:00",
+        "tempC": 18,
+        "windKmh": 20,
+        "humidityPct": 73,
+        "rainMm": 0
+      },
+      {
+        "hour": "10:00",
+        "tempC": 20,
+        "windKmh": 22,
+        "humidityPct": 61,
+        "rainMm": 0
+      }
+    ]
+  },
+  {
+    "stationId": "AWS-REDHILL-01",
+    "regionName": "Red Hill Wildfire Observation Node (MS)",
+    "lat": 31.13,
+    "lng": -89.0638,
+    "observedAt": "2026-11-14T14:52:24.874Z",
+    "forecastWindow": "Live Sensor Observation + 12h NWP Forecast",
+    "source": "Open-Meteo High-Resolution Gridded Weather Service",
+    "freshnessMinutes": 1,
+    "isSimulated": false,
+    "isAvailable": true,
+    "status": "OPERATIONAL",
+    "temperatureC": 6.7,
+    "humidityPct": 62,
+    "windSpeedKmh": 9.9,
+    "windGustKmh": 24.5,
+    "windDirectionDeg": 49,
+    "windCompass": "NE",
+    "rainfallMm24h": 0,
+    "precipProbabilityPct": 0,
+    "soilMoisturePct": 12.6,
+    "fuelDrynessPct": 59,
+    "lightningStrikes1h": 0,
+    "warningText": null,
+    "hourlyTrend": [
+      {
+        "hour": "00:00",
+        "tempC": 12,
+        "windKmh": 11,
+        "humidityPct": 34,
+        "rainMm": 0
+      },
+      {
+        "hour": "02:00",
+        "tempC": 10,
+        "windKmh": 8,
+        "humidityPct": 43,
+        "rainMm": 0
+      },
+      {
+        "hour": "04:00",
+        "tempC": 7,
+        "windKmh": 4,
+        "humidityPct": 51,
+        "rainMm": 0
+      },
+      {
+        "hour": "06:00",
+        "tempC": 5,
+        "windKmh": 9,
+        "humidityPct": 62,
+        "rainMm": 0
+      },
+      {
+        "hour": "08:00",
+        "tempC": 4,
+        "windKmh": 9,
+        "humidityPct": 68,
+        "rainMm": 0
+      },
+      {
+        "hour": "10:00",
+        "tempC": 3,
+        "windKmh": 8,
+        "humidityPct": 71,
+        "rainMm": 0
+      }
+    ]
+  }
+]

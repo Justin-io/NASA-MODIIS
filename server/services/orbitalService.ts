@@ -68,7 +68,9 @@ export class OrbitalIntelligenceService {
 
   private loadPersistedTles(): void {
     try {
-      const p = path.resolve(process.cwd(), 'data', 'celestrak_tles.json');
+      const p = fs.existsSync(path.resolve(process.cwd(), 'dataset', 'celestrak_tles.json'))
+        ? path.resolve(process.cwd(), 'dataset', 'celestrak_tles.json')
+        : path.resolve(process.cwd(), 'data', 'celestrak_tles.json');
       if (fs.existsSync(p)) {
         const raw = JSON.parse(fs.readFileSync(p, 'utf8'));
         for (const [key, val] of Object.entries(raw) as any) {

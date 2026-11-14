@@ -280,9 +280,14 @@ async function main() {
   console.log(`\nDeduplicated Canonical Observations: ${canonicalObservations.length}`);
 
   // Write JSON
+  const datasetJsonPath = path.resolve(process.cwd(), 'dataset', 'firelens_nilgiris_2019_2026.json');
+  fs.mkdirSync(path.dirname(datasetJsonPath), { recursive: true });
+  fs.writeFileSync(datasetJsonPath, JSON.stringify(canonicalObservations, null, 2), 'utf-8');
   const jsonPath = path.resolve(process.cwd(), 'data', 'firelens_nilgiris_2019_2026.json');
-  fs.writeFileSync(jsonPath, JSON.stringify(canonicalObservations, null, 2), 'utf-8');
-  console.log(`Saved JSON: ${jsonPath} (${(fs.statSync(jsonPath).size / 1024).toFixed(1)} KB)`);
+  if (fs.existsSync(path.dirname(jsonPath))) {
+    fs.writeFileSync(jsonPath, JSON.stringify(canonicalObservations, null, 2), 'utf-8');
+  }
+  console.log(`Saved JSON: ${datasetJsonPath} (${(fs.statSync(datasetJsonPath).size / 1024).toFixed(1)} KB)`);
 
   // Write CSV
   const csvHeaders = [
@@ -314,9 +319,13 @@ async function main() {
       o.rawPayloadChecksumSha256
     ].join(','));
   }
+  const datasetCsvPath = path.resolve(process.cwd(), 'dataset', 'firelens_nilgiris_2019_2026.csv');
+  fs.writeFileSync(datasetCsvPath, csvRows.join('\n'), 'utf-8');
   const csvPath = path.resolve(process.cwd(), 'data', 'firelens_nilgiris_2019_2026.csv');
-  fs.writeFileSync(csvPath, csvRows.join('\n'), 'utf-8');
-  console.log(`Saved CSV: ${csvPath} (${(fs.statSync(csvPath).size / 1024).toFixed(1)} KB)`);
+  if (fs.existsSync(path.dirname(csvPath))) {
+    fs.writeFileSync(csvPath, csvRows.join('\n'), 'utf-8');
+  }
+  console.log(`Saved CSV: ${datasetCsvPath} (${(fs.statSync(datasetCsvPath).size / 1024).toFixed(1)} KB)`);
 
   // Also write Independent MCD64A1 Ground Truth Burned Area validation asset
   // Evaluated directly from MCD64A1 500m collection for Nilgiris Biosphere Reserve
@@ -347,9 +356,13 @@ async function main() {
     { monthYear: '2026-04', burnedAreaHectares: 380, pixelCount: 15, uncertaintyHectares: 55, confidenceScore: 86, isTemporallyHeldOut: true },
   ];
 
+  const datasetMcdPath = path.resolve(process.cwd(), 'dataset', 'firelens_validation_mcd64a1.json');
+  fs.writeFileSync(datasetMcdPath, JSON.stringify(mcd64a1ValidationRecords, null, 2), 'utf-8');
   const mcd64Path = path.resolve(process.cwd(), 'data', 'firelens_validation_mcd64a1.json');
-  fs.writeFileSync(mcd64Path, JSON.stringify(mcd64a1ValidationRecords, null, 2), 'utf-8');
-  console.log(`Saved MCD64A1 Validation Asset: ${mcd64Path}`);
+  if (fs.existsSync(path.dirname(mcd64Path))) {
+    fs.writeFileSync(mcd64Path, JSON.stringify(mcd64a1ValidationRecords, null, 2), 'utf-8');
+  }
+  console.log(`Saved MCD64A1 Validation Asset: ${datasetMcdPath}`);
 }
 
 main().catch((err) => {

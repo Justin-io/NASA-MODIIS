@@ -15,8 +15,8 @@ import random
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent.parent
-DATA_OBS = ROOT / "data" / "firelens_nilgiris_2019_2026.json"
-DATA_MCD = ROOT / "data" / "firelens_validation_mcd64a1.json"
+DATA_OBS = ROOT / "dataset" / "firelens_nilgiris_2019_2026.json" if (ROOT / "dataset" / "firelens_nilgiris_2019_2026.json").exists() else ROOT / "data" / "firelens_nilgiris_2019_2026.json"
+DATA_MCD = ROOT / "dataset" / "firelens_validation_mcd64a1.json" if (ROOT / "dataset" / "firelens_validation_mcd64a1.json").exists() else ROOT / "data" / "firelens_validation_mcd64a1.json"
 OUT_JSON = ROOT / "research" / "scientific_audit" / "reproduction_output.json"
 
 def sha256_file(path: Path) -> str:

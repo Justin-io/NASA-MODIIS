@@ -281,7 +281,9 @@ export class NifcPerimetersAdapter {
       }
 
       try {
-        const cachedPath = path.resolve(process.cwd(), 'data', 'nifc_wfigs_perimeters.json');
+        const cachedPath = fs.existsSync(path.resolve(process.cwd(), 'dataset', 'nifc_wfigs_perimeters.json'))
+          ? path.resolve(process.cwd(), 'dataset', 'nifc_wfigs_perimeters.json')
+          : path.resolve(process.cwd(), 'data', 'nifc_wfigs_perimeters.json');
         if (fs.existsSync(cachedPath)) {
           const cached = JSON.parse(fs.readFileSync(cachedPath, 'utf8'));
           if (cached.features && cached.features.length > 0) {

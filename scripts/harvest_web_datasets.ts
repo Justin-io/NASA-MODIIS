@@ -21,7 +21,19 @@ import http from 'http';
 import { harmonizeObservations } from '../src/shared/intelligenceEngine';
 import type { SatelliteObservation, IncidentRecord, WeatherStationSnapshot } from '../src/shared/types';
 
-const DATA_DIR = path.resolve(process.cwd(), 'data');
+const DATASET_DIR = path.resolve(process.cwd(), 'dataset');
+const BACKUP_DATA_DIR = path.resolve(process.cwd(), 'data');
+
+function saveDatasetFile(filename: string, content: string): string {
+  fs.mkdirSync(DATASET_DIR, { recursive: true });
+  const datasetPath = path.join(DATASET_DIR, filename);
+  fs.writeFileSync(datasetPath, content, 'utf8');
+  if (fs.existsSync(BACKUP_DATA_DIR)) {
+    fs.writeFileSync(path.join(BACKUP_DATA_DIR, filename), content, 'utf8');
+  }
+  return datasetPath;
+}
+
 const FIRMS_MAP_KEY =
   process.env.NASA_FIRMS_MAP_KEY ||
   process.env.FIRMS_MAP_KEY ||
@@ -130,8 +142,7 @@ async function harvestCelesTrakTles(): Promise<Record<string, SatelliteTleRecord
     }
   }
 
-  const outPath = path.join(DATA_DIR, 'celestrak_tles.json');
-  fs.writeFileSync(outPath, JSON.stringify(results, null, 2), 'utf8');
+  const outPath = saveDatasetFile('celestrak_tles.json', JSON.stringify(results, null, 2));
   console.log(`  -> Persisted to ${outPath}`);
   return results;
 }
@@ -171,8 +182,7 @@ async function harvestNasaEonetWildfires(): Promise<any[]> {
     };
   });
 
-  const outPath = path.join(DATA_DIR, 'nasa_eonet_wildfires.json');
-  fs.writeFileSync(outPath, JSON.stringify(parsedEvents, null, 2), 'utf8');
+  const outPath = saveDatasetFile('nasa_eonet_wildfires.json', JSON.stringify(parsedEvents, null, 2));
   console.log(`  ✔ Harvested ${parsedEvents.length} NASA EONET wildfire events`);
   console.log(`  -> Persisted to ${outPath}`);
   return parsedEvents;
@@ -235,8 +245,7 @@ async function harvestNifcPerimeters(): Promise<any> {
     features: sanitizedFeatures,
   };
 
-  const outPath = path.join(DATA_DIR, 'nifc_wfigs_perimeters.json');
-  fs.writeFileSync(outPath, JSON.stringify(payload, null, 2), 'utf8');
+  const outPath = saveDatasetFile('nifc_wfigs_perimeters.json', JSON.stringify(payload, null, 2));
   console.log(`  ✔ Harvested ${sanitizedFeatures.length} authoritative active NIFC perimeters`);
   console.log(`  -> Persisted to ${outPath}`);
   return payload;
@@ -354,8 +363,7 @@ async function harvestOpenMeteoWeatherGrid(): Promise<WeatherStationSnapshot[]> 
     }
   }
 
-  const outPath = path.join(DATA_DIR, 'open_meteo_weather_grid.json');
-  fs.writeFileSync(outPath, JSON.stringify(snapshots, null, 2), 'utf8');
+  const outPath = saveDatasetFile('open_meteo_weather_grid.json', JSON.stringify(snapshots, null, 2));
   console.log(`  -> Persisted ${snapshots.length} stations to ${outPath}`);
   return snapshots;
 }
@@ -409,8 +417,7 @@ async function harvestLiveFirmsHotspots(): Promise<any[]> {
     }
   }
 
-  const outPath = path.join(DATA_DIR, 'live_firms_hotspots.json');
-  fs.writeFileSync(outPath, JSON.stringify(allHotspots, null, 2), 'utf8');
+  const outPath = saveDatasetFile('live_firms_hotspots.json', JSON.stringify(allHotspots, null, 2));
   console.log(`  ✔ Harvested ${allHotspots.length} live FIRMS detections from today's passes`);
   console.log(`  -> Persisted to ${outPath}`);
   return allHotspots;
@@ -629,8 +636,7 @@ async function synthesizeLiveIncidents(
 
   incidents.unshift(nilgirisCanonicalIncident);
 
-  const outPath = path.join(DATA_DIR, 'live_incidents.json');
-  fs.writeFileSync(outPath, JSON.stringify(incidents, null, 2), 'utf8');
+  const outPath = saveDatasetFile('live_incidents.json', JSON.stringify(incidents, null, 2));
   console.log(`  ✔ Synthesized ${incidents.length} grounded incidents with live weather & provenance`);
   console.log(`  -> Persisted to ${outPath}`);
   return incidents;
