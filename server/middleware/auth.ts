@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import { Request, Response, NextFunction } from 'express';
 import { UserRole } from '../../src/shared/types';
 import { CanonicalRole, verifySignedToken, TokenPayload } from '../auth/tokens';
@@ -14,6 +15,7 @@ declare global {
   namespace Express {
     interface Request {
       user?: AuthenticatedUser;
+      traceId?: string;
     }
   }
 }
@@ -119,13 +121,42 @@ export function requireRole(permittedRoles: (CanonicalRole | UserRole)[]) {
 }
 
 /**
+ * Trace ID correlation middleware for zero-trust request auditability.
+ */
+export function traceIdMiddleware(req: Request, res: Response, next: NextFunction): void {
+  const incomingTrace = req.headers['x-trace-id'] as string;
+  const traceId = (incomingTrace && /^[a-zA-Z0-9_-]{8,64}$/.test(incomingTrace))
+    ? incomingTrace
+    : crypto.randomUUID();
+  req.traceId = traceId;
+  res.setHeader('X-Trace-Id', traceId);
+  next();
+}
+
+/**
+ * Utility to securely mask API keys and secrets for diagnostics and telemetry.
+ */
+export function maskSecret(secret: string | null | undefined, visibleChars = 4): string {
+  if (!secret) return '[UNCONFIGURED]';
+  if (secret.length <= visibleChars * 2) return '****';
+  return `${secret.slice(0, visibleChars)}...${secret.slice(-visibleChars)}`;
+}
+
+/**
  * Security headers middleware enforcing OWASP API protections.
  */
 export function securityHeadersMiddleware(req: Request, res: Response, next: NextFunction): void {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'DENY');
-  res.setHeader('X-XSS-Protection', '1; mode=block');
   res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
-  res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';");
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=(self)');
+  res.setHeader('X-Permitted-Cross-Domain-Policies', 'none');
+  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+  res.setHeader('Cross-Origin-Resource-Policy', 'same-site');
+  res.setHeader(
+    'Content-Security-Policy',
+    "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https: data:; connect-src 'self' https: ws: wss:; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"
+  );
   next();
 }

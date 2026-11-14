@@ -9,6 +9,7 @@ export default defineConfig(() => {
     resolve: {
       alias: {
         '@': path.resolve(import.meta.dirname, '.'),
+        'rothermelSpreadEngine': path.resolve(import.meta.dirname, 'src/shared/rothermelSpreadEngine.ts'),
       },
     },
     server: {

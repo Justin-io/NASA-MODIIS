@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import express, { Request, Response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import fs from 'fs';
 import path from 'path';
 import { decomposeObservingEffort } from '../src/shared/observationDecomposition';
@@ -21,7 +21,13 @@ import { fireCalendarService } from './services/fireCalendarService';
 import { dataCatalogueService } from './services/catalogService';
 import { communityService } from './services/communityService';
 import { accessControlService } from './services/accessControlService';
-import { authenticateToken, requireRole, securityHeadersMiddleware, normalizeToCanonicalRole } from './middleware/auth';
+import {
+  authenticateToken,
+  requireRole,
+  securityHeadersMiddleware,
+  traceIdMiddleware,
+  normalizeToCanonicalRole,
+} from './middleware/auth';
 import { generateSignedToken } from './auth/tokens';
 import { harmonizeObservations } from '../src/shared/intelligenceEngine';
 import { postgresService } from './db/postgresClient';
@@ -53,17 +59,32 @@ import {
 const app = express();
 const PORT = process.env.SERVER_PORT ? parseInt(process.env.SERVER_PORT, 10) : 3001;
 
+app.use(traceIdMiddleware);
 app.use(securityHeadersMiddleware);
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 app.use(authenticateToken);
 
-// Enable CORS for frontend Vite development
+// Secure CORS configuration
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
+  const origin = req.headers.origin;
+  const isAllowedOrigin =
+    !origin ||
+    /^http:\/\/(localhost|127\.0\.0\.1|0\.0\.0\.0)(:\d+)?$/.test(origin) ||
+    (process.env.APP_URL && origin === process.env.APP_URL) ||
+    (process.env.ALEX_PUBLIC_URL && origin === process.env.ALEX_PUBLIC_URL);
+
+  if (isAllowedOrigin && origin) {
+    res.header('Access-Control-Allow-Origin', origin);
+    res.header('Vary', 'Origin');
+    res.header('Access-Control-Allow-Credentials', 'true');
+  } else if (!origin) {
+    res.header('Access-Control-Allow-Origin', '*');
+  }
   res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Trace-Id');
   if (req.method === 'OPTIONS') {
-    res.sendStatus(200);
+    res.sendStatus(204);
     return;
   }
   next();
@@ -1174,6 +1195,21 @@ app.post('/api/voice/live/token', async (req: Request, res: Response) => {
 
 app.get('/api/voice/live/status', (_req: Request, res: Response) => {
   res.json(geminiLiveService.getStatus());
+});
+
+// Centralized Zero-Trust Error Boundary Middleware
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  const traceId = req.traceId || 'unknown';
+  console.error(`[Error Boundary][${traceId}]`, err.message || err);
+  if (res.headersSent) {
+    return next(err);
+  }
+  const status = typeof err.status === 'number' ? err.status : 500;
+  res.status(status).json({
+    error: process.env.NODE_ENV === 'production' ? 'Internal server error occurred.' : (err.message || 'Internal server error'),
+    code: err.code || 'INTERNAL_SERVER_ERROR',
+    traceId,
+  });
 });
 
 // Start Server

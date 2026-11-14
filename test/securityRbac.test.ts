@@ -3,7 +3,12 @@ process.env.ALEX_OPERATOR_SECRET = process.env.ALEX_OPERATOR_SECRET || 'alex-tes
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { requireRole } from '../server/middleware/auth';
+import {
+  requireRole,
+  traceIdMiddleware,
+  securityHeadersMiddleware,
+  maskSecret,
+} from '../server/middleware/auth';
 
 test('SecurityRBAC - blocks requests without token or credentials with HTTP 401', () => {
   const middleware = requireRole(['commander']);
@@ -134,4 +139,49 @@ test('SecurityRBAC - cryptographic HMAC-SHA256 signed token lifecycle and forger
   const expiredResult = verifySignedToken(expiredToken);
   assert.equal(expiredResult.valid, false);
   assert.equal(expiredResult.code, 'TOKEN_EXPIRED');
+});
+
+test('SecurityPatch - traceIdMiddleware generates and preserves trace IDs', () => {
+  const req1: any = { headers: {} };
+  const headersSet: Record<string, string> = {};
+  const res1: any = {
+    setHeader(key: string, val: string) {
+      headersSet[key] = val;
+    },
+  };
+  let nextCalled = false;
+  traceIdMiddleware(req1, res1, () => {
+    nextCalled = true;
+  });
+  assert.equal(nextCalled, true);
+  assert.ok(req1.traceId);
+  assert.equal(headersSet['X-Trace-Id'], req1.traceId);
+
+  // Preserves valid incoming trace ID
+  const req2: any = { headers: { 'x-trace-id': 'custom-trace-uuid-12345' } };
+  traceIdMiddleware(req2, res1, () => {});
+  assert.equal(req2.traceId, 'custom-trace-uuid-12345');
+});
+
+test('SecurityPatch - securityHeadersMiddleware sets strict OWASP headers and CSP', () => {
+  const req: any = {};
+  const headersSet: Record<string, string> = {};
+  const res: any = {
+    setHeader(key: string, val: string) {
+      headersSet[key] = val;
+    },
+  };
+  securityHeadersMiddleware(req, res, () => {});
+  assert.equal(headersSet['X-Content-Type-Options'], 'nosniff');
+  assert.equal(headersSet['X-Frame-Options'], 'DENY');
+  assert.equal(headersSet['Referrer-Policy'], 'strict-origin-when-cross-origin');
+  assert.equal(headersSet['X-Permitted-Cross-Domain-Policies'], 'none');
+  assert.ok(headersSet['Content-Security-Policy'].includes("frame-ancestors 'none'"));
+});
+
+test('SecurityPatch - maskSecret redacts secrets and handles edge cases', () => {
+  assert.equal(maskSecret(null), '[UNCONFIGURED]');
+  assert.equal(maskSecret(''), '[UNCONFIGURED]');
+  assert.equal(maskSecret('short'), '****');
+  assert.equal(maskSecret('gsk_1234567890abcdefghijklmnop'), 'gsk_...mnop');
 });

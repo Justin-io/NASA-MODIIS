@@ -6,23 +6,23 @@
       "regionName": "Nilgiri Biosphere & Western Ghats",
       "lat": 11.4064,
       "lng": 76.6932,
-      "observedAt": "2026-11-14T07:39:07.866Z",
+      "observedAt": "2026-11-14T16:24:02.690Z",
       "forecastWindow": "Live Open-Meteo Sensor Observation + 12h Forecast",
       "source": "Open-Meteo High-Resolution Numerical Weather Prediction Grid",
       "freshnessMinutes": 1,
       "isSimulated": false,
       "isAvailable": true,
       "status": "OPERATIONAL",
-      "temperatureC": 17.7,
-      "humidityPct": 73,
-      "windSpeedKmh": 9.1,
-      "windGustKmh": 24.1,
-      "windDirectionDeg": 17,
-      "windCompass": "NNE",
-      "rainfallMm24h": 0.2,
-      "precipProbabilityPct": 1,
-      "soilMoisturePct": 31.9,
-      "fuelDrynessPct": 50,
+      "temperatureC": 11.9,
+      "humidityPct": 93,
+      "windSpeedKmh": 2.4,
+      "windGustKmh": 10.8,
+      "windDirectionDeg": 279,
+      "windCompass": "W",
+      "rainfallMm24h": 0,
+      "precipProbabilityPct": 0,
+      "soilMoisturePct": 32.9,
+      "fuelDrynessPct": 20,
       "lightningStrikes1h": 0,
       "warningText": null,
       "hourlyTrend": [
@@ -50,23 +50,23 @@
         {
           "hour": "06:00",
           "tempC": 19,
-          "windKmh": 5,
-          "humidityPct": 60,
+          "windKmh": 4,
+          "humidityPct": 57,
           "rainMm": 0
         },
         {
           "hour": "08:00",
-          "tempC": 17,
-          "windKmh": 11,
-          "humidityPct": 80,
-          "rainMm": 0.6
+          "tempC": 18,
+          "windKmh": 9,
+          "humidityPct": 76,
+          "rainMm": 0.5
         },
         {
           "hour": "10:00",
           "tempC": 16,
-          "windKmh": 13,
-          "humidityPct": 74,
-          "rainMm": 0.1
+          "windKmh": 12,
+          "humidityPct": 77,
+          "rainMm": 0.3
         }
       ]
     },
@@ -480,7 +480,7 @@
       "category": "satellite",
       "status": "ONLINE",
       "lastPingMs": 145,
-      "lastSuccessfulSync": "2026-11-14T07:38:47.800Z",
+      "lastSuccessfulSync": "2026-11-14T16:23:09.185Z",
       "errorCount24h": 0,
       "lastErrorMessage": null,
       "setupInstructions": "Register free at https://firms.modaps.eosdis.nasa.gov/api/map_key/ and add key to .env.local."
@@ -489,8 +489,8 @@
       "providerName": "Open-Meteo Meteorological Service",
       "category": "weather",
       "status": "ONLINE",
-      "lastPingMs": 1274,
-      "lastSuccessfulSync": "2026-11-14T07:38:49.074Z",
+      "lastPingMs": 1068,
+      "lastSuccessfulSync": "2026-11-14T16:23:10.253Z",
       "errorCount24h": 0,
       "lastErrorMessage": null,
       "setupInstructions": "Public open-access weather API active without credentials required."
@@ -500,7 +500,7 @@
       "category": "llm",
       "status": "ONLINE",
       "lastPingMs": 210,
-      "lastSuccessfulSync": "2026-11-14T07:38:49.074Z",
+      "lastSuccessfulSync": "2026-11-14T16:23:10.253Z",
       "errorCount24h": 0,
       "lastErrorMessage": null,
       "setupInstructions": "Obtain an API key from Google AI Studio and configure GEMINI_API_KEY."
@@ -509,18 +509,18 @@
       "providerName": "OSRM Emergency Navigation Server",
       "category": "routing",
       "status": "DEGRADED",
-      "lastPingMs": 0,
-      "lastSuccessfulSync": null,
-      "errorCount24h": 1,
-      "lastErrorMessage": "The operation was aborted due to timeout",
-      "setupInstructions": "Using deterministic highway geometry fallback during network degradation."
+      "lastPingMs": 2981,
+      "lastSuccessfulSync": "2026-11-14T16:23:13.234Z",
+      "errorCount24h": 0,
+      "lastErrorMessage": null,
+      "setupInstructions": "Live public routing engine for vehicle profile calculations."
     },
     {
       "providerName": "Cryptographic Event Ledger (SHA-256)",
       "category": "satellite",
       "status": "ONLINE",
       "lastPingMs": 1,
-      "lastSuccessfulSync": "2026-11-14T07:38:52.076Z",
+      "lastSuccessfulSync": "2026-11-14T16:23:13.235Z",
       "errorCount24h": 0,
       "lastErrorMessage": null,
       "setupInstructions": "Local tamper-evident cryptographic chain storing all decisions and evidence."
@@ -530,7 +530,7 @@
       "category": "telephony",
       "status": "ONLINE",
       "lastPingMs": 45,
-      "lastSuccessfulSync": "2026-11-14T07:38:52.076Z",
+      "lastSuccessfulSync": "2026-11-14T16:23:13.235Z",
       "errorCount24h": 0,
       "lastErrorMessage": null,
       "setupInstructions": "Active telephony state engine with AI identification and consent enforcement."
@@ -538,39 +538,39 @@
     {
       "providerName": "Groq LLM (llama-3.3-70b-versatile)",
       "category": "llm",
-      "status": "DEGRADED",
-      "lastPingMs": 0,
-      "lastSuccessfulSync": null,
-      "errorCount24h": 1,
-      "lastErrorMessage": "The operation was aborted due to timeout",
-      "setupInstructions": "Gemini fallback active during Groq degradation."
+      "status": "ONLINE",
+      "lastPingMs": 927,
+      "lastSuccessfulSync": "2026-11-14T16:23:14.162Z",
+      "errorCount24h": 0,
+      "lastErrorMessage": null,
+      "setupInstructions": "Groq inference engine for real-time fire threat analysis."
     },
     {
       "providerName": "Telegram Alert Bot",
       "category": "telephony",
-      "status": "DEGRADED",
-      "lastPingMs": 0,
-      "lastSuccessfulSync": null,
-      "errorCount24h": 1,
-      "lastErrorMessage": "The operation was aborted due to timeout",
-      "setupInstructions": "Check TELEGRAM_BOT_TOKEN in .env"
+      "status": "ONLINE",
+      "lastPingMs": 1008,
+      "lastSuccessfulSync": "2026-11-14T16:23:15.170Z",
+      "errorCount24h": 0,
+      "lastErrorMessage": null,
+      "setupInstructions": "Bot: @Jarvis_justin_bot. Sends fire alerts and evacuation orders."
     },
     {
-      "providerName": "OpenSky Network",
+      "providerName": "OpenSky Network (Aerial Responder Tracking)",
       "category": "satellite",
-      "status": "DEGRADED",
-      "lastPingMs": 0,
-      "lastSuccessfulSync": null,
-      "errorCount24h": 1,
-      "lastErrorMessage": "The operation was aborted due to timeout",
-      "setupInstructions": "Check OPENSKY_USERNAME/PASSWORD in .env"
+      "status": "ONLINE",
+      "lastPingMs": 1635,
+      "lastSuccessfulSync": "2026-11-14T16:23:16.805Z",
+      "errorCount24h": 0,
+      "lastErrorMessage": null,
+      "setupInstructions": "Live ADS-B aircraft tracking for aerial fire suppression resources."
     },
     {
       "providerName": "Copernicus Sentinel Hub (ESA)",
       "category": "satellite",
       "status": "ONLINE",
       "lastPingMs": 320,
-      "lastSuccessfulSync": "2026-11-14T07:39:05.084Z",
+      "lastSuccessfulSync": "2026-11-14T16:23:16.806Z",
       "errorCount24h": 0,
       "lastErrorMessage": null,
       "setupInstructions": "ESA Copernicus Data Space Ecosystem. Provides Sentinel-2 optical + Sentinel-1 SAR fire perimeter imagery."
@@ -580,7 +580,7 @@
       "category": "satellite",
       "status": "ONLINE",
       "lastPingMs": 180,
-      "lastSuccessfulSync": "2026-11-14T07:39:05.084Z",
+      "lastSuccessfulSync": "2026-11-14T16:23:16.806Z",
       "errorCount24h": 0,
       "lastErrorMessage": null,
       "setupInstructions": "Persistent incident intelligence store. Configure NOTION_API_KEY and NOTION_DATABASE_ID."
@@ -590,7 +590,7 @@
       "category": "satellite",
       "status": "ONLINE",
       "lastPingMs": 1,
-      "lastSuccessfulSync": "2026-11-14T07:39:05.084Z",
+      "lastSuccessfulSync": "2026-11-14T16:23:16.806Z",
       "errorCount24h": 0,
       "lastErrorMessage": null,
       "setupInstructions": "JWT signing + operator credential gating. Both secrets required for elevated role issuance."
@@ -600,7 +600,7 @@
       "category": "satellite",
       "status": "ONLINE",
       "lastPingMs": 95,
-      "lastSuccessfulSync": "2026-11-14T07:39:05.084Z",
+      "lastSuccessfulSync": "2026-11-14T16:23:16.806Z",
       "errorCount24h": 0,
       "lastErrorMessage": null,
       "setupInstructions": "Powers geospatial routing, satellite layer tiles, and Earth Engine analysis (project: gen-lang-client-0494322977)."
@@ -610,7 +610,7 @@
       "category": "llm",
       "status": "ONLINE",
       "lastPingMs": 120,
-      "lastSuccessfulSync": "2026-11-14T07:39:05.084Z",
+      "lastSuccessfulSync": "2026-11-14T16:23:16.806Z",
       "errorCount24h": 0,
       "lastErrorMessage": null,
       "setupInstructions": "Tertiary multi-model LLM fallback (Claude, LLaMA, DeepSeek) for zero-downtime crisis reasoning."
@@ -620,7 +620,7 @@
       "category": "satellite",
       "status": "ONLINE",
       "lastPingMs": 110,
-      "lastSuccessfulSync": "2026-11-14T07:39:05.084Z",
+      "lastSuccessfulSync": "2026-11-14T16:23:16.806Z",
       "errorCount24h": 0,
       "lastErrorMessage": null,
       "setupInstructions": "Syncs incident records, cryptographic ledger receipts, and post-incident reviews to GitHub."
