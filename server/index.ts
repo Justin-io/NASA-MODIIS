@@ -79,7 +79,7 @@ import {
   INITIAL_ADVISORIES,
 } from '../src/shared/dataAdapter';
 
-const app = express();
+export const app = express();
 const PORT = process.env.SERVER_PORT ? parseInt(process.env.SERVER_PORT, 10) : 3001;
 
 // Production Security Hardening
@@ -715,8 +715,15 @@ app.post('/api/firms/ingest', sensitiveApiLimiter.middleware(), requireRole(['in
 });
 
 function getDatasetPath(filename: string): string {
-  const p = path.resolve(process.cwd(), 'dataset', filename);
-  if (fs.existsSync(p)) return p;
+  const candidates = [
+    path.resolve(process.cwd(), 'dataset', filename),
+    path.resolve(process.cwd(), 'data', filename),
+    path.resolve(import.meta.dirname, '..', 'dataset', filename),
+    path.resolve(import.meta.dirname, '..', 'data', filename),
+  ];
+  for (const p of candidates) {
+    if (fs.existsSync(p)) return p;
+  }
   return path.resolve(process.cwd(), 'data', filename);
 }
 
@@ -1289,18 +1296,29 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-// Start Server
-export async function startServer() {
-  await globalLedger.init();
-  await globalStore.init();
+// Server Initialization & Lifecycle Management
+let initPromise: Promise<void> | null = null;
+export async function ensureServerInitialized(): Promise<void> {
+  if (!initPromise) {
+    initPromise = (async () => {
+      await globalLedger.init();
+      await globalStore.init();
 
-  if (process.env.DATABASE_URL) {
-    try {
-      await postgresService.initAndMigrate();
-    } catch (err: any) {
-      console.warn('[PostgreSQL] Initialization notice:', err.message);
-    }
+      if (process.env.DATABASE_URL) {
+        try {
+          await postgresService.initAndMigrate();
+        } catch (err: any) {
+          console.warn('[PostgreSQL] Initialization notice:', err.message);
+        }
+      }
+    })();
   }
+  return initPromise;
+}
+
+// Start Server for Standalone Node Processes
+export async function startServer() {
+  await ensureServerInitialized();
 
   return new Promise((resolve) => {
     app.listen(PORT, '0.0.0.0', () => {
@@ -1310,8 +1328,10 @@ export async function startServer() {
   });
 }
 
-if (process.env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV !== 'test' && !process.env.VERCEL) {
   startServer().catch((err) => {
     console.error('Failed to start ALEX backend server:', err);
   });
 }
+
+export default app;

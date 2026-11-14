@@ -10,7 +10,9 @@ import {
 import type { RawSatelliteObservation } from '../../server/adapters/nasaFirms';
 import type { NasaEonetWildfire } from '../../server/adapters/nasaEonet';
 
-const API_BASE = '/api';
+const API_BASE = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_URL)
+  ? (import.meta.env.VITE_API_URL as string).replace(/\/$/, '')
+  : '/api';
 
 function protectedRequestHeaders(): Record<string, string> {
   const token = typeof window !== 'undefined' ? window.sessionStorage.getItem('alex_access_token') : null;
