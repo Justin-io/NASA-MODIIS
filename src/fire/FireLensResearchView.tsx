@@ -9,6 +9,40 @@ import {
   YearSensorSummary,
   DecompositionResult,
 } from '../shared/observationDecomposition';
+import {
+  hydrateTier1Observations,
+  matchTier2CrossSensor,
+  clusterTier3PhysicalFireEvents,
+  generateTier4Statistics,
+  Tier2CrossSensorMatch,
+  Tier3PhysicalFireEvent,
+  Tier4AggregatedStatistics,
+} from '../shared/fireReconciliationEngine';
+import {
+  AlertTriangle,
+  ArrowRight,
+  BarChart3,
+  CheckCircle,
+  Clock,
+  Download,
+  ExternalLink,
+  Eye,
+  FileText,
+  Filter,
+  Flame,
+  Globe2,
+  Info,
+  Layers,
+  MapPin,
+  Maximize2,
+  Orbit,
+  Radio,
+  RefreshCw,
+  Scale,
+  Shield,
+  TrendingDown,
+  TrendingUp,
+} from 'lucide-react';
 
 export const FireLensResearchView: React.FC = () => {
   const [observations, setObservations] = useState<CanonicalObservation[]>([]);
@@ -22,8 +56,7 @@ export const FireLensResearchView: React.FC = () => {
   const [selectedDayNight, setSelectedDayNight] = useState<'ALL' | 'D' | 'N'>('ALL');
   const [selectedZenithBin, setSelectedZenithBin] = useState<'ALL' | 'nadir_0_20' | 'mid_20_45' | 'limb_45_65'>('ALL');
   const [selectedObs, setSelectedObs] = useState<CanonicalObservation | null>(null);
-  const [showBowtieComparison, setShowBowtieComparison] = useState<boolean>(true);
-  const [activeTab, setActiveTab] = useState<'map' | 'decomposition' | 'export'>('map');
+  const [activeTab, setActiveTab] = useState<'map' | 'decomposition' | 'reconciliation' | 'export'>('map');
 
   // Load canonical research data from backend
   useEffect(() => {
@@ -71,6 +104,21 @@ export const FireLensResearchView: React.FC = () => {
     });
   }, [observations, selectedYear, selectedSensorFilter, selectedDayNight, selectedZenithBin]);
 
+  // 4-Tier Reconciliation Data
+  const tier2Matches: Tier2CrossSensorMatch[] = useMemo(() => {
+    if (mapObservations.length === 0) return [];
+    return matchTier2CrossSensor(mapObservations.slice(0, 400), 30, 2.5);
+  }, [mapObservations]);
+
+  const tier3Events: Tier3PhysicalFireEvent[] = useMemo(() => {
+    if (mapObservations.length === 0) return [];
+    return clusterTier3PhysicalFireEvents(mapObservations.slice(0, 300), 2.5, 24);
+  }, [mapObservations]);
+
+  const tier4Stats: Tier4AggregatedStatistics = useMemo(() => {
+    return generateTier4Statistics(mapObservations, String(selectedYear), 'REG-NILGIRI', 45, 18);
+  }, [mapObservations, selectedYear]);
+
   // Coordinate projections for the Nilgiris Biosphere Reserve bounding box [76.2, 11.0, 77.3, 12.0]
   const bbox = { minLng: 76.2, maxLng: 77.3, minLat: 11.0, maxLat: 12.0 };
   const mapWidth = 800;
@@ -83,36 +131,36 @@ export const FireLensResearchView: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto px-4 py-4">
-      {/* Header & Research Statement */}
-      <div className="bg-slate-900 text-white rounded-2xl p-6 shadow-xl border border-slate-800">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div className="space-y-6 max-w-7xl mx-auto px-4 py-4 text-slate-800">
+      {/* Scientific Header & Navigation Bar — White Minimalist */}
+      <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wider uppercase bg-amber-500/20 text-amber-400 border border-amber-500/30">
-                NASA Earth Observation Intelligence
+            <div className="flex items-center gap-2 mb-1.5">
+              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wider uppercase bg-blue-50 text-blue-700 border border-blue-200">
+                NASA Space Apps 2026 • FireLens Intelligence
               </span>
-              <span className="text-xs text-slate-400 font-mono">
-                Study AOI: Nilgiris Biosphere Reserve (11.0°N–12.0°N, 76.2°E–77.3°E)
+              <span className="text-xs text-slate-500 font-mono">
+                AOI: Nilgiris Biosphere Reserve (11.0°N–12.0°N, 76.2°E–77.3°E)
               </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-              FireLens: Observing-System Effort vs. True Burning
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
+              Observing-System Effort vs. True Burning Activity
             </h1>
-            <p className="text-sm text-slate-300 mt-1 max-w-3xl">
-              Distinguishing physical fire activity from satellite constellation expansion (NOAA-20/21),
-              sub-pixel spatial sensitivity (375 m vs 1 km), Terra MLST drift, and viewing zenith bowtie distortion.
+            <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-3xl leading-relaxed">
+              Decoupling physical wildland burning trends from satellite constellation expansion (NOAA-20/21),
+              sub-pixel spatial sensitivity (375 m vs 1 km), Terra MLST orbital drift, and viewing bowtie geometry.
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-1.5 bg-slate-100 p-1 rounded-xl self-start lg:self-center border border-slate-200">
             <button
               type="button"
               onClick={() => setActiveTab('map')}
-              className={`px-4 py-2 text-xs font-semibold rounded-xl transition-all ${
+              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all ${
                 activeTab === 'map'
-                  ? 'bg-sky-500 text-white shadow-lg shadow-sky-500/25'
-                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                  ? 'bg-white text-blue-700 shadow-sm border border-slate-200'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               Source-Native Map
@@ -120,21 +168,32 @@ export const FireLensResearchView: React.FC = () => {
             <button
               type="button"
               onClick={() => setActiveTab('decomposition')}
-              className={`px-4 py-2 text-xs font-semibold rounded-xl transition-all ${
+              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all ${
                 activeTab === 'decomposition'
-                  ? 'bg-sky-500 text-white shadow-lg shadow-sky-500/25'
-                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                  ? 'bg-white text-blue-700 shadow-sm border border-slate-200'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              Why Count Changed
+              Causal Decomposition
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('reconciliation')}
+              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all ${
+                activeTab === 'reconciliation'
+                  ? 'bg-white text-blue-700 shadow-sm border border-slate-200'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              4-Tier Harmonization
             </button>
             <button
               type="button"
               onClick={() => setActiveTab('export')}
-              className={`px-4 py-2 text-xs font-semibold rounded-xl transition-all ${
+              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all ${
                 activeTab === 'export'
-                  ? 'bg-sky-500 text-white shadow-lg shadow-sky-500/25'
-                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                  ? 'bg-white text-blue-700 shadow-sm border border-slate-200'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               Data Release Card
@@ -142,42 +201,42 @@ export const FireLensResearchView: React.FC = () => {
           </div>
         </div>
 
-        {/* Top Summary Metrics Bar */}
+        {/* Scientific Metrics Summary Tiles */}
         {decompositionResult && (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-5 border-t border-slate-800">
-            <div className="bg-slate-800/60 p-3 rounded-xl border border-slate-700/50">
-              <div className="text-[11px] text-slate-400 font-medium">Apparent Hotspot Growth</div>
-              <div className="text-xl font-bold text-amber-400 mt-0.5">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-5 border-t border-slate-100">
+            <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+              <div className="text-[11px] text-slate-500 font-medium">Apparent Hotspot Growth</div>
+              <div className="text-xl font-bold text-amber-600 mt-0.5">
                 +{decompositionResult.decomposition.apparentGrowthRatePct}%
               </div>
-              <div className="text-[10px] text-slate-400 mt-0.5">Raw baseline to modern count</div>
+              <div className="text-[10px] text-slate-400 mt-0.5">Unadjusted raw sensor count</div>
             </div>
 
-            <div className="bg-slate-800/60 p-3 rounded-xl border border-slate-700/50">
-              <div className="text-[11px] text-slate-400 font-medium">True Adjusted Burning Growth</div>
-              <div className="text-xl font-bold text-emerald-400 mt-0.5">
+            <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+              <div className="text-[11px] text-slate-500 font-medium">Adjusted Physical Burning</div>
+              <div className="text-xl font-bold text-emerald-600 mt-0.5">
                 +{decompositionResult.decomposition.adjustedTrueGrowthRatePct}%
               </div>
-              <div className="text-[10px] text-slate-400 mt-0.5">Normalized for observing effort</div>
+              <div className="text-[10px] text-slate-400 mt-0.5">Normalized for observing effort E(t)</div>
             </div>
 
-            <div className="bg-slate-800/60 p-3 rounded-xl border border-slate-700/50">
-              <div className="text-[11px] text-slate-400 font-medium">Observing System Attribution</div>
-              <div className="text-xl font-bold text-sky-400 mt-0.5">
+            <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+              <div className="text-[11px] text-slate-500 font-medium">Attributable to Observing System</div>
+              <div className="text-xl font-bold text-blue-600 mt-0.5">
                 {decompositionResult.decomposition.attributableToObservingEffortPct}%
               </div>
-              <div className="text-[10px] text-slate-400 mt-0.5">
+              <div className="text-[10px] text-slate-500 font-mono mt-0.5">
                 95% CI: [{decompositionResult.decomposition.bootstrapConfidenceInterval95.effortLowerPct}%,{' '}
                 {decompositionResult.decomposition.bootstrapConfidenceInterval95.effortUpperPct}%]
               </div>
             </div>
 
-            <div className="bg-slate-800/60 p-3 rounded-xl border border-slate-700/50">
-              <div className="text-[11px] text-slate-400 font-medium">Verified Science Records</div>
-              <div className="text-xl font-bold text-white mt-0.5">
+            <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+              <div className="text-[11px] text-slate-500 font-medium">Verified Ingested Records</div>
+              <div className="text-xl font-bold text-slate-900 mt-0.5">
                 {decompositionResult.observationsCount.toLocaleString()}
               </div>
-              <div className="text-[10px] text-slate-400 mt-0.5">Zero synthetic mock records</div>
+              <div className="text-[10px] text-emerald-600 font-medium mt-0.5">Zero synthetic mock records</div>
             </div>
           </div>
         )}
@@ -191,15 +250,15 @@ export const FireLensResearchView: React.FC = () => {
             <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
               <div>
                 <h2 className="text-base font-bold text-slate-900">
-                  Source-Native Footprint Map — Nilgiris ({selectedYear})
+                  Source-Native Pixel Footprint Map — Nilgiris ({selectedYear})
                 </h2>
                 <p className="text-xs text-slate-500">
-                  Rendering physical scan ellipses with off-nadir bowtie expansion (MODIS 1km vs VIIRS 375m)
+                  Geometric ellipses scaled to scan × track dimensions (MODIS 1km vs VIIRS 375m)
                 </p>
               </div>
 
               {/* Year Selector */}
-              <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl">
+              <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200">
                 {[2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026].map((yr) => (
                   <button
                     key={yr}
@@ -207,7 +266,7 @@ export const FireLensResearchView: React.FC = () => {
                     onClick={() => setSelectedYear(yr)}
                     className={`px-2.5 py-1 text-xs font-semibold rounded-lg transition-colors ${
                       selectedYear === yr
-                        ? 'bg-white text-slate-900 shadow-sm'
+                        ? 'bg-white text-blue-700 shadow-sm border border-slate-200'
                         : 'text-slate-600 hover:text-slate-900'
                     }`}
                   >
@@ -228,8 +287,8 @@ export const FireLensResearchView: React.FC = () => {
                     onClick={() => setSelectedSensorFilter(s)}
                     className={`px-2 py-0.5 rounded-md text-[11px] font-medium border ${
                       selectedSensorFilter === s
-                        ? 'bg-slate-900 text-white border-slate-900'
-                        : 'bg-white text-slate-600 border-slate-200'
+                        ? 'bg-blue-600 text-white border-blue-600'
+                        : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
                     }`}
                   >
                     {s}
@@ -246,18 +305,18 @@ export const FireLensResearchView: React.FC = () => {
                     onClick={() => setSelectedZenithBin(z)}
                     className={`px-2 py-0.5 rounded-md text-[11px] font-medium border ${
                       selectedZenithBin === z
-                        ? 'bg-slate-900 text-white border-slate-900'
-                        : 'bg-white text-slate-600 border-slate-200'
+                        ? 'bg-blue-600 text-white border-blue-600'
+                        : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
                     }`}
                   >
-                    {z === 'nadir_0_20' ? 'Nadir' : z === 'mid_20_45' ? 'Mid' : z === 'limb_45_65' ? 'Limb' : 'All'}
+                    {z === 'nadir_0_20' ? 'Nadir (0–20°)' : z === 'mid_20_45' ? 'Mid (20–45°)' : z === 'limb_45_65' ? 'Limb (45–65°)' : 'All'}
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* SVG Interactive Map Container */}
-            <div className="relative bg-slate-950 rounded-xl overflow-hidden border border-slate-800 shadow-inner">
+            {/* SVG Minimalist Scientific Canvas */}
+            <div className="relative bg-[#F8FAFC] rounded-xl overflow-hidden border border-slate-200 shadow-inner">
               <svg
                 viewBox={`0 0 ${mapWidth} ${mapHeight}`}
                 className="w-full h-auto block select-none"
@@ -266,80 +325,73 @@ export const FireLensResearchView: React.FC = () => {
                 {/* Background Grid */}
                 <defs>
                   <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
+                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(0,0,0,0.04)" strokeWidth="1" />
                   </pattern>
                 </defs>
                 <rect width={mapWidth} height={mapHeight} fill="url(#grid)" />
 
-                {/* Nilgiris Biosphere Reserve Landmark Boundaries (Reference Wireframes) */}
-                {/* Mudumalai Tiger Reserve */}
+                {/* Nilgiris Landmark Protected Area Boundaries */}
                 <path
                   d="M 280 180 Q 340 160 410 190 T 430 240 T 360 260 Z"
-                  fill="rgba(16, 185, 129, 0.08)"
-                  stroke="rgba(16, 185, 129, 0.3)"
+                  fill="rgba(16, 185, 129, 0.06)"
+                  stroke="rgba(16, 185, 129, 0.4)"
                   strokeWidth="1.5"
                   strokeDasharray="4 2"
                 />
-                <text x="310" y="210" fill="rgba(16, 185, 129, 0.5)" fontSize="10" fontWeight="bold">
+                <text x="310" y="210" fill="rgba(5, 150, 105, 0.8)" fontSize="10" fontWeight="bold">
                   Mudumalai Sanctuary
                 </text>
 
-                {/* Bandipur National Park Border */}
                 <path
                   d="M 410 130 Q 520 120 580 160 T 540 210 T 420 180 Z"
-                  fill="rgba(14, 165, 233, 0.08)"
-                  stroke="rgba(14, 165, 233, 0.3)"
+                  fill="rgba(2, 132, 199, 0.06)"
+                  stroke="rgba(2, 132, 199, 0.4)"
                   strokeWidth="1.5"
                   strokeDasharray="4 2"
                 />
-                <text x="460" y="160" fill="rgba(14, 165, 233, 0.5)" fontSize="10" fontWeight="bold">
+                <text x="460" y="160" fill="rgba(2, 132, 199, 0.8)" fontSize="10" fontWeight="bold">
                   Bandipur Border
                 </text>
 
-                {/* Silent Valley / Western Ghats Escarpment */}
                 <path
                   d="M 160 280 Q 220 300 240 380 T 180 440 T 120 360 Z"
-                  fill="rgba(168, 85, 247, 0.08)"
-                  stroke="rgba(168, 85, 247, 0.3)"
+                  fill="rgba(147, 51, 234, 0.06)"
+                  stroke="rgba(147, 51, 234, 0.4)"
                   strokeWidth="1.5"
                   strokeDasharray="4 2"
                 />
-                <text x="140" y="360" fill="rgba(168, 85, 247, 0.5)" fontSize="10" fontWeight="bold">
+                <text x="140" y="360" fill="rgba(147, 51, 234, 0.8)" fontSize="10" fontWeight="bold">
                   Silent Valley
                 </text>
 
-                {/* Bhavani Basin & Sigur Plateau */}
-                <text x="520" y="320" fill="rgba(245, 158, 11, 0.4)" fontSize="10" fontWeight="bold">
+                <text x="520" y="320" fill="rgba(217, 119, 6, 0.7)" fontSize="10" fontWeight="bold">
                   Bhavani River Basin
                 </text>
 
-                {/* Render Sensor Observations */}
+                {/* Hotspot Footprints */}
                 {mapObservations.map((obs) => {
                   const pt = projectCoord(obs.longitude, obs.latitude);
                   const isModis = obs.sensor === 'MODIS';
                   const isSelected = selectedObs?.id === obs.id;
 
-                  // Scale scan and track in pixels
-                  // Nominal 1 deg ~ 111 km. mapWidth represents 1.1 deg ~ 122 km => ~6.5 px/km
                   const pxPerKm = 6.5;
-                  const rx = Math.max(2.5, ((obs.scanKm || (isModis ? 1.0 : 0.375)) * pxPerKm) / 2);
-                  const ry = Math.max(2.5, ((obs.trackKm || (isModis ? 1.0 : 0.375)) * pxPerKm) / 2);
+                  const rx = Math.max(2.5, (((obs.scanKm ?? (isModis ? 1.0 : 0.375))) * pxPerKm) / 2);
+                  const ry = Math.max(2.5, (((obs.trackKm ?? (isModis ? 1.0 : 0.375))) * pxPerKm) / 2);
 
-                  // Colors: MODIS Terra (Cyan), MODIS Aqua (Blue), VIIRS SNPP (Orange), NOAA-20 (Amber), NOAA-21 (Red)
-                  let fill = 'rgba(249, 115, 22, 0.6)';
-                  let stroke = '#f97316';
+                  let fill = 'rgba(234, 88, 12, 0.5)';
+                  let stroke = '#ea580c';
                   if (obs.satellite === 'Terra') {
-                    fill = 'rgba(6, 182, 212, 0.4)';
-                    stroke = '#06b6d4';
+                    fill = 'rgba(2, 132, 199, 0.4)';
+                    stroke = '#0284c7';
                   } else if (obs.satellite === 'Aqua') {
-                    fill = 'rgba(59, 130, 246, 0.4)';
-                    stroke = '#3b82f6';
+                    fill = 'rgba(37, 99, 235, 0.4)';
+                    stroke = '#2563eb';
                   } else if (obs.satellite === 'NOAA-20') {
-                    fill = 'rgba(245, 158, 11, 0.6)';
-                    stroke = '#f59e0b';
+                    fill = 'rgba(217, 119, 6, 0.5)';
+                    stroke = '#d97706';
                   } else if (obs.satellite === 'NOAA-21') {
-                    fill = 'rgba(239, 68, 68, 0.7)';
-                    stroke = '#ef4444';
+                    fill = 'rgba(225, 29, 72, 0.6)';
+                    stroke = '#e11d48';
                   }
 
                   return (
@@ -350,32 +402,32 @@ export const FireLensResearchView: React.FC = () => {
                         rx={rx}
                         ry={ry}
                         fill={fill}
-                        stroke={isSelected ? '#ffffff' : stroke}
+                        stroke={isSelected ? '#0f172a' : stroke}
                         strokeWidth={isSelected ? 2.5 : isModis ? 1.5 : 1}
                         className="transition-all hover:opacity-100"
-                        opacity={isSelected ? 1.0 : 0.8}
+                        opacity={isSelected ? 1.0 : 0.75}
                       />
                     </g>
                   );
                 })}
               </svg>
 
-              {/* Map Legend Overlay */}
-              <div className="absolute bottom-3 left-3 bg-slate-900/90 backdrop-blur-md px-3 py-2 rounded-xl border border-slate-700/60 text-[11px] text-slate-300 flex flex-wrap items-center gap-3">
-                <span className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded-full bg-cyan-400 inline-block" /> MODIS Terra (1 km)
+              {/* Map Floating Legend */}
+              <div className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-xl border border-slate-200 text-[11px] text-slate-700 flex flex-wrap items-center gap-3 shadow-sm">
+                <span className="flex items-center gap-1.5 font-medium">
+                  <span className="w-3 h-3 rounded-full bg-sky-500 inline-block" /> MODIS Terra (1 km)
                 </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded-full bg-blue-500 inline-block" /> MODIS Aqua (1 km)
+                <span className="flex items-center gap-1.5 font-medium">
+                  <span className="w-3 h-3 rounded-full bg-blue-600 inline-block" /> MODIS Aqua (1 km)
                 </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded bg-orange-500 inline-block" /> VIIRS SNPP (375 m)
+                <span className="flex items-center gap-1.5 font-medium">
+                  <span className="w-2.5 h-2.5 rounded bg-orange-600 inline-block" /> VIIRS SNPP (375 m)
                 </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded bg-amber-500 inline-block" /> VIIRS NOAA-20 (375 m)
+                <span className="flex items-center gap-1.5 font-medium">
+                  <span className="w-2.5 h-2.5 rounded bg-amber-600 inline-block" /> VIIRS NOAA-20 (375 m)
                 </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded bg-rose-500 inline-block" /> VIIRS NOAA-21 (375 m)
+                <span className="flex items-center gap-1.5 font-medium">
+                  <span className="w-2.5 h-2.5 rounded bg-rose-600 inline-block" /> VIIRS NOAA-21 (375 m)
                 </span>
               </div>
             </div>
@@ -386,14 +438,13 @@ export const FireLensResearchView: React.FC = () => {
             </div>
           </div>
 
-          {/* Observation Inspector & Bowtie Evidence */}
+          {/* Observation Inspector & Geometric Physics */}
           <div className="space-y-4">
-            {/* Selected Observation Card */}
             <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
               <h3 className="text-sm font-bold text-slate-900 mb-3 flex items-center justify-between">
                 <span>Footprint Telemetry Inspector</span>
                 {selectedObs && (
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-700">
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">
                     {selectedObs.sensor} ({selectedObs.satellite})
                   </span>
                 )}
@@ -420,8 +471,8 @@ export const FireLensResearchView: React.FC = () => {
                       <span className="font-semibold text-slate-900">{selectedObs.localSolarTimeHours} hrs</span>
                     </div>
                     <div>
-                      <span className="text-slate-400 block text-[10px]">ORBITAL PASS</span>
-                      <span className="text-slate-800">{selectedObs.orbitPass} ({selectedObs.dayNight === 'D' ? 'Day' : 'Night'})</span>
+                      <span className="text-slate-400 block text-[10px]">DAY / NIGHT PASS</span>
+                      <span className="text-slate-800">{selectedObs.dayNight === 'D' ? 'Daytime' : 'Nighttime'}</span>
                     </div>
                   </div>
 
@@ -433,8 +484,10 @@ export const FireLensResearchView: React.FC = () => {
                       </span>
                     </div>
                     <div>
-                      <span className="text-slate-400 block text-[10px]">PIXEL AREA (BOWTIE)</span>
-                      <span className="font-mono font-semibold text-slate-800">{selectedObs.pixelAreaKm2} km²</span>
+                      <span className="text-slate-400 block text-[10px]">PIXEL FOOTPRINT</span>
+                      <span className="font-mono font-semibold text-slate-800">
+                        {selectedObs.pixelAreaKm2.toFixed(3)} km²
+                      </span>
                     </div>
                   </div>
 
@@ -457,7 +510,7 @@ export const FireLensResearchView: React.FC = () => {
 
                   <div>
                     <span className="text-slate-400 block text-[10px]">PROVENANCE CHECKSUM (SHA-256)</span>
-                    <span className="font-mono text-[10px] break-all text-slate-600 bg-slate-50 p-1.5 rounded block">
+                    <span className="font-mono text-[10px] break-all text-slate-600 bg-slate-50 p-1.5 rounded block border border-slate-200">
                       {selectedObs.rawPayloadChecksumSha256}
                     </span>
                   </div>
@@ -469,54 +522,53 @@ export const FireLensResearchView: React.FC = () => {
               )}
             </div>
 
-            {/* Bowtie & Resolution Comparison Physics Card */}
-            <div className="bg-sky-50 rounded-2xl p-4 border border-sky-200">
-              <h4 className="text-xs font-bold text-sky-950 uppercase tracking-wider mb-2">
-                Physical Bowtie Effect & Pixel Expansion
+            {/* Bowtie Distortion Physics Note */}
+            <div className="bg-blue-50/60 rounded-2xl p-4 border border-blue-200 text-xs">
+              <h4 className="font-bold text-blue-950 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                <Scale className="w-4 h-4 text-blue-600" />
+                Physical Bowtie Effect & Pixel Growth
               </h4>
-              <p className="text-xs text-sky-900 leading-relaxed">
-                As MODIS scans away from nadir toward swath edge (zenith angle &gt; 45°), optical scan lines stretch
-                from <strong>1.0 km nadir</strong> to <strong>4.8 km × 2.0 km (9.6 km²)</strong>.
-                Meanwhile, VIIRS onboard 3-to-1 pixel aggregation constrains 375 m I-band growth to &lt; 0.8 km.
+              <p className="text-blue-900 leading-relaxed text-[11px]">
+                As MODIS scans toward swath edges (zenith &gt; 45°), optical scan lines stretch from{' '}
+                <strong>1.0 km nadir</strong> to <strong>4.8 km × 2.0 km (9.6 km²)</strong>. VIIRS onboard 3-to-1 pixel
+                aggregation constrains 375 m I-band growth to &lt; 0.8 km.
               </p>
-              <div className="mt-3 p-2 bg-white rounded-xl border border-sky-100 text-[11px] text-sky-800 font-medium">
-                ⚖️ <strong>Geometric Result:</strong> A single limb MODIS pixel can spatially subsume up to 16
-                discrete VIIRS pixels, inflating apparent counts when moving between sensors.
+              <div className="mt-2.5 p-2 bg-white rounded-lg border border-blue-100 text-[11px] text-blue-800 font-medium">
+                ⚖️ <strong>Geometric Distortion:</strong> A single limb MODIS pixel spatially subsumes up to 16
+                discrete VIIRS pixels, creating artificial count inflation across sensor generations.
               </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* TAB 2: WHY THIS COUNT CHANGED (EVIDENCE PANEL) */}
+      {/* TAB 2: CAUSAL DECOMPOSITION & BLAND-ALTMAN */}
       {activeTab === 'decomposition' && decompositionResult && (
         <div className="space-y-6">
-          {/* Main Attribution Waterfall Breakdown */}
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
             <div className="max-w-3xl">
-              <span className="text-[11px] font-bold tracking-wider uppercase text-sky-600">
+              <span className="text-[11px] font-bold tracking-wider uppercase text-blue-600">
                 Quantitative Causal Decomposition
               </span>
               <h2 className="text-xl font-bold text-slate-900 mt-0.5">
-                Decomposing Apparent Growth: Satellite Expansion vs. True Fire Activity
+                Decomposing Apparent Growth: Satellite Expansion vs. True Physical Burning
               </h2>
               <p className="text-xs text-slate-600 mt-1">
-                Comparing the 2019–2021 Baseline period against the 2023–2026 Modern Constellation period
-                over the Nilgiris Biosphere Reserve across 13,065 canonical satellite observations.
+                Comparing the 2019–2021 Baseline period against the 2023–2026 Modern Constellation period over the
+                Nilgiris Biosphere Reserve across 13,065 canonical observations.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-6">
               {/* Factor 1: Constellation Expansion */}
               <div className="p-4 rounded-xl border border-slate-200 bg-slate-50">
                 <div className="flex items-center justify-between text-xs font-bold text-slate-800 mb-2">
-                  <span>1. Constellation Platform Expansion</span>
-                  <span className="text-sky-600 font-mono">+25.0% Passes</span>
+                  <span>1. Platform Addition (NOAA-21)</span>
+                  <span className="text-blue-600 font-mono">+25.0% Passes</span>
                 </div>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  The deployment and operational activation of <strong>NOAA-21 (JPSS-2)</strong> in 2023
-                  increased the sun-synchronous active fire constellation from 4 satellites (Terra, Aqua, SNPP, NOAA-20)
-                  to 5 platforms, directly adding ~600+ annual detections in Nilgiris alone.
+                  The operational activation of <strong>NOAA-21 (JPSS-2)</strong> in 2023 expanded the polar sun-synchronous
+                  active-fire fleet from 4 to 5 platforms, directly adding ~600+ annual detections in Nilgiris.
                 </p>
                 <div className="mt-3 text-[11px] text-slate-500 font-medium">
                   Contribution to 2023–2026 Count: <strong>{decompositionResult.sensorStepFunction.noaa21ContributionPct}%</strong>
@@ -530,9 +582,8 @@ export const FireLensResearchView: React.FC = () => {
                   <span className="text-amber-600 font-mono">3.2x Sensitivity</span>
                 </div>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  VIIRS 375 m I-band resolves ~16x smaller ground area than MODIS 1.0 km. In the dense canopy of the
-                  Western Ghats, VIIRS detects understory fires down to <strong>0.5–1.5 MW</strong>, whereas MODIS
-                  remains blind below ~8–10 MW.
+                  VIIRS 375 m I-band resolves ~16x smaller ground area than MODIS 1.0 km, detecting low-intensity understory
+                  fires down to <strong>0.5–1.5 MW</strong>, whereas MODIS remains blind below ~8–10 MW.
                 </p>
                 <div className="mt-3 text-[11px] text-slate-500 font-medium">
                   Average VIIRS/MODIS Ratio in Nilgiris: <strong>9.8:1</strong>
@@ -556,15 +607,15 @@ export const FireLensResearchView: React.FC = () => {
               </div>
             </div>
 
-            {/* Waterfall Summary Table */}
+            {/* Decomposition Waterfall Table */}
             <div className="mt-6 overflow-x-auto">
               <table className="w-full text-xs text-left border-collapse">
                 <thead>
                   <tr className="border-b border-slate-200 text-slate-400 font-mono text-[10px] uppercase">
-                    <th className="py-2 px-3">Decomposition Stage</th>
-                    <th className="py-2 px-3 text-right">Annual Rate</th>
-                    <th className="py-2 px-3 text-right">Change from Baseline</th>
-                    <th className="py-2 px-3">Scientific Mechanism</th>
+                    <th className="py-2.5 px-3">Decomposition Stage</th>
+                    <th className="py-2.5 px-3 text-right">Annual Rate</th>
+                    <th className="py-2.5 px-3 text-right">Change from Baseline</th>
+                    <th className="py-2.5 px-3">Scientific Mechanism</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 text-slate-700">
@@ -582,11 +633,11 @@ export const FireLensResearchView: React.FC = () => {
                     </td>
                     <td className="py-2 px-3 text-slate-500">Apparent increase before observing system adjustment</td>
                   </tr>
-                  <tr className="bg-sky-50/50">
-                    <td className="py-2 px-3 font-semibold text-sky-950">3. Observing Effort Index E(t)</td>
-                    <td className="py-2 px-3 text-right font-mono font-bold text-sky-700">3.1×</td>
-                    <td className="py-2 px-3 text-right font-mono text-sky-700">+210% Effort</td>
-                    <td className="py-2 px-3 text-sky-800">NOAA-21 constellation addition + 375m sensitivity - Terra drift</td>
+                  <tr className="bg-blue-50/50">
+                    <td className="py-2 px-3 font-semibold text-blue-950">3. Observing Effort Index E(t)</td>
+                    <td className="py-2 px-3 text-right font-mono font-bold text-blue-700">3.1×</td>
+                    <td className="py-2 px-3 text-right font-mono text-blue-700">+210% Effort</td>
+                    <td className="py-2 px-3 text-blue-800">NOAA-21 addition + 375m sensitivity - Terra drift</td>
                   </tr>
                   <tr className="bg-emerald-50/60 font-semibold text-emerald-950">
                     <td className="py-2.5 px-3">4. True Physical Burning (Normalized)</td>
@@ -597,15 +648,50 @@ export const FireLensResearchView: React.FC = () => {
                       +{decompositionResult.decomposition.adjustedTrueGrowthRatePct}%
                     </td>
                     <td className="py-2.5 px-3 text-emerald-800">
-                      <strong>True physical increase</strong> after removing observing artifacts
+                      <strong>True physical increase</strong> after eliminating observing artifacts
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
+
+            {/* Poisson Rate Ratio Decomposition Details */}
+            {decompositionResult.decomposition.rateRatioDecomposition && (
+              <div className="mt-5 p-4 rounded-xl bg-slate-50 border border-slate-200">
+                <span className="text-[11px] font-bold text-slate-800 uppercase tracking-wider block mb-2">
+                  Poisson Log-Linear Rate Ratio Formulation
+                </span>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                  <div>
+                    <span className="text-slate-400 block text-[10px]">RAW RATE RATIO (R_raw)</span>
+                    <span className="font-mono font-bold text-slate-800">
+                      {decompositionResult.decomposition.rateRatioDecomposition.rawRateRatio}×
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-slate-400 block text-[10px]">EFFORT RATIO (R_effort)</span>
+                    <span className="font-mono font-bold text-blue-600">
+                      {decompositionResult.decomposition.rateRatioDecomposition.effortMultiplierRatio}×
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-slate-400 block text-[10px]">TRUE BURNING RATIO (R_true)</span>
+                    <span className="font-mono font-bold text-emerald-600">
+                      {decompositionResult.decomposition.rateRatioDecomposition.trueBurningRateRatio}×
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-slate-400 block text-[10px]">LOG ATTRIBUTION EFFORT</span>
+                    <span className="font-mono font-bold text-slate-900">
+                      {decompositionResult.decomposition.rateRatioDecomposition.logAttributableEffortPct}%
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Independent Validation: MCD64A1 Ground Truth Concordance */}
+          {/* Independent Validation & Methodological Disclosures */}
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
             <div className="flex items-center justify-between mb-4">
               <div>
@@ -613,28 +699,22 @@ export const FireLensResearchView: React.FC = () => {
                   Independent Ground Truth Concordance
                 </span>
                 <h3 className="text-base font-bold text-slate-900">
-                  NASA MODIS Burned Area MCD64A1 Validation
+                  NASA MODIS Burned Area MCD64A1 Validation & Methodological Caveats
                 </h3>
               </div>
               <span className="px-2.5 py-1 bg-emerald-50 text-emerald-700 rounded-lg text-xs font-semibold border border-emerald-200">
-                Held-Out Temporal Validation
+                Held-Out Temporal Series (2019–2026)
               </span>
             </div>
 
-            <p className="text-xs text-slate-600 leading-relaxed max-w-4xl">
-              MCD64A1 provides a quality-assessed monthly burned area product (500 m) based on surface reflectance changes.
-              Because active-fire hotspot counts are vulnerable to constellation sampling changes, comparing raw vs.
-              adjusted rates against independent burned area reveals the true physical fidelity of the harmonization.
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="p-4 rounded-xl border border-slate-200 bg-slate-50">
-                <span className="text-[11px] text-slate-400 font-mono uppercase">Raw Hotspot vs Burned Area</span>
+                <span className="text-[11px] text-slate-400 font-mono uppercase">Raw Hotspots vs Burned Area</span>
                 <div className="text-2xl font-bold text-slate-700 mt-1">
                   R² = {decompositionResult.decomposition.rawHotspotMcd64ConcordanceR2}
                 </div>
                 <p className="text-xs text-slate-500 mt-1">
-                  Distorted by satellite additions and resolution jumps. Unadjusted hotspot counts over-predict burning in post-2023 years.
+                  Distorted by satellite additions and resolution jumps. Unadjusted counts falsely over-predict fire extent in post-2023 years.
                 </p>
               </div>
 
@@ -644,19 +724,159 @@ export const FireLensResearchView: React.FC = () => {
                   R² = {decompositionResult.decomposition.adjustedHotspotMcd64ConcordanceR2}
                 </div>
                 <p className="text-xs text-emerald-800 mt-1">
-                  Strong physical concordance restored after normalizing for constellation overpass count and spatial sensitivity.
+                  Strong physical concordance restored after normalizing for constellation overpasses and spatial sensitivity.
                 </p>
               </div>
+            </div>
+
+            {/* Methodological Caveats */}
+            <div className="mt-4 p-4 rounded-xl bg-amber-50/70 border border-amber-200 text-xs text-amber-950 space-y-1.5">
+              <div className="font-bold flex items-center gap-1.5 text-amber-900">
+                <AlertTriangle className="w-4 h-4 text-amber-600" />
+                Scientific Integrity Notice: MCD64A1 Algorithmic Feedback
+              </div>
+              <p className="text-[11px] leading-relaxed text-amber-900">
+                MCD64A1 is an independent 500m surface reflectance product, but its region-growing algorithm utilizes
+                MODIS thermal anomalies (MOD14) as contextual seed pixels. Therefore, MCD64A1 is not completely
+                independent of active-fire observing systems; its correlation reflects both physical surface scarring
+                and partial algorithmic co-dependence.
+              </p>
             </div>
           </div>
         </div>
       )}
 
-      {/* TAB 3: REPRODUCIBLE DATA RELEASE CARD */}
+      {/* TAB 3: 4-TIER HARMONIZATION ENGINE */}
+      {activeTab === 'reconciliation' && (
+        <div className="space-y-6">
+          <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+            <span className="text-[11px] font-bold tracking-wider uppercase text-blue-600">
+              Multi-Sensor Data Architecture
+            </span>
+            <h2 className="text-xl font-bold text-slate-900 mt-0.5">
+              4-Tier Active Fire Reconciliation & Event Clustering
+            </h2>
+            <p className="text-xs text-slate-600 mt-1">
+              Strict separation between Tier 1 raw pixels, Tier 2 coincident cross-sensor matches (≤30 min), Tier 3
+              physical fire event clusters, and Tier 4 effort-normalized regional statistics.
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+              <div className="p-4 rounded-xl border border-slate-200 bg-slate-50">
+                <span className="text-[10px] font-mono font-bold text-slate-400 uppercase">Tier 1: Raw Observations</span>
+                <div className="text-xl font-bold text-slate-900 mt-1">{mapObservations.length.toLocaleString()}</div>
+                <div className="text-[11px] text-slate-500 mt-0.5">Immutable native pixels with scan/track geometry</div>
+              </div>
+
+              <div className="p-4 rounded-xl border border-blue-200 bg-blue-50/40">
+                <span className="text-[10px] font-mono font-bold text-blue-600 uppercase">Tier 2: Coincident Matches</span>
+                <div className="text-xl font-bold text-blue-700 mt-1">{tier2Matches.length}</div>
+                <div className="text-[11px] text-blue-800 mt-0.5">MODIS + VIIRS coincident passes (≤30 min)</div>
+              </div>
+
+              <div className="p-4 rounded-xl border border-amber-200 bg-amber-50/40">
+                <span className="text-[10px] font-mono font-bold text-amber-600 uppercase">Tier 3: Fire Events</span>
+                <div className="text-xl font-bold text-amber-700 mt-1">{tier3Events.length}</div>
+                <div className="text-[11px] text-amber-800 mt-0.5">Multi-pass coherent events with convex hull</div>
+              </div>
+
+              <div className="p-4 rounded-xl border border-emerald-200 bg-emerald-50/40">
+                <span className="text-[10px] font-mono font-bold text-emerald-600 uppercase">Tier 4: Adjusted Rate</span>
+                <div className="text-xl font-bold text-emerald-700 mt-1">{tier4Stats.effortAdjustedHotspotRate} / yr</div>
+                <div className="text-[11px] text-emerald-800 mt-0.5">Effort E(t) = {tier4Stats.effortIndex} (Z = {tier4Stats.seasonalAnomalyZScore})</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Tier 2: Cross-Sensor Coincident Matches Table */}
+          <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+            <h3 className="text-sm font-bold text-slate-900 mb-3 flex items-center justify-between">
+              <span>Tier 2: Contemporaneous Cross-Sensor Matches (Δt ≤ 30 min, Overlap IoU &gt; 0)</span>
+              <span className="text-xs text-slate-500 font-mono">Found {tier2Matches.length} matches in sample</span>
+            </h3>
+
+            {tier2Matches.length > 0 ? (
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs text-left border-collapse">
+                  <thead>
+                    <tr className="border-b border-slate-200 text-slate-400 font-mono text-[10px] uppercase">
+                      <th className="py-2 px-3">Match ID</th>
+                      <th className="py-2 px-3">MODIS Satellite</th>
+                      <th className="py-2 px-3">VIIRS Satellite</th>
+                      <th className="py-2 px-3 text-right">Time Delta</th>
+                      <th className="py-2 px-3 text-right">Distance</th>
+                      <th className="py-2 px-3 text-right">Spatial IoU</th>
+                      <th className="py-2 px-3 text-right">VIIRS/MODIS FRP Ratio</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 text-slate-700">
+                    {tier2Matches.slice(0, 8).map((m) => (
+                      <tr key={m.id} className="hover:bg-slate-50">
+                        <td className="py-2 px-3 font-mono font-semibold text-slate-900">{m.id}</td>
+                        <td className="py-2 px-3">{m.modisObservation.satellite}</td>
+                        <td className="py-2 px-3">{m.viirsObservation.satellite}</td>
+                        <td className="py-2 px-3 text-right font-mono">{m.temporalDeltaMinutes} min</td>
+                        <td className="py-2 px-3 text-right font-mono">{m.spatialDistanceKm} km</td>
+                        <td className="py-2 px-3 text-right font-mono font-semibold text-blue-600">{m.spatialOverlapIoU}</td>
+                        <td className="py-2 px-3 text-right font-mono font-bold text-amber-600">
+                          {m.frpRatioViirsToModis !== null ? `${m.frpRatioViirsToModis}×` : 'N/A'}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className="py-8 text-center text-xs text-slate-400">
+                No contemporaneous cross-sensor pairs detected in current sample.
+              </div>
+            )}
+          </div>
+
+          {/* Tier 3: Physical Fire Event Clusters */}
+          <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+            <h3 className="text-sm font-bold text-slate-900 mb-3 flex items-center justify-between">
+              <span>Tier 3: Multi-Pass Physical Fire Event Clusters</span>
+              <span className="text-xs text-slate-500 font-mono">Found {tier3Events.length} events</span>
+            </h3>
+
+            {tier3Events.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {tier3Events.slice(0, 6).map((evt) => (
+                  <div key={evt.id} className="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2 text-xs">
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono font-bold text-slate-900">{evt.id}</span>
+                      <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                        {evt.status}
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-1 text-[11px] text-slate-600">
+                      <div>Centroid: <span className="font-mono font-semibold">{evt.centroidLat}°N, {evt.centroidLng}°E</span></div>
+                      <div>Duration: <span className="font-mono font-semibold">{evt.durationHours} hrs</span></div>
+                      <div>Observations: <span className="font-mono font-semibold">{evt.observationCount} passes</span></div>
+                      <div>Perimeter: <span className="font-mono font-semibold">{evt.estimatedPerimeterKm} km</span></div>
+                    </div>
+                    <div className="pt-2 border-t border-slate-200 flex items-center justify-between">
+                      <span className="text-[11px] text-slate-500">Peak Instantaneous FRP:</span>
+                      <span className="font-bold text-amber-600">{evt.peakFrpMw} MW</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="py-8 text-center text-xs text-slate-400">
+                No clustered physical events in current filter.
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* TAB 4: REPRODUCIBLE DATA RELEASE CARD */}
       {activeTab === 'export' && (
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-6">
           <div>
-            <span className="text-[11px] font-bold tracking-wider uppercase text-sky-600">
+            <span className="text-[11px] font-bold tracking-wider uppercase text-blue-600">
               Open Science & Reproducibility
             </span>
             <h2 className="text-xl font-bold text-slate-900 mt-0.5">
@@ -680,7 +900,7 @@ export const FireLensResearchView: React.FC = () => {
               <a
                 href="/api/firelens/export/csv"
                 download="firelens_nilgiris_2019_2026.csv"
-                className="mt-4 inline-flex items-center justify-center px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-semibold hover:bg-slate-800 transition-colors"
+                className="mt-4 inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-semibold hover:bg-blue-700 transition-colors shadow-sm"
               >
                 Download CSV (3.0 MB)
               </a>
@@ -697,7 +917,7 @@ export const FireLensResearchView: React.FC = () => {
               <a
                 href="/api/firelens/export/geojson?limit=5000"
                 download="firelens_nilgiris_2019_2026.geojson"
-                className="mt-4 inline-flex items-center justify-center px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-semibold hover:bg-slate-800 transition-colors"
+                className="mt-4 inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-semibold hover:bg-blue-700 transition-colors shadow-sm"
               >
                 Download GeoJSON
               </a>
@@ -714,7 +934,7 @@ export const FireLensResearchView: React.FC = () => {
               <a
                 href="/api/firelens/validation"
                 download="firelens_validation_mcd64a1.json"
-                className="mt-4 inline-flex items-center justify-center px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-semibold hover:bg-slate-800 transition-colors"
+                className="mt-4 inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-semibold hover:bg-blue-700 transition-colors shadow-sm"
               >
                 Download Validation JSON
               </a>
@@ -722,9 +942,9 @@ export const FireLensResearchView: React.FC = () => {
           </div>
 
           {/* Scientific Citation Card */}
-          <div className="p-4 rounded-xl border border-slate-200 bg-slate-100/60 text-xs text-slate-700">
+          <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 text-xs text-slate-700">
             <span className="font-bold text-slate-900 block mb-1">Recommended Citation:</span>
-            <pre className="font-mono text-[11px] bg-white p-3 rounded-lg border border-slate-200 whitespace-pre-wrap select-all">
+            <pre className="font-mono text-[11px] bg-white p-3 rounded-lg border border-slate-200 whitespace-pre-wrap select-all text-slate-800">
 {`FireLens Research Group (2026). "Are We Observing More Burning, or Are Changes in the Satellite Observing System Influencing What We See?"
 Empirical active fire archive and observing effort decomposition for Nilgiris Biosphere Reserve (2019–2026).
 Derived from NASA EOSDIS FIRMS MODIS Collection 6.1 (MOD14/MYD14), VIIRS Active Fire (VNP14IMG/VJ114IMG), and MCD64A1 Burned Area.`}
@@ -735,4 +955,3 @@ Derived from NASA EOSDIS FIRMS MODIS Collection 6.1 (MOD14/MYD14), VIIRS Active 
     </div>
   );
 };
-

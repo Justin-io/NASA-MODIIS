@@ -32,6 +32,21 @@ test('FireLens - decomposes observing effort vs actual burning on empirical data
     result.decomposition.bootstrapConfidenceInterval95.effortUpperPct,
     'Bootstrap 95% CI lower bound must be less than upper bound'
   );
+  assert.ok(
+    result.decomposition.attributableToObservingEffortPct >=
+    result.decomposition.bootstrapConfidenceInterval95.effortLowerPct &&
+    result.decomposition.attributableToObservingEffortPct <=
+    result.decomposition.bootstrapConfidenceInterval95.effortUpperPct,
+    `Point estimate (${result.decomposition.attributableToObservingEffortPct}%) must lie within 95% bootstrap CI [${result.decomposition.bootstrapConfidenceInterval95.effortLowerPct}%, ${result.decomposition.bootstrapConfidenceInterval95.effortUpperPct}%]`
+  );
+  assert.ok(
+    result.decomposition.methodologicalNotes && result.decomposition.methodologicalNotes.length >= 3,
+    'Must include methodological notes with MCD64A1 seed caveat'
+  );
+  assert.ok(
+    result.decomposition.rateRatioDecomposition && result.decomposition.rateRatioDecomposition.rawRateRatio > 0,
+    'Must provide Poisson rate ratio decomposition metrics'
+  );
 
   // Validate Terra MLST drift
   assert.ok(result.terraDriftMetrics.driftHours > 0.5, 'Terra equatorial crossing must demonstrate positive historical drift (earlier in day)');

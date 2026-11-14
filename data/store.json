@@ -6,27 +6,69 @@
       "regionName": "Nilgiri Biosphere & Western Ghats",
       "lat": 11.4064,
       "lng": 76.6932,
-      "observedAt": "2026-11-14T06:57:07.907Z",
-      "forecastWindow": "Service Disrupted",
-      "source": "Open-Meteo High-Resolution Grid (Offline / Rate-Limited)",
-      "freshnessMinutes": 999,
+      "observedAt": "2026-11-14T07:21:53.228Z",
+      "forecastWindow": "Live Open-Meteo Sensor Observation + 12h Forecast",
+      "source": "Open-Meteo High-Resolution Numerical Weather Prediction Grid",
+      "freshnessMinutes": 1,
       "isSimulated": false,
-      "isAvailable": false,
-      "status": "UNAVAILABLE",
-      "errorMessage": "fetch failed",
-      "temperatureC": null,
-      "humidityPct": null,
-      "windSpeedKmh": null,
-      "windGustKmh": null,
-      "windDirectionDeg": null,
-      "windCompass": "N/A",
-      "rainfallMm24h": null,
-      "precipProbabilityPct": 0,
-      "soilMoisturePct": null,
-      "fuelDrynessPct": null,
-      "lightningStrikes1h": null,
-      "warningText": "WEATHER SERVICE UNAVAILABLE: fetch failed. Per Non-Negotiable Rule 1 & 3, ALEX does not manufacture synthetic weather observations.",
-      "hourlyTrend": []
+      "isAvailable": true,
+      "status": "OPERATIONAL",
+      "temperatureC": 18.1,
+      "humidityPct": 69,
+      "windSpeedKmh": 6.5,
+      "windGustKmh": 23.8,
+      "windDirectionDeg": 19,
+      "windCompass": "NNE",
+      "rainfallMm24h": 0.2,
+      "precipProbabilityPct": 1,
+      "soilMoisturePct": 31.9,
+      "fuelDrynessPct": 54,
+      "lightningStrikes1h": 0,
+      "warningText": null,
+      "hourlyTrend": [
+        {
+          "hour": "00:00",
+          "tempC": 11,
+          "windKmh": 1,
+          "humidityPct": 88,
+          "rainMm": 0
+        },
+        {
+          "hour": "02:00",
+          "tempC": 13,
+          "windKmh": 2,
+          "humidityPct": 72,
+          "rainMm": 0
+        },
+        {
+          "hour": "04:00",
+          "tempC": 17,
+          "windKmh": 3,
+          "humidityPct": 65,
+          "rainMm": 0
+        },
+        {
+          "hour": "06:00",
+          "tempC": 19,
+          "windKmh": 5,
+          "humidityPct": 60,
+          "rainMm": 0
+        },
+        {
+          "hour": "08:00",
+          "tempC": 17,
+          "windKmh": 9,
+          "humidityPct": 80,
+          "rainMm": 0.6
+        },
+        {
+          "hour": "10:00",
+          "tempC": 16,
+          "windKmh": 12,
+          "humidityPct": 74,
+          "rainMm": 0.1
+        }
+      ]
     },
     {
       "stationId": "REGIONAL-REG-SIERRA",

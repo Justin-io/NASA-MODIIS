@@ -159,8 +159,9 @@ export function computeYearlySensorSummaries(
 }
 
 /**
- * Runs 1,000 Monte Carlo bootstrap resamples to establish 95% Confidence Intervals
- * on the attribution percentage between observing system expansion and true burning.
+ * Runs 1,000 Monte Carlo bootstrap resamples on cohort aggregates to establish
+ * rigorous 95% Confidence Intervals for attribution percentages between
+ * observing system expansion and true burning.
  */
 function runBootstrapAttribution(
   baselineHotspots: number[],
@@ -170,38 +171,49 @@ function runBootstrapAttribution(
   iterations: number = 1000
 ): { effortLowerPct: number; effortUpperPct: number; burningLowerPct: number; burningUpperPct: number } {
   const effortAttributions: number[] = [];
+  const nB = baselineHotspots.length;
+  const nC = currentHotspots.length;
 
   for (let iter = 0; iter < iterations; iter++) {
-    // Resample with replacement
-    const bSampleIdx = Math.floor(Math.random() * baselineHotspots.length);
-    const cSampleIdx = Math.floor(Math.random() * currentHotspots.length);
-
-    const bCount = baselineHotspots[bSampleIdx] || 1;
-    const cCount = currentHotspots[cSampleIdx] || 1;
-    const bEffort = baselineEfforts[bSampleIdx] || 1.0;
-    const cEffort = currentEfforts[cSampleIdx] || 1.0;
-
-    const rawDelta = cCount - bCount;
-    if (rawDelta <= 0) {
-      effortAttributions.push(50.0);
-      continue;
+    // Resample baseline cohort with replacement
+    let bSum = 0;
+    let bAdjSum = 0;
+    for (let i = 0; i < nB; i++) {
+      const idx = Math.floor(Math.random() * nB);
+      bSum += baselineHotspots[idx];
+      bAdjSum += baselineHotspots[idx] / baselineEfforts[idx];
     }
+    const bAvg = bSum / nB;
+    const bAdjAvg = bAdjSum / nB;
 
-    const bAdjusted = bCount / bEffort;
-    const cAdjusted = cCount / cEffort;
-    const adjDelta = Math.max(0, cAdjusted - bAdjusted);
+    // Resample current cohort with replacement
+    let cSum = 0;
+    let cAdjSum = 0;
+    for (let i = 0; i < nC; i++) {
+      const idx = Math.floor(Math.random() * nC);
+      cSum += currentHotspots[idx];
+      cAdjSum += currentHotspots[idx] / currentEfforts[idx];
+    }
+    const cAvg = cSum / nC;
+    const cAdjAvg = cAdjSum / nC;
 
-    // Attribution to effort = (rawDelta - adjDelta) / rawDelta
-    const effortFraction = Math.max(0, Math.min(1.0, (rawDelta - adjDelta) / rawDelta));
-    effortAttributions.push(effortFraction * 100.0);
+    const rawDelta = cAvg - bAvg;
+    const adjDelta = cAdjAvg - bAdjAvg;
+
+    if (rawDelta > 0) {
+      const effortFraction = Math.max(0, Math.min(1.0, (rawDelta - Math.max(0, adjDelta)) / rawDelta));
+      effortAttributions.push(effortFraction * 100.0);
+    } else {
+      effortAttributions.push(100.0);
+    }
   }
 
   effortAttributions.sort((a, b) => a - b);
   const lowerIdx = Math.floor(iterations * 0.025);
   const upperIdx = Math.floor(iterations * 0.975);
 
-  const effortLowerPct = Number((effortAttributions[lowerIdx] ?? 60.0).toFixed(1));
-  const effortUpperPct = Number((effortAttributions[upperIdx] ?? 85.0).toFixed(1));
+  const effortLowerPct = Number((effortAttributions[lowerIdx] ?? 65.0).toFixed(1));
+  const effortUpperPct = Number((effortAttributions[upperIdx] ?? 100.0).toFixed(1));
   const burningLowerPct = Number((100.0 - effortUpperPct).toFixed(1));
   const burningUpperPct = Number((100.0 - effortLowerPct).toFixed(1));
 
@@ -343,6 +355,24 @@ export function decomposeObservingEffort(
     .reduce((s, y) => s + y.viirsCount, 0);
   const noaa21Total = yearly.reduce((s, y) => s + y.noaa21Count, 0);
 
+  // Log-linear Poisson rate ratio decomposition:
+  // Raw rate ratio: R_raw = cAvg / bAvg
+  // Effort multiplier ratio: R_effort = cEffortAvg / bEffortAvg
+  // True burning rate ratio: R_true = R_raw / R_effort
+  const bEffortAvg = baselineYears.length > 0
+    ? baselineYears.reduce((s, y) => s + y.effortIndex, 0) / baselineYears.length
+    : 3.0;
+  const cEffortAvg = currentYears.length > 0
+    ? currentYears.reduce((s, y) => s + y.effortIndex, 0) / currentYears.length
+    : 3.6;
+
+  const rawRateRatio = Number((cAvg / Math.max(1, bAvg)).toFixed(3));
+  const effortMultiplierRatio = Number((cEffortAvg / Math.max(0.1, bEffortAvg)).toFixed(3));
+  const trueBurningRateRatio = Number((rawRateRatio / Math.max(0.01, effortMultiplierRatio)).toFixed(3));
+  const logAttributableEffortPct = rawRateRatio > 1.0
+    ? Number((Math.min(100, Math.max(0, (Math.log(effortMultiplierRatio) / Math.log(rawRateRatio)) * 100))).toFixed(1))
+    : 100.0;
+
   const decomposition: ObservationEffortDecomposition = {
     studyAoi: 'REG-NILGIRI',
     baselinePeriod: '2019-2021',
@@ -367,6 +397,18 @@ export function decomposeObservingEffort(
     mcd64a1BurnedAreaTrendPct: mcd64TrendPct,
     rawHotspotMcd64ConcordanceR2: rawR2,
     adjustedHotspotMcd64ConcordanceR2: adjR2,
+    rateRatioDecomposition: {
+      rawRateRatio,
+      effortMultiplierRatio,
+      trueBurningRateRatio,
+      logAttributableEffortPct,
+    },
+    methodologicalNotes: [
+      'Additive delta decomposition measures percentage of absolute hotspot surge explained by observing capacity expansion.',
+      'Log-linear rate ratio decomposition measures relative multiplicative scaling log(R_effort) / log(R_raw).',
+      'MCD64A1 Independence Caveat: MCD64A1 uses MODIS MOD14 thermal anomalies as seed pixels in its region-growing algorithm; it is an independent spectral reflectance surface product but partially algorithmically co-dependent on active-fire detections.',
+      'Terra MLST Drift: Orbital drift from 10:30 AM to ~09:00 AM local solar time shifts observations earlier before peak afternoon diurnal burning.',
+    ],
   };
 
   return {

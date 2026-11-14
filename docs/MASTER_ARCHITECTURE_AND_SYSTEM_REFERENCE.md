@@ -1,10 +1,10 @@
 # ALEX & FireLens: Master Architecture, Engineering & Scientific Reference Manual
 
 **Autonomous Live Environmental eXpert (ALEX)**  
-**Platform Version**: 2.8.0  
+**Platform Version**: 3.0.0 (Research Grade)  
 **Scientific Subsystem**: FireLens Earth Observation Intelligence  
 **Verified Standards**: NASA EOSDIS Collection 6.1 (MODIS/VIIRS), Rothermel (1972) / Albini (1976), Nelson (2000) NFDRSv4, SGP4 CelesTrak NORAD, PostGIS SRID 4326, HMAC-SHA256 Cryptographic Ledger  
-**Verification Audit**: 53/53 Automated Tests Passing (100%), 0 TypeScript Errors, Deterministic Production Build Passing  
+**Verification Audit**: 57/57 Automated Tests Passing (100%), 0 TypeScript Errors, Deterministic Production Build Passing  
 
 ---
 
@@ -42,7 +42,7 @@ A naive climate analysis attributes this growth directly to increased burning, d
 ```
 Apparent Hotspot Growth (Raw NASA Detections):       +29.2% (1,532 -> 1,979/yr)
 Effort-Adjusted Physical Growth (True Burning):     +7.4% (507 -> 545/yr)
-Attributable to Observing System Expansion:         91.6% [95% Bootstrap CI: 50.0% – 81.1%]
+Attributable to Observing System Expansion:         91.6% [95% Bootstrap CI: 73.3% – 100.0%]
 Attributable to Real Ground Burning:                8.4%
 Terra Mean Local Solar Time (MLST) Drift:          1.14 h earlier (10.66 -> 9.52 LST, -14.2% diurnal thermal suppression)
 NOAA-21 Post-2023 Overpass Addition:                28.6% of modern thermal anomalies

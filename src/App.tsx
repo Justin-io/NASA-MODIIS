@@ -50,6 +50,7 @@ type WorkspaceTab =
   | 'fire'
   | 'orbital'
   | 'incidents'
+  | 'anomaly'
   | 'environment'
   | 'news'
   | 'evidence'
@@ -72,16 +73,18 @@ const SIDEBAR_GROUPS: {
   {
     groupTitle: 'NASA Space Apps Research Workspaces',
     items: [
-      { id: 'dashboard', label: '1. Observation Explorer (AOI)' },
+      { id: 'dashboard', label: '1. Global Fire Observatory' },
       { id: 'incidents', label: '2. Harmonisation Laboratory' },
-      { id: 'fire', label: '3. Burning Activity Calendar' },
-      { id: 'orbital', label: '4. Observation Bias & Orbit' },
-      { id: 'evidence', label: '5. Validation & Evidence' },
+      { id: 'fire', label: '3. Historical Burning Calendar' },
+      { id: 'anomaly', label: '4. Anomaly Intelligence' },
+      { id: 'catalogue', label: '5. Scientific Research Explorer' },
     ],
   },
   {
-    groupTitle: 'Environmental Feeds & Learning',
+    groupTitle: 'Environmental Feeds & Physics',
     items: [
+      { id: 'orbital', label: 'Observation Bias & Orbit' },
+      { id: 'evidence', label: 'Validation & Evidence' },
       { id: 'environment', label: 'NWP Weather Grid' },
       { id: 'news', label: 'GDELT Situational News' },
       { id: 'simulation', label: 'Physical Fire Spread Model' },
@@ -101,7 +104,6 @@ const SIDEBAR_GROUPS: {
   {
     groupTitle: 'Platform & Governance',
     items: [
-      { id: 'catalogue', label: 'Earth Observation Catalogue' },
       { id: 'diagnostics', label: 'Provider Diagnostics' },
       { id: 'reports', label: 'ICS Situation Packages' },
       { id: 'settings', label: 'RBAC Security & Secrets' },
@@ -626,6 +628,10 @@ export default function App() {
           )}
 
           {activeTab === 'fire' && (
+            <BurningActivityCalendarView selectedRegionId={selectedRegion.id} />
+          )}
+
+          {activeTab === 'anomaly' && (
             <FireLensResearchView />
           )}
 

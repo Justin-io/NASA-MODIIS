@@ -176,5 +176,14 @@ export interface ObservationEffortDecomposition {
   mcd64a1BurnedAreaTrendPct: number;         // Growth in independent monthly burned area hectares
   rawHotspotMcd64ConcordanceR2: number;      // R^2 between raw counts and burned area (often inflated/distorted)
   adjustedHotspotMcd64ConcordanceR2: number; // R^2 between effort-adjusted rate and burned area (true physical correlation)
+
+  // Statistical & Methodological Transparency
+  methodologicalNotes?: string[];
+  rateRatioDecomposition?: {
+    rawRateRatio: number;
+    effortMultiplierRatio: number;
+    trueBurningRateRatio: number;
+    logAttributableEffortPct: number;
+  };
 }
 
