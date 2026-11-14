@@ -95,3 +95,4 @@ The platform is certified as a **research-grade, scientifically defensible submi
 - [x] **White Minimalistic Scientific UI**: Built in [src/fire/FireLensResearchView.tsx](file:///home/justin/Desktop/NASA/src/fire/FireLensResearchView.tsx).
 - [x] **5 Core Primary Workspaces**: Wired in [src/App.tsx](file:///home/justin/Desktop/NASA/src/App.tsx).
 - [x] **Reproducible Scientific Downloads**: CSV, GeoJSON, and validation JSON endpoints verified.
+

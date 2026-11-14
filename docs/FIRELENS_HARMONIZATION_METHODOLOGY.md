@@ -126,3 +126,4 @@ $$\hat{\theta}_b^* = \frac{\Delta_{\text{raw}}^{*b} - \Delta_{\text{adj}}^{*b}}{
 Resulting 95% Confidence Interval:
 $$\mathbf{95\%\text{ CI}} = [73.3\%, 100.0\%]$$
 The point estimate ($91.6\%$) is centered securely within the interval.
+

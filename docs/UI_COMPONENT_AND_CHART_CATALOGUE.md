@@ -82,3 +82,4 @@ FireLens adheres to a **White Minimalistic Scientific UI** standard designed for
 2. **Year $\times$ Month Climatology Heatmap**: Multi-tiered color ramp (`#F1F5F9` zero $\rightarrow$ `#FEF3C7` low $\rightarrow$ `#F59E0B` moderate $\rightarrow$ `#DC2626` extreme).
 3. **Decomposition Waterfall Table**: Side-by-side progression from raw baseline ($1,532/\text{yr}$) to apparent modern ($1,979/\text{yr}$), through effort multiplier ($3.1\times$), down to normalized true physical burning ($545/\text{yr}$).
 4. **2D Convex Hull Fire Event Clustering**: Andrew's monotone chain algorithm tracing outer boundary perimeters around multi-pass physical burning events.
+

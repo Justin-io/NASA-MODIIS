@@ -61,3 +61,4 @@
 1. **Active Science Pipelines**: All calculations in `decomposeObservingEffort()`, `computeYearlySensorSummaries()`, and the 4-Tier Reconciliation Engine operate exclusively on [data/firelens_nilgiris_2019_2026.json](file:///home/justin/Desktop/NASA/data/firelens_nilgiris_2019_2026.json).
 2. **Quarantine of Synthetic Records**: The legacy 1,248-record pseudo-archive is isolated from production rendering. `useArchiveBaseline` defaults to `false` across all views.
 3. **Transparent Notices**: When user selects exploratory simulation tabs (perimeters, fuels, exposure), `ProvenanceNoticeBanner` displays an explicit notice clarifying that the data represents an illustrative simulation benchmark.
+

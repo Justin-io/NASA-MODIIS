@@ -90,3 +90,4 @@ This ledger establishes the formal scientific claims made by the **FireLens** pl
   - Within instantaneous passes ($\le 15$ min): Report peak observed FRP or pass-specific breakdown.
   - Across temporal clusters: Integrate FRP over duration to report cumulative thermal energy ($GWh$), never average FRP.
 - **Implementation**: [src/shared/fireReconciliationEngine.ts](file:///home/justin/Desktop/NASA/src/shared/fireReconciliationEngine.ts#L295-L315)
+

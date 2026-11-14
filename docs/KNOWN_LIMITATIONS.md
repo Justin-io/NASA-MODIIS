@@ -69,3 +69,4 @@ In accordance with scientific integrity standards, this document explicitly deta
 
 ### 4.2 Study Area Generalization
 - The empirical archive and parameter calibration are optimized for the **Nilgiris Biosphere Reserve** (Western Ghats, India). Applying the exact observation effort multiplier ($E(t) = 3.1$) to different biomes (e.g. Pantanal wetlands or boreal taiga) requires regional recalibration of fuel density, cloud opportunity fractions, and canopy attenuation factors.
+

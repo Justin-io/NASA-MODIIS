@@ -65,3 +65,4 @@ To evaluate measurement agreement between MODIS and VIIRS during coincident pass
 | **Log-Linear Effort Attribution Fraction** | — | — | **$F_{\text{log}} = 68.4\%$** |
 
 Both additive delta ($91.6\%$) and multiplicative log-linear ($68.4\%$) decompositions confirm that observing system expansion accounts for the dominant share of apparent growth.
+
