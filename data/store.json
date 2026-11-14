@@ -2,6 +2,75 @@
   "incidents": [],
   "weather": [
     {
+      "stationId": "REGIONAL-REG-PANTANAL",
+      "regionName": "Pantanal Wetland Basin",
+      "lat": -17.842,
+      "lng": -56.812,
+      "observedAt": "2026-11-14T07:30:29.970Z",
+      "forecastWindow": "Live Open-Meteo Sensor Observation + 12h Forecast",
+      "source": "Open-Meteo High-Resolution Numerical Weather Prediction Grid",
+      "freshnessMinutes": 1,
+      "isSimulated": false,
+      "isAvailable": true,
+      "status": "OPERATIONAL",
+      "temperatureC": 25.1,
+      "humidityPct": 91,
+      "windSpeedKmh": 4.8,
+      "windGustKmh": 7.6,
+      "windDirectionDeg": 53,
+      "windCompass": "NE",
+      "rainfallMm24h": 0,
+      "precipProbabilityPct": 3,
+      "soilMoisturePct": 15.7,
+      "fuelDrynessPct": 25,
+      "lightningStrikes1h": 0,
+      "warningText": null,
+      "hourlyTrend": [
+        {
+          "hour": "00:00",
+          "tempC": 28,
+          "windKmh": 7,
+          "humidityPct": 79,
+          "rainMm": 0
+        },
+        {
+          "hour": "02:00",
+          "tempC": 27,
+          "windKmh": 5,
+          "humidityPct": 84,
+          "rainMm": 0
+        },
+        {
+          "hour": "04:00",
+          "tempC": 27,
+          "windKmh": 7,
+          "humidityPct": 84,
+          "rainMm": 0
+        },
+        {
+          "hour": "06:00",
+          "tempC": 26,
+          "windKmh": 5,
+          "humidityPct": 87,
+          "rainMm": 0
+        },
+        {
+          "hour": "08:00",
+          "tempC": 25,
+          "windKmh": 5,
+          "humidityPct": 92,
+          "rainMm": 0
+        },
+        {
+          "hour": "10:00",
+          "tempC": 26,
+          "windKmh": 9,
+          "humidityPct": 87,
+          "rainMm": 0
+        }
+      ]
+    },
+    {
       "stationId": "REGIONAL-REG-NILGIRI",
       "regionName": "Nilgiri Biosphere & Western Ghats",
       "lat": 11.4064,
