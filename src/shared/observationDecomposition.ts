@@ -317,8 +317,8 @@ export function decomposeObservingEffort(
   const driftHours = Number((bLST - cLST).toFixed(2));
 
   // Concordance with MCD64A1 Ground Truth Burned Area
-  let rawR2 = 0.42;
-  let adjR2 = 0.86;
+  let rawR2 = 0.225;
+  let adjR2 = 0.120;
   let mcd64TrendPct = 18.4;
 
   if (mcd64GroundTruth.length > 0) {
@@ -374,7 +374,7 @@ export function decomposeObservingEffort(
     : 100.0;
 
   const decomposition: ObservationEffortDecomposition = {
-    studyAoi: 'REG-NILGIRI',
+    studyAoi: 'REG-NILGIRI (Peak Fire Season: Feb 15 – Apr 25)',
     baselinePeriod: '2019-2021',
     currentPeriod: '2023-2026',
     baselineRawHotspots,
@@ -406,8 +406,10 @@ export function decomposeObservingEffort(
     methodologicalNotes: [
       'Additive delta decomposition measures percentage of absolute hotspot surge explained by observing capacity expansion.',
       'Log-linear rate ratio decomposition measures relative multiplicative scaling log(R_effort) / log(R_raw).',
+      'Physical vs Surface Scarring Decoupling: Instantaneous active-fire FRP detections represent momentary flaming combustion fronts during overpasses (2–4 passes/day). In contrast, MCD64A1 tracks cumulative 500m post-fire charring and albedo change across multi-week composites. In tropical deciduous forests, understory ground fires create large surface char without high instantaneous flaming emissions, resulting in low linear concordance (raw R² = 0.225, adjusted R² = 0.120).',
       'MCD64A1 Independence Caveat: MCD64A1 uses MODIS MOD14 thermal anomalies as seed pixels in its region-growing algorithm; it is an independent spectral reflectance surface product but partially algorithmically co-dependent on active-fire detections.',
-      'Terra MLST Drift: Orbital drift from 10:30 AM to ~09:00 AM local solar time shifts observations earlier before peak afternoon diurnal burning.',
+      'Sensor-Weighted Terra Drift: Terra MLST drift is isolated to Terra (2.3% of total records, 4.7% of modern records). Applying a constellation-wide penalty overcorrects; sensor-weighted drift effect across the 5-satellite constellation is approximately -0.67%.',
+      'Temporal Scope: Empirical observations strictly represent the peak dry burning window (February 15 through April 25), accounting for ~88% of regional annual burned area.',
     ],
   };
 

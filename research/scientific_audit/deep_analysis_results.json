@@ -1,0 +1,176 @@
+{
+  "matching_sensitivity": [
+    {
+      "max_dt_minutes": 1,
+      "max_dist_km": 1.0,
+      "match_count": 11,
+      "median_frp_ratio": 0.392,
+      "mean_frp_diff_mw": -31.59
+    },
+    {
+      "max_dt_minutes": 5,
+      "max_dist_km": 1.0,
+      "match_count": 316,
+      "median_frp_ratio": 0.445,
+      "mean_frp_diff_mw": -71.05
+    },
+    {
+      "max_dt_minutes": 10,
+      "max_dist_km": 1.5,
+      "match_count": 782,
+      "median_frp_ratio": 0.349,
+      "mean_frp_diff_mw": -194.59
+    },
+    {
+      "max_dt_minutes": 15,
+      "max_dist_km": 1.5,
+      "match_count": 1019,
+      "median_frp_ratio": 0.359,
+      "mean_frp_diff_mw": -157.66
+    },
+    {
+      "max_dt_minutes": 15,
+      "max_dist_km": 2.5,
+      "match_count": 1453,
+      "median_frp_ratio": 0.345,
+      "mean_frp_diff_mw": -166.46
+    },
+    {
+      "max_dt_minutes": 30,
+      "max_dist_km": 2.5,
+      "match_count": 3135,
+      "median_frp_ratio": 0.313,
+      "mean_frp_diff_mw": -105.67
+    },
+    {
+      "max_dt_minutes": 60,
+      "max_dist_km": 3.0,
+      "match_count": 5302,
+      "median_frp_ratio": 0.291,
+      "mean_frp_diff_mw": -192.4
+    }
+  ],
+  "bootstrap_iteration_sensitivity": {
+    "1000_iterations": {
+      "lower_95": 73.2,
+      "median": 88.0,
+      "upper_95": 100.0,
+      "ci_width": 26.8
+    },
+    "5000_iterations": {
+      "lower_95": 73.3,
+      "median": 89.3,
+      "upper_95": 100.0,
+      "ci_width": 26.7
+    },
+    "10000_iterations": {
+      "lower_95": 73.3,
+      "median": 89.3,
+      "upper_95": 100.0,
+      "ci_width": 26.7
+    }
+  },
+  "sensor_coverage_manifest": {
+    "Terra": {
+      "records": 305,
+      "earliest_acquisition": "2019-02-15T05:40:00Z",
+      "latest_acquisition": "2026-04-24T15:49:00Z",
+      "years_active": [
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "months_active": [
+        "02",
+        "03",
+        "04"
+      ],
+      "is_continuous_fire_season": true
+    },
+    "NOAA-20": {
+      "records": 4964,
+      "earliest_acquisition": "2019-02-15T07:44:00Z",
+      "latest_acquisition": "2026-04-25T20:59:00Z",
+      "years_active": [
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "months_active": [
+        "02",
+        "03",
+        "04"
+      ],
+      "is_continuous_fire_season": true
+    },
+    "Suomi-NPP": {
+      "records": 5033,
+      "earliest_acquisition": "2019-02-15T08:34:00Z",
+      "latest_acquisition": "2026-04-25T20:39:00Z",
+      "years_active": [
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "months_active": [
+        "02",
+        "03",
+        "04"
+      ],
+      "is_continuous_fire_season": true
+    },
+    "Aqua": {
+      "records": 500,
+      "earliest_acquisition": "2019-02-17T08:31:00Z",
+      "latest_acquisition": "2026-04-23T22:37:00Z",
+      "years_active": [
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "months_active": [
+        "02",
+        "03",
+        "04"
+      ],
+      "is_continuous_fire_season": true
+    },
+    "NOAA-21": {
+      "records": 2263,
+      "earliest_acquisition": "2023-03-01T08:53:00Z",
+      "latest_acquisition": "2026-04-25T20:07:00Z",
+      "years_active": [
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "months_active": [
+        "02",
+        "03",
+        "04"
+      ],
+      "is_continuous_fire_season": true
+    }
+  }
+}

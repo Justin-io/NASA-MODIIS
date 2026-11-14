@@ -51,7 +51,9 @@ export interface Tier3PhysicalFireEvent {
   centroidLat: number;
   centroidLng: number;
   convexHull: [number, number][]; // [lat, lng] polygon vertices
-  estimatedPerimeterKm: number;
+  estimatedPerimeterKm: number; // Backward-compatible alias for boundingHullPerimeterKm
+  boundingHullPerimeterKm: number;
+  footprintClassification: 'OBSERVATION_CLUSTER_HULL';
   estimatedAreaKm2: number;
   observationCount: number;
   sensorBreakdown: {
@@ -61,7 +63,9 @@ export interface Tier3PhysicalFireEvent {
   };
   peakFrpMw: number;
   peakFrpTimestampUtc: string;
-  estimatedThermalEnergyGWh: number; // Approximate integrated FRP over time
+  observedSnapshotEnergyMJ: number; // Sum of instantaneous observed pass energies (MW * nominal sweep duration)
+  estimatedThermalEnergyGWh: number | null; // Null or unverified approximation (continuous extrapolation across multi-hour gaps is unobserved)
+  samplingDisclaimer: string;
   status: 'ACTIVE' | 'CONTAINED' | 'EXTINGUISHED';
   observationIds: string[];
 }
@@ -352,9 +356,7 @@ export function clusterTier3PhysicalFireEvents(
       }
     }
 
-    const avgFrp = frpCount > 0 ? totalFrpSum / frpCount : 10;
-    // Estimated thermal energy: Mean FRP (MW) * duration (hours) * 1e-3 => GWh
-    const estGWh = Number((avgFrp * Math.max(1, durationHours) * 0.001).toFixed(3));
+    const observedSnapshotEnergyMJ = Number(totalFrpSum.toFixed(1));
 
     const centroidLat = Number(
       (cluster.reduce((s, c) => s + c.latitude, 0) / cluster.length).toFixed(4)
@@ -374,6 +376,8 @@ export function clusterTier3PhysicalFireEvents(
       centroidLng,
       convexHull: hull,
       estimatedPerimeterKm: perimeterKm,
+      boundingHullPerimeterKm: perimeterKm,
+      footprintClassification: 'OBSERVATION_CLUSTER_HULL',
       estimatedAreaKm2: approxAreaKm2,
       observationCount: cluster.length,
       sensorBreakdown: {
@@ -383,7 +387,10 @@ export function clusterTier3PhysicalFireEvents(
       },
       peakFrpMw: Number(peakFrp.toFixed(1)),
       peakFrpTimestampUtc: peakFrpTime,
-      estimatedThermalEnergyGWh: estGWh,
+      observedSnapshotEnergyMJ,
+      estimatedThermalEnergyGWh: null, // Disabled: Continuous energy integration across multi-hour gaps is unobserved
+      samplingDisclaimer:
+        'Convex hulls represent geometric observation bounds, not ground-truth fire perimeters. Sparse satellite snapshots (2–4 passes/day) do not capture continuous fire behavior across inter-pass intervals.',
       status: durationHours > 48 ? 'CONTAINED' : 'EXTINGUISHED',
       observationIds: cluster.map((c) => c.id),
     });

@@ -1,0 +1,211 @@
+{
+  "metadata": {
+    "dataset_sha256": "3ba37d331db77d9fa54f0f1845921baa30169c8c76ceaff5579a5b67403f3046",
+    "validation_sha256": "cf69fe8fadc61c06906ad94389684423b1c8b1d4af2e60f44b506cfd2f8da87f",
+    "observations_count": 13065,
+    "mcd64_periods_count": 24,
+    "temporal_coverage": "2019-02-15 to 2026-04-25 (Peak Dry Fire Season)",
+    "aoi_bbox": [
+      76.2,
+      11.0,
+      77.3,
+      12.0
+    ]
+  },
+  "yearly_summaries": [
+    {
+      "year": 2019,
+      "totalHotspots": 3529,
+      "modisCount": 312,
+      "viirsCount": 3217,
+      "snppCount": 1630,
+      "noaa20Count": 1587,
+      "noaa21Count": 0,
+      "daytimeCount": 2344,
+      "nighttimeCount": 1185,
+      "nadirCount": 1804,
+      "limbCount": 197,
+      "meanFrpMw": 21.66,
+      "totalFrpMw": 76425.2,
+      "effortIndex": 3.005,
+      "adjustedHotspots": 1174
+    },
+    {
+      "year": 2020,
+      "totalHotspots": 609,
+      "modisCount": 33,
+      "viirsCount": 576,
+      "snppCount": 297,
+      "noaa20Count": 279,
+      "noaa21Count": 0,
+      "daytimeCount": 492,
+      "nighttimeCount": 117,
+      "nadirCount": 315,
+      "limbCount": 19,
+      "meanFrpMw": 7.59,
+      "totalFrpMw": 4620.4,
+      "effortIndex": 3.081,
+      "adjustedHotspots": 198
+    },
+    {
+      "year": 2021,
+      "totalHotspots": 459,
+      "modisCount": 30,
+      "viirsCount": 429,
+      "snppCount": 204,
+      "noaa20Count": 225,
+      "noaa21Count": 0,
+      "daytimeCount": 358,
+      "nighttimeCount": 101,
+      "nadirCount": 231,
+      "limbCount": 16,
+      "meanFrpMw": 8.22,
+      "totalFrpMw": 3773.2,
+      "effortIndex": 3.056,
+      "adjustedHotspots": 150
+    },
+    {
+      "year": 2022,
+      "totalHotspots": 551,
+      "modisCount": 25,
+      "viirsCount": 526,
+      "snppCount": 250,
+      "noaa20Count": 276,
+      "noaa21Count": 0,
+      "daytimeCount": 376,
+      "nighttimeCount": 175,
+      "nadirCount": 310,
+      "limbCount": 17,
+      "meanFrpMw": 7.26,
+      "totalFrpMw": 4000.1,
+      "effortIndex": 3.1,
+      "adjustedHotspots": 178
+    },
+    {
+      "year": 2023,
+      "totalHotspots": 2270,
+      "modisCount": 123,
+      "viirsCount": 2147,
+      "snppCount": 834,
+      "noaa20Count": 746,
+      "noaa21Count": 567,
+      "daytimeCount": 1430,
+      "nighttimeCount": 840,
+      "nadirCount": 1310,
+      "limbCount": 81,
+      "meanFrpMw": 9.06,
+      "totalFrpMw": 20571.3,
+      "effortIndex": 3.851,
+      "adjustedHotspots": 589
+    },
+    {
+      "year": 2024,
+      "totalHotspots": 2619,
+      "modisCount": 124,
+      "viirsCount": 2495,
+      "snppCount": 860,
+      "noaa20Count": 859,
+      "noaa21Count": 776,
+      "daytimeCount": 1748,
+      "nighttimeCount": 871,
+      "nadirCount": 1369,
+      "limbCount": 83,
+      "meanFrpMw": 12.45,
+      "totalFrpMw": 32613.2,
+      "effortIndex": 3.56,
+      "adjustedHotspots": 736
+    },
+    {
+      "year": 2025,
+      "totalHotspots": 906,
+      "modisCount": 40,
+      "viirsCount": 866,
+      "snppCount": 311,
+      "noaa20Count": 306,
+      "noaa21Count": 249,
+      "daytimeCount": 733,
+      "nighttimeCount": 173,
+      "nadirCount": 510,
+      "limbCount": 16,
+      "meanFrpMw": 8.3,
+      "totalFrpMw": 7515.5,
+      "effortIndex": 3.568,
+      "adjustedHotspots": 254
+    },
+    {
+      "year": 2026,
+      "totalHotspots": 2122,
+      "modisCount": 118,
+      "viirsCount": 2004,
+      "snppCount": 647,
+      "noaa20Count": 686,
+      "noaa21Count": 671,
+      "daytimeCount": 1431,
+      "nighttimeCount": 691,
+      "nadirCount": 1131,
+      "limbCount": 86,
+      "meanFrpMw": 12.25,
+      "totalFrpMw": 25997.2,
+      "effortIndex": 3.539,
+      "adjustedHotspots": 600
+    }
+  ],
+  "headline_metrics": {
+    "baseline_raw_annual_avg": 1532.3,
+    "modern_raw_annual_avg": 1979.2,
+    "apparent_growth_pct": 29.2,
+    "baseline_adj_annual_avg": 507.3,
+    "modern_adj_annual_avg": 544.8,
+    "adjusted_true_growth_pct": 7.4,
+    "attributable_to_effort_pct": 91.6,
+    "attributable_to_burning_pct": 8.4,
+    "bootstrap_95_ci": {
+      "lower_pct": 73.2,
+      "median_pct": 88.0,
+      "upper_pct": 100.0,
+      "iterations": 1000
+    },
+    "mcd64a1_concordance": {
+      "raw_r2": 0.225,
+      "adjusted_r2": 0.12,
+      "paired_years_count": 8
+    }
+  },
+  "leave_one_year_out_sensitivity": {
+    "exclude_2019": {
+      "b_raw_avg": 534.0,
+      "raw_growth_pct": 270.6,
+      "effort_attrib_pct": 74.3
+    },
+    "exclude_2020": {
+      "b_raw_avg": 1994.0,
+      "raw_growth_pct": -0.7,
+      "effort_attrib_pct": 100.0
+    },
+    "exclude_2021": {
+      "b_raw_avg": 2069.0,
+      "raw_growth_pct": -4.3,
+      "effort_attrib_pct": 100.0
+    },
+    "exclude_2023": {
+      "c_raw_avg": 1882.3,
+      "raw_growth_pct": 22.8,
+      "effort_attrib_pct": 93.5
+    },
+    "exclude_2024": {
+      "c_raw_avg": 1766.0,
+      "raw_growth_pct": 15.2,
+      "effort_attrib_pct": 100.0
+    },
+    "exclude_2025": {
+      "c_raw_avg": 2337.0,
+      "raw_growth_pct": 52.5,
+      "effort_attrib_pct": 83.3
+    },
+    "exclude_2026": {
+      "c_raw_avg": 1931.7,
+      "raw_growth_pct": 26.1,
+      "effort_attrib_pct": 95.2
+    }
+  }
+}

@@ -32,13 +32,14 @@ All automated statistical tests pass with 100% compliance in [test/firelens.test
 
 ### 2.2 Independent Ground Truth Concordance (MCD64A1)
 
-| Time Series Comparison | Pearson $r$ | Coefficient of Determination ($R^2$) | Two-Tailed $p$-value | Interpretation |
+| Time Series Comparison | Annual Pearson $r$ | Annual $R^2$ | Monthly $R^2$ | Interpretation |
 |:---|:---:|:---:|:---:|:---|
-| **Raw Unadjusted Hotspots vs. MCD64A1** | 0.648 | **0.420** | $0.003$ | Distorted by satellite additions & resolution jumps post-2023 |
-| **Effort-Adjusted Rate vs. MCD64A1** | **0.927** | **0.860** | $< 0.0001$ | High physical concordance restored after effort normalization |
+| **Raw Unadjusted Hotspots vs. MCD64A1** | 0.474 | **0.225** | **0.266** | Moderately correlated with surface scar area |
+| **Effort-Adjusted Rate vs. MCD64A1** | 0.346 | **0.120** | **0.202** | Decoupled; active flaming FRP and cumulative post-fire surface reflectance represent distinct physical regimes |
 
 - **Empirical Dataset**: 24 monthly periods (2019–2026) in [data/firelens_validation_mcd64a1.json](file:///home/justin/Desktop/NASA/data/firelens_validation_mcd64a1.json).
-- **Algorithmic Disclosure**: MCD64A1 utilizes MODIS thermal anomalies as initial seed pixels. The $R^2 = 0.860$ metric demonstrates physical surface scar agreement while accounting for partial seed co-dependence.
+- **Physical Decoupling & Remote Sensing Audit**: Full independent validation in [08_REFERENCE_VALIDATION_AUDIT.md](file:///home/justin/Desktop/NASA/research/scientific_audit/08_REFERENCE_VALIDATION_AUDIT.md). Active-fire detections capture instantaneous flaming combustion at discrete overpass times (2–4 passes/day), whereas MCD64A1 integrates cumulative 500m post-fire charring. In tropical moist deciduous and montane canopies, understory fires create large surface scars with suppressed instantaneous canopy-top FRP. Effort normalization correctly scales down hotspot counts due to expanded sensor capacity, which naturally decouples detection counts from total scarred surface area.
+- **Algorithmic Co-Dependence Caveat**: MCD64A1 utilizes MODIS thermal anomalies as initial seed pixels in its contextual region-growing algorithm, introducing partial algorithmic correlation rather than absolute sensor independence.
 
 ---
 

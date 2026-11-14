@@ -150,6 +150,11 @@ test('FireReconciliationEngine - Tier 3 clusters coherent multi-pass fire events
   assert.strictEqual(mainEvent.sensorBreakdown.modisCount, 2);
   assert.strictEqual(mainEvent.sensorBreakdown.viirsCount, 1);
   assert.strictEqual(mainEvent.status, 'EXTINGUISHED');
+  assert.strictEqual(mainEvent.footprintClassification, 'OBSERVATION_CLUSTER_HULL');
+  assert.strictEqual(mainEvent.estimatedThermalEnergyGWh, null);
+  assert.ok(mainEvent.observedSnapshotEnergyMJ > 0);
+  assert.ok(mainEvent.boundingHullPerimeterKm > 0);
+  assert.ok(mainEvent.samplingDisclaimer.includes('ground-truth fire perimeters'));
 });
 
 test('FireReconciliationEngine - Tier 4 aggregates statistics with effort index and Z-scores', () => {

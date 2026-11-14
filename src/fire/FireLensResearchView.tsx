@@ -141,7 +141,7 @@ export const FireLensResearchView: React.FC = () => {
                 NASA Space Apps 2026 • FireLens Intelligence
               </span>
               <span className="text-xs text-slate-500 font-mono">
-                AOI: Nilgiris Biosphere Reserve (11.0°N–12.0°N, 76.2°E–77.3°E)
+                AOI: Nilgiris Biosphere Reserve (11.0°N–12.0°N, 76.2°E–77.3°E) • Peak Fire Season: Feb 15 – Apr 25
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
@@ -718,13 +718,13 @@ export const FireLensResearchView: React.FC = () => {
                 </p>
               </div>
 
-              <div className="p-4 rounded-xl border border-emerald-200 bg-emerald-50/50">
-                <span className="text-[11px] text-emerald-600 font-mono uppercase">Effort-Adjusted Rate vs Burned Area</span>
-                <div className="text-2xl font-bold text-emerald-700 mt-1">
+              <div className="p-4 rounded-xl border border-blue-200 bg-blue-50/50">
+                <span className="text-[11px] text-blue-600 font-mono uppercase">Effort-Adjusted Rate vs Burned Area</span>
+                <div className="text-2xl font-bold text-blue-700 mt-1">
                   R² = {decompositionResult.decomposition.adjustedHotspotMcd64ConcordanceR2}
                 </div>
-                <p className="text-xs text-emerald-800 mt-1">
-                  Strong physical concordance restored after normalizing for constellation overpasses and spatial sensitivity.
+                <p className="text-xs text-blue-800 mt-1">
+                  Decoupling hotspot rates from surface burned area. Active flaming fronts and cumulative post-fire charring represent distinct physical regimes in dense canopies.
                 </p>
               </div>
             </div>
@@ -854,8 +854,9 @@ export const FireLensResearchView: React.FC = () => {
                       <div>Centroid: <span className="font-mono font-semibold">{evt.centroidLat}°N, {evt.centroidLng}°E</span></div>
                       <div>Duration: <span className="font-mono font-semibold">{evt.durationHours} hrs</span></div>
                       <div>Observations: <span className="font-mono font-semibold">{evt.observationCount} passes</span></div>
-                      <div>Perimeter: <span className="font-mono font-semibold">{evt.estimatedPerimeterKm} km</span></div>
+                      <div>Hull Perimeter: <span className="font-mono font-semibold">{evt.boundingHullPerimeterKm ?? evt.estimatedPerimeterKm} km</span></div>
                     </div>
+                    <div className="text-[10px] text-slate-400 italic">Observation cluster bounding hull (not ground perimeter)</div>
                     <div className="pt-2 border-t border-slate-200 flex items-center justify-between">
                       <span className="text-[11px] text-slate-500">Peak Instantaneous FRP:</span>
                       <span className="font-bold text-amber-600">{evt.peakFrpMw} MW</span>

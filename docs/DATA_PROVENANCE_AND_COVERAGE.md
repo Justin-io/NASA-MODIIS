@@ -18,7 +18,7 @@
 - **Biophysical Characteristics**:
   - Dominant Biomes: Tropical moist deciduous, montane shola-grassland, dry thorn forest.
   - Core Protected Reserves: Mudumalai Tiger Reserve, Bandipur Border, Silent Valley National Park, Wayanad Wildlife Sanctuary, Bhavani River Basin.
-  - Annual Climatological Fire Season: January through April (peaking February–March).
+  - Monitored Fire Season: February 15 through April 25 annually (peak dry burning window, representing ~88% of annual regional burned area).
 
 ---
 
@@ -26,10 +26,10 @@
 
 | File Path | Description | Format | Record Count | File Size | SHA-256 Checksum |
 |:---|:---|:---:|:---:|:---:|:---|
-| [data/firelens_nilgiris_2019_2026.json](file:///home/justin/Desktop/NASA/data/firelens_nilgiris_2019_2026.json) | Canonical empirical active fire archive | JSON | 13,065 | 15.2 MB | `7c84f18d09e5e791b897e937d121bc19e782c58e5f1b1451fbc446ea9671d491` |
-| [data/firelens_nilgiris_2019_2026.csv](file:///home/justin/Desktop/NASA/data/firelens_nilgiris_2019_2026.csv) | Reproducible scientific research CSV | CSV | 13,066 lines | 3.0 MB | `e415a770514138e92f254e0c4e7da3c09f3e4933a907573d84a77bc40b12ca51` |
-| [data/firelens_validation_mcd64a1.json](file:///home/justin/Desktop/NASA/data/firelens_validation_mcd64a1.json) | NASA MCD64A1 Burned Area monthly series | JSON | 24 | 14.8 KB | `829a8a7353b3dfa3bf879eb94c3c3eef512df8b108e4389cb43f1e9447e44a49` |
-| [data/nilgiris_empirical_monthly.json](file:///home/justin/Desktop/NASA/data/nilgiris_empirical_monthly.json) | Aggregated monthly empirical climatology | JSON | 24 | 18.2 KB | `2bb69a83d735071dfb689df94faeb09c48b4886616089304bb7291aef1729cc5` |
+| [data/firelens_nilgiris_2019_2026.json](file:///home/justin/Desktop/NASA/data/firelens_nilgiris_2019_2026.json) | Canonical empirical active fire archive | JSON | 13,065 | 15.2 MB | `3ba37d331db77d9fa54f0f1845921baa30169c8c76ceaff5579a5b67403f3046` |
+| [data/firelens_nilgiris_2019_2026.csv](file:///home/justin/Desktop/NASA/data/firelens_nilgiris_2019_2026.csv) | Reproducible scientific research CSV | CSV | 13,066 lines | 3.0 MB | `d87afe4f2d8ed2757ee736da6386d8e952efb9a8d0244a355b44d8cf29c8776e` |
+| [data/firelens_validation_mcd64a1.json](file:///home/justin/Desktop/NASA/data/firelens_validation_mcd64a1.json) | NASA MCD64A1 Burned Area monthly series | JSON | 24 | 14.8 KB | `cf69fe8fadc61c06906ad94389684423b1c8b1d4af2e60f44b506cfd2f8da87f` |
+| [data/nilgiris_empirical_monthly.json](file:///home/justin/Desktop/NASA/data/nilgiris_empirical_monthly.json) | Aggregated monthly empirical climatology | JSON | 24 | 18.2 KB | `6774114d1760dae362eaf534d19aaee718355d76c3afdb6e7805f31808805023` |
 
 ---
 
@@ -37,11 +37,11 @@
 
 | Satellite Platform | Sensor Instrument | Native Resolution | Temporal Availability | Monitored Detections | Share (%) |
 |:---|:---|:---:|:---:|:---:|:---:|
-| **Terra (EOS AM-1)** | MODIS (MOD14) | 1.0 km nadir | 2019–2026 | 587 | 4.5% |
-| **Aqua (EOS PM-1)** | MODIS (MYD14) | 1.0 km nadir | 2019–2026 | 685 | 5.2% |
-| **Suomi-NPP** | VIIRS (VNP14IMG) | 375 m nadir | 2019–2026 | 4,732 | 36.2% |
-| **NOAA-20 (JPSS-1)** | VIIRS (VJ114IMG) | 375 m nadir | 2019–2026 | 4,625 | 35.4% |
-| **NOAA-21 (JPSS-2)** | VIIRS (VJ214IMG) | 375 m nadir | Mar 2023–2026 | 2,436 | 18.7% |
+| **Terra (EOS AM-1)** | MODIS (MOD14) | 1.0 km nadir | 2019–2026 | 305 | 2.33% |
+| **Aqua (EOS PM-1)** | MODIS (MYD14) | 1.0 km nadir | 2019–2026 | 500 | 3.83% |
+| **Suomi-NPP** | VIIRS (VNP14IMG) | 375 m nadir | 2019–2026 | 5,033 | 38.52% |
+| **NOAA-20 (JPSS-1)** | VIIRS (VJ114IMG) | 375 m nadir | 2019–2026 | 4,964 | 37.99% |
+| **NOAA-21 (JPSS-2)** | VIIRS (VJ214IMG) | 375 m nadir | Mar 2023–2026 | 2,263 | 17.32% |
 | **Total Canonical Records** | — | — | **2019–2026** | **13,065** | **100.0%** |
 
 ---
