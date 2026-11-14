@@ -9,3 +9,4 @@ export default async function handler(req: Request, res: Response) {
   await ensureServerInitialized();
   return app(req, res);
 }
+
