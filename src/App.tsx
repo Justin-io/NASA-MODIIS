@@ -9,6 +9,7 @@ import {
   EMERGENCY_ROUTES,
   INITIAL_ADVISORIES,
   INITIAL_AGENCY_TASKS,
+  INITIAL_CALLS,
   INITIAL_CASUALTY_REPORTS,
   INITIAL_INCIDENTS,
   INITIAL_RESOURCES,
@@ -111,9 +112,37 @@ const SIDEBAR_GROUPS: {
   },
 ];
 
+const getTabFromHash = (): WorkspaceTab => {
+  if (typeof window === 'undefined') return 'dashboard';
+  const hash = window.location.hash.replace(/^#\/?/, '').toLowerCase();
+  const validTabs: WorkspaceTab[] = [
+    'dashboard', 'fire', 'orbital', 'incidents', 'anomaly', 'environment',
+    'news', 'evidence', 'routing', 'voice', 'resources', 'community',
+    'simulation', 'backtracking', 'learning', 'catalogue', 'diagnostics',
+    'reports', 'settings',
+  ];
+  return validTabs.includes(hash as WorkspaceTab) ? (hash as WorkspaceTab) : 'dashboard';
+};
+
 export default function App() {
-  const [activeTab, setActiveTab] = useState<WorkspaceTab>('dashboard');
+  const [activeTab, setActiveTabState] = useState<WorkspaceTab>(getTabFromHash);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
+  const setActiveTab = (tab: WorkspaceTab) => {
+    setActiveTabState(tab);
+    if (typeof window !== 'undefined' && window.location.hash !== `#${tab}`) {
+      window.location.hash = tab;
+    }
+  };
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const tab = getTabFromHash();
+      setActiveTabState(tab);
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
   const [mobileModulesOpen, setMobileModulesOpen] = useState(false);
   const [isVoiceOpen, setIsVoiceOpen] = useState(false);
   const [selectedRegion, setSelectedRegion] = useState<MonitoredRegion>(
@@ -133,25 +162,56 @@ export default function App() {
   const [routes, setRoutes] = useState(EMERGENCY_ROUTES);
   const [advisories, setAdvisories] = useState(INITIAL_ADVISORIES);
   const [isPaletteOpen, setIsPaletteOpen] = useState(false);
-  const [calls, setCalls] = useState<TelephonyCallRecord[]>([]);
+  const [calls, setCalls] = useState<TelephonyCallRecord[]>(INITIAL_CALLS);
   const [currentRole, setCurrentRole] = useState<UserRole>('commander');
 
   const fetchBackendState = () => {
     apiClient
+      .getIncidents()
+      .then((incs) => {
+        if (incs && incs.length > 0) {
+          setIncidents(incs);
+          setSelectedIncidentId((prev) => prev || incs[0].id);
+        }
+      })
+      .catch((err) => console.log('Incidents fetch notice:', err.message));
+
+    apiClient
+      .getResources()
+      .then((resList) => {
+        if (resList && resList.length > 0) {
+          setResources(resList);
+        }
+      })
+      .catch((err) => console.log('Resources fetch notice:', err.message));
+
+    apiClient
       .getFullState()
       .then((state) => {
         if (state) {
-          setIncidents(state.incidents || []);
-          if (state.incidents?.length) {
+          if (state.incidents && state.incidents.length > 0) {
+            setIncidents(state.incidents);
             setSelectedIncidentId((prev) => prev || state.incidents[0].id);
           }
           if (state.agents?.length) setAgents(state.agents);
-          setCasualtyReports(state.casualtyReports || []);
-          setAgencyTasks(state.agencyTasks || []);
-          setResources(state.resources || []);
-          setRoutes(state.routes || []);
-          setAdvisories(state.advisories || []);
-          setCalls(state.calls || []);
+          if (state.casualtyReports && state.casualtyReports.length > 0) {
+            setCasualtyReports(state.casualtyReports);
+          }
+          if (state.agencyTasks && state.agencyTasks.length > 0) {
+            setAgencyTasks(state.agencyTasks);
+          }
+          if (state.resources && state.resources.length > 0) {
+            setResources(state.resources);
+          }
+          if (state.routes && state.routes.length > 0) {
+            setRoutes(state.routes);
+          }
+          if (state.advisories && state.advisories.length > 0) {
+            setAdvisories(state.advisories);
+          }
+          if (state.calls && state.calls.length > 0) {
+            setCalls(state.calls);
+          }
         }
       })
       .catch((err) => console.log('Local client operational state active:', err.message));

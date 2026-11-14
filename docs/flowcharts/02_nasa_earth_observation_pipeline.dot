@@ -1,0 +1,57 @@
+digraph NasaPipeline {
+    graph [rankdir=LR, bgcolor="transparent", fontname="Helvetica,Arial,sans-serif", fontsize=12, nodesep=0.5, ranksep=0.7];
+    node [shape=box, style="rounded,filled", fontname="Helvetica,Arial,sans-serif", fontsize=11, penwidth=1.5, margin="0.18,0.12"];
+    edge [fontname="Helvetica,Arial,sans-serif", fontsize=10, color="#64748B", penwidth=1.5, arrowsize=0.8];
+
+    subgraph cluster_satellites {
+        label = "Spaceborne Earth Observation Constellation";
+        style = "dashed,rounded"; color = "#0284C7"; bgcolor = "#F0F9FF"; fontcolor = "#0369A1";
+        terra [label="Terra (MODIS)\n10:30 Descending (Drifting)", fillcolor="#BAE6FD", color="#0284C7", fontcolor="#0C4A6E"];
+        aqua [label="Aqua (MODIS)\n13:30 Ascending (Solar Peak)", fillcolor="#BAE6FD", color="#0284C7", fontcolor="#0C4A6E"];
+        snpp [label="Suomi-NPP (VIIRS)\n13:30 Ascending (375m)", fillcolor="#BAE6FD", color="#0284C7", fontcolor="#0C4A6E"];
+        noaa20 [label="NOAA-20 (VIIRS)\n13:30 (50-min separation)", fillcolor="#BAE6FD", color="#0284C7", fontcolor="#0C4A6E"];
+        noaa21 [label="NOAA-21 (VIIRS)\n13:30 (Quarter-orbit offset)", fillcolor="#BAE6FD", color="#0284C7", fontcolor="#0C4A6E"];
+    }
+
+    subgraph cluster_downlink {
+        label = "NASA EOSDIS & LANCE Processing";
+        style = "dashed,rounded"; color = "#475569"; bgcolor = "#F8FAFC"; fontcolor = "#1E293B";
+        nrt_feed [label="FIRMS NRT Stream\nLatency < 3 Hours", fillcolor="#E2E8F0", color="#475569", fontcolor="#0F172A"];
+        sp_archive [label="Standard Science Quality\nCollection 6.1 Calibration", fillcolor="#E2E8F0", color="#475569", fontcolor="#0F172A"];
+    }
+
+    subgraph cluster_normalization {
+        label = "ALEX Ingestion & Normalization Core";
+        style = "dashed,rounded"; color = "#D97706"; bgcolor = "#FFFBEB"; fontcolor = "#B45309";
+        parser [label="CSV & API Parsing\nCoordinate Validation (WGS84)", fillcolor="#FDE68A", color="#D97706", fontcolor="#78350F"];
+        dedup [label="Spatial-Temporal Deduplication\nSensor Pass Preservation", fillcolor="#FDE68A", color="#D97706", fontcolor="#78350F"];
+        checksum [label="SHA-256 Checksumming\nNative Confidence Retention", fillcolor="#FDE68A", color="#D97706", fontcolor="#78350F"];
+    }
+
+    subgraph cluster_storage {
+        label = "Grounded Data Stores";
+        style = "dashed,rounded"; color = "#059669"; bgcolor = "#ECFDF5"; fontcolor = "#047857";
+        canonical_store [label="Canonical FireLens Dataset\n13,065 Verified Records", fillcolor="#A7F3D0", color="#059669", fontcolor="#064E3B"];
+        postgis [label="PostGIS Geodatabase\nSRID 4326 Spatial Index", fillcolor="#A7F3D0", color="#059669", fontcolor="#064E3B"];
+    }
+
+    terra -> nrt_feed;
+    aqua -> nrt_feed;
+    snpp -> nrt_feed;
+    noaa20 -> nrt_feed;
+    noaa21 -> nrt_feed;
+
+    terra -> sp_archive;
+    aqua -> sp_archive;
+    snpp -> sp_archive;
+    noaa20 -> sp_archive;
+    noaa21 -> sp_archive;
+
+    nrt_feed -> parser [label="NRT Poll"];
+    sp_archive -> parser [label="Historical Backfill"];
+
+    parser -> dedup [label="Validated Tuples"];
+    dedup -> checksum [label="Unique Hotspots"];
+    checksum -> canonical_store [label="JSON Ingest"];
+    checksum -> postgis [label="ST_Point(lng,lat)"];
+}

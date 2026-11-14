@@ -1,0 +1,49 @@
+digraph RothermelPhysics {
+    graph [rankdir=LR, bgcolor="transparent", fontname="Helvetica,Arial,sans-serif", fontsize=12, nodesep=0.5, ranksep=0.7];
+    node [shape=box, style="rounded,filled", fontname="Helvetica,Arial,sans-serif", fontsize=11, penwidth=1.5, margin="0.2,0.12"];
+    edge [fontname="Helvetica,Arial,sans-serif", fontsize=10, color="#64748B", penwidth=1.5, arrowsize=0.8];
+
+    subgraph cluster_inputs {
+        label = "Environmental Inputs";
+        style = "dashed,rounded"; color = "#0284C7"; bgcolor = "#F0F9FF"; fontcolor = "#0369A1";
+        fuel [label="Anderson 13 Fuel Model\nLoading (w0), SAV Ratio (σ), Bed Depth (δ)", fillcolor="#BAE6FD", color="#0284C7", fontcolor="#0C4A6E"];
+        weather [label="Open-Meteo Weather\nTemp (T), Relative Humidity (H), Wind Speed (U)", fillcolor="#BAE6FD", color="#0284C7", fontcolor="#0C4A6E"];
+        topography [label="Topographic Slope\nSlope Angle (φ) & Aspect Bearing", fillcolor="#BAE6FD", color="#0284C7", fontcolor="#0C4A6E"];
+    }
+
+    subgraph cluster_thermo {
+        label = "Thermodynamics & Fuel Moisture";
+        style = "dashed,rounded"; color = "#D97706"; bgcolor = "#FFFBEB"; fontcolor = "#B45309";
+        emc [label="Nelson (2000) EMC\nEquilibrium Moisture Content (Mf)", fillcolor="#FDE68A", color="#D97706", fontcolor="#78350F"];
+        qig [label="Heat of Pre-Ignition (Qig)\nQig = 581 + 2594 · Mf (kJ/kg)", fillcolor="#FDE68A", color="#D97706", fontcolor="#78350F"];
+        phi_wind [label="Wind & Slope Factors\nΦ_W = C · U^B · (β/β_op)^(-E)\nΦ_S = 5.275 · β^(-0.3) · tan²(φ)", fillcolor="#FDE68A", color="#D97706", fontcolor="#78350F"];
+    }
+
+    subgraph cluster_rothermel {
+        label = "Rothermel (1972) Surface Engine";
+        style = "dashed,rounded"; color = "#EF4444"; bgcolor = "#FEF2F2"; fontcolor = "#B91C1C";
+        reaction [label="Reaction Intensity (IR)\nIR = Γ' · wn · h · ηM · ηS\n(kJ / m² / min)", fillcolor="#FECACA", color="#EF4444", fontcolor="#7F1D1D"];
+        ros [label="Rate of Spread (R)\nR = (IR · ξ · (1 + ΦW + ΦS)) / (ρb · ε · Qig)\nForward Front Speed (m/min)", fillcolor="#FCA5A5", color="#DC2626", fontcolor="#450A0A"];
+    }
+
+    subgraph cluster_outputs {
+        label = "Spatial Hazard Projections";
+        style = "dashed,rounded"; color = "#059669"; bgcolor = "#ECFDF5"; fontcolor = "#047857";
+        byram [label="Byram Fireline Intensity (IB)\nIB = Hc · wa · R\nFlame Length Lf = 0.0775 · IB^0.46", fillcolor="#A7F3D0", color="#059669", fontcolor="#064E3B"];
+        isochrones [label="Elliptical Isochrone Forecasting\n+1h, +3h, +6h Evacuation Contours", fillcolor="#6EE7B7", color="#059669", fontcolor="#064E3B"];
+    }
+
+    fuel -> reaction;
+    weather -> emc;
+    emc -> qig;
+    weather -> phi_wind;
+    topography -> phi_wind;
+
+    qig -> ros;
+    phi_wind -> ros;
+    reaction -> ros;
+
+    ros -> byram;
+    ros -> isochrones;
+    phi_wind -> isochrones [label="Elliptical Eccentricity"];
+}

@@ -1,0 +1,49 @@
+digraph CryptoLedger {
+    graph [rankdir=LR, bgcolor="transparent", fontname="Helvetica,Arial,sans-serif", fontsize=12, nodesep=0.5, ranksep=0.7];
+    node [shape=box, style="rounded,filled", fontname="Helvetica,Arial,sans-serif", fontsize=11, penwidth=1.5, margin="0.2,0.12"];
+    edge [fontname="Helvetica,Arial,sans-serif", fontsize=10, color="#64748B", penwidth=1.5, arrowsize=0.8];
+
+    subgraph cluster_events {
+        label = "Operational Event Stream";
+        style = "dashed,rounded"; color = "#0284C7"; bgcolor = "#F0F9FF"; fontcolor = "#0369A1";
+        evt1 [label="Incident Status Transition", fillcolor="#BAE6FD", color="#0284C7", fontcolor="#0C4A6E"];
+        evt2 [label="Emergency Route Calculation", fillcolor="#BAE6FD", color="#0284C7", fontcolor="#0C4A6E"];
+        evt3 [label="Casualty 108 Dispatch", fillcolor="#BAE6FD", color="#0284C7", fontcolor="#0C4A6E"];
+        evt4 [label="Model Challenger Promotion", fillcolor="#BAE6FD", color="#0284C7", fontcolor="#0C4A6E"];
+    }
+
+    subgraph cluster_security {
+        label = "Security Middleware & RBAC";
+        style = "dashed,rounded"; color = "#475569"; bgcolor = "#F8FAFC"; fontcolor = "#1E293B";
+        sanitize [label="Secret Redaction\nMask API Keys & PII", fillcolor="#E2E8F0", color="#475569", fontcolor="#0F172A"];
+        rbac [label="RBAC Token Gate\nVerify Level L0-L4 Signature", fillcolor="#E2E8F0", color="#475569", fontcolor="#0F172A"];
+    }
+
+    subgraph cluster_blockchain {
+        label = "HMAC-SHA256 Cryptographic Chain";
+        style = "dashed,rounded"; color = "#059669"; bgcolor = "#ECFDF5"; fontcolor = "#047857";
+        prev_block [label="Block N-1\nHash: a4f8...9123", fillcolor="#A7F3D0", color="#059669", fontcolor="#064E3B"];
+        new_block [label="Block N\nHash: e3b0...9afb\nPrevious: a4f8...9123", fillcolor="#6EE7B7", color="#059669", fontcolor="#064E3B"];
+        disk [label="data/ledger.jsonl\nImmutable Append-Only Log", fillcolor="#A7F3D0", color="#059669", fontcolor="#064E3B"];
+    }
+
+    subgraph cluster_audit {
+        label = "Backtracking & Audit View";
+        style = "dashed,rounded"; color = "#4F46E5"; bgcolor = "#EEF2FF"; fontcolor = "#3730A3";
+        verify [label="Integrity Audit Engine\nCheck Chain Consistency", fillcolor="#C7D2FE", color="#4F46E5", fontcolor="#1E1B4B"];
+        replay [label="State Replay & Forensics\nReconstruct Any Historical Instant", fillcolor="#C7D2FE", color="#4F46E5", fontcolor="#1E1B4B"];
+    }
+
+    evt1 -> sanitize;
+    evt2 -> sanitize;
+    evt3 -> sanitize;
+    evt4 -> sanitize;
+
+    sanitize -> rbac [label="Sanitized Event"];
+    rbac -> new_block [label="Authorized Event"];
+    prev_block -> new_block [label="Hash Chaining"];
+    new_block -> disk [label="Atomic Append"];
+
+    disk -> verify [label="GET /api/ledger/verify"];
+    verify -> replay [label="100% Tamper-Proof Verified"];
+}

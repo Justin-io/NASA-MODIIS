@@ -1,0 +1,37 @@
+digraph EpistemicLifecycle {
+    graph [rankdir=TB, bgcolor="transparent", fontname="Helvetica,Arial,sans-serif", fontsize=12, nodesep=0.5, ranksep=0.7];
+    node [shape=box, style="rounded,filled", fontname="Helvetica,Arial,sans-serif", fontsize=11, penwidth=1.5, margin="0.2,0.12"];
+    edge [fontname="Helvetica,Arial,sans-serif", fontsize=10, color="#64748B", penwidth=1.5, arrowsize=0.8];
+
+    l1 [label="LEVEL 1: SATELLITE THERMAL ANOMALY\nRaw Infrared Brightness Temperature / FRP Spike\nSource: MODIS or VIIRS Overpass\nStatus: Unverified Spaceborne Detection", fillcolor="#F1F5F9", color="#94A3B8", fontcolor="#334155"];
+    
+    corrob_check [label="Spatial-Temporal Corroboration\nSecond Satellite Pass OR Ground Sensor Telemetry?", shape=diamond, fillcolor="#FEF3C7", color="#D97706", fontcolor="#78350F"];
+    
+    l2 [label="LEVEL 2: INDEPENDENTLY CORROBORATED\nConfirmed Across Multiple Satellites / Remote Sensors\nSpatial Uncertainty Halved (±280m)\nStatus: High-Probability Active Combustion", fillcolor="#BAE6FD", color="#0284C7", fontcolor="#0C4A6E"];
+
+    ground_check [label="Human Ground Verification\nBeat Ranger or CAD 112 Report Ingested?", shape=diamond, fillcolor="#FEF3C7", color="#D97706", fontcolor="#78350F"];
+
+    l3 [label="LEVEL 3: FIELD-CONFIRMED INCIDENT\nAuthenticated Ranger Patrol / EOC Field Log\nCryptographically Signed Ground Report\nStatus: Verified Fire Ground Front", fillcolor="#C7D2FE", color="#4F46E5", fontcolor="#1E1B4B"];
+
+    cmd_check [label="Incident Commander Evaluation\nStatutory Authority Approval Granted?", shape=diamond, fillcolor="#FEF3C7", color="#D97706", fontcolor="#78350F"];
+
+    l4 [label="LEVEL 4: AUTHORITY-CONFIRMED EMERGENCY\nStatutory Declaration by District Incident Commander\nFull EMS, Fire Apparatus & Hospital Mobilization\nStatus: Active Major Emergency", fillcolor="#FECACA", color="#EF4444", fontcolor="#7F1D1D"];
+
+    ledger_seal [label="HMAC-SHA256 Cryptographic Block Sealed\nTamper-Proof Audit Record Written to Ledger", fillcolor="#A7F3D0", color="#059669", fontcolor="#064E3B"];
+
+    discard [label="Anomaly Flagged / Quarantined\nIndustrial Heat, Flare, or Transient Glint", fillcolor="#E2E8F0", color="#64748B", fontcolor="#475569"];
+
+    l1 -> corrob_check;
+    corrob_check -> l2 [label="Corroborated"];
+    corrob_check -> discard [label="Single Pass Only"];
+    
+    l2 -> ground_check;
+    ground_check -> l3 [label="Signed Field Report"];
+    ground_check -> l2 [label="Awaiting Ground Team"];
+
+    l3 -> cmd_check;
+    cmd_check -> l4 [label="Commander Authorized"];
+    cmd_check -> l3 [label="Contained / Handled Locally"];
+
+    l4 -> ledger_seal;
+}

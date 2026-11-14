@@ -38,6 +38,7 @@ export class RoutingService {
       throw new Error('Origin and destination must be valid WGS84 coordinates.');
     }
 
+    let googleError: string | null = null;
     if (this.mapsKey) {
       try {
         const response = await fetch('https://routes.googleapis.com/directions/v2:computeRoutes', {
@@ -72,7 +73,8 @@ export class RoutingService {
         await globalLedger.appendEvent('route_recalculated', 'GOOGLE_MAPS_ROUTES_API', { routeId: result.id, provider: 'Google Maps Routes API' });
         return result;
       } catch (error: any) {
-        throw new Error(`Google Maps route calculation unavailable: ${error.message}. No synthetic route was created.`);
+        googleError = error.message;
+        console.warn(`[RoutingService] Google Maps route calculation unavailable (${error.message}). Failing over to OSRM road network routing.`);
       }
     }
 
@@ -123,7 +125,9 @@ export class RoutingService {
                 : 'Priority Emergency Response Corridor',
             ],
             reportedBlockages: [],
-            recommendationReason: `OSRM route: ${distKm} km in ~${trafficAdjustedDurationMin} min. This is not Google traffic guidance or emergency-access authorization.`,
+            recommendationReason: googleError
+              ? `OSRM fallback corridor (Google Maps unavailable: ${googleError}): ${distKm} km in ~${trafficAdjustedDurationMin} min. This is not Google traffic guidance or emergency-access authorization.`
+              : `OSRM route: ${distKm} km in ~${trafficAdjustedDurationMin} min. This is not Google traffic guidance or emergency-access authorization.`,
             waypoints: waypoints.length > 0 ? waypoints : [[startLat, startLng], [endLat, endLng]],
           };
 
@@ -139,7 +143,8 @@ export class RoutingService {
       }
     } catch (err: any) {
       console.warn('OSRM routing request failed:', err.message);
-      throw new Error(`Routing calculation unavailable: OSRM engine unreachable (${err.message}). Zero synthetic route fallbacks per Rule 1 & 3.`);
+      const cause = googleError ? `Google Maps (${googleError}) and OSRM (${err.message})` : `OSRM (${err.message})`;
+      throw new Error(`Routing calculation unavailable: ${cause}. Zero synthetic route fallbacks per Rule 1 & 3.`);
     }
 
     throw new Error('OSRM returned no valid routes for the specified origin and destination.');

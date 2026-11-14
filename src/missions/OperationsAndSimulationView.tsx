@@ -10,6 +10,7 @@ import {
   simulateScenarioOutcome,
 } from '../shared/intelligenceEngine';
 import { ProvenanceNoticeBanner, SectionHeader } from '../shared/ui';
+import { INITIAL_RESOURCES } from '../shared/dataAdapter';
 
 interface OperationsAndSimulationViewProps {
   activeSection:
@@ -159,7 +160,8 @@ Ground Telemetry: Listening for field responder reports.
   );
 
   if (activeSection === 'resources') {
-    const filteredResources = resources.filter((r) =>
+    const activeResources = resources && resources.length > 0 ? resources : INITIAL_RESOURCES;
+    const filteredResources = activeResources.filter((r) =>
       resourceSourceFilter === 'all'
         ? true
         : r.availabilitySource === resourceSourceFilter
@@ -184,7 +186,7 @@ Ground Telemetry: Listening for field responder reports.
               className="w-full sm:w-auto min-h-[40px] px-3 py-2 text-xs bg-white border border-slate-200 rounded-xl text-slate-900"
             >
               <option value="all">
-                All Availability Sources ({resources.length})
+                All Availability Sources ({activeResources.length})
               </option>
               <option value="Live Verified Telemetry">
                 ● Live Verified Telemetry
@@ -275,6 +277,13 @@ Ground Telemetry: Listening for field responder reports.
                     </td>
                   </tr>
                 ))}
+                {filteredResources.length === 0 && (
+                  <tr>
+                    <td colSpan={6} className="py-8 text-center text-slate-500 font-mono text-xs">
+                      No apparatus or resources match the selected provenance filter.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

@@ -64,7 +64,7 @@ export const FireLensResearchView: React.FC = () => {
       try {
         setLoading(true);
         const [obsRes, mcdRes] = await Promise.all([
-          fetch('/api/firelens/observations?limit=5000'),
+          fetch('/api/firelens/observations?limit=25000'),
           fetch('/api/firelens/validation'),
         ]);
 
@@ -103,6 +103,17 @@ export const FireLensResearchView: React.FC = () => {
       return true;
     });
   }, [observations, selectedYear, selectedSensorFilter, selectedDayNight, selectedZenithBin]);
+
+  useEffect(() => {
+    if (mapObservations.length > 0) {
+      if (!selectedObs || !mapObservations.some((o) => o.id === selectedObs.id)) {
+        const sortedByFrp = [...mapObservations].sort((a, b) => (b.frpMw ?? 0) - (a.frpMw ?? 0));
+        setSelectedObs(sortedByFrp[0] || mapObservations[0]);
+      }
+    } else {
+      setSelectedObs(null);
+    }
+  }, [mapObservations]);
 
   // 4-Tier Reconciliation Data
   const tier2Matches: Tier2CrossSensorMatch[] = useMemo(() => {
@@ -277,17 +288,17 @@ export const FireLensResearchView: React.FC = () => {
             </div>
 
             {/* Filter Pills */}
-            <div className="flex flex-wrap items-center gap-2 mb-4 pb-3 border-b border-slate-100">
-              <div className="flex items-center gap-1 text-xs text-slate-600">
-                <span className="font-medium text-slate-400">Sensor:</span>
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-100">
+              <div className="flex flex-wrap items-center gap-1.5 text-xs text-slate-600">
+                <span className="font-medium text-slate-400 mr-1">Sensor:</span>
                 {(['ALL', 'MODIS', 'VIIRS'] as const).map((s) => (
                   <button
                     key={s}
                     type="button"
                     onClick={() => setSelectedSensorFilter(s)}
-                    className={`px-2 py-0.5 rounded-md text-[11px] font-medium border ${
+                    className={`px-2.5 py-1 rounded-md text-[11px] font-medium border whitespace-nowrap shrink-0 transition-colors ${
                       selectedSensorFilter === s
-                        ? 'bg-blue-600 text-white border-blue-600'
+                        ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
                         : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
                     }`}
                   >
@@ -296,16 +307,16 @@ export const FireLensResearchView: React.FC = () => {
                 ))}
               </div>
 
-              <div className="flex items-center gap-1 text-xs text-slate-600 ml-auto">
-                <span className="font-medium text-slate-400">Zenith:</span>
+              <div className="flex flex-wrap items-center gap-1.5 text-xs text-slate-600">
+                <span className="font-medium text-slate-400 mr-1">Zenith:</span>
                 {(['ALL', 'nadir_0_20', 'mid_20_45', 'limb_45_65'] as const).map((z) => (
                   <button
                     key={z}
                     type="button"
                     onClick={() => setSelectedZenithBin(z)}
-                    className={`px-2 py-0.5 rounded-md text-[11px] font-medium border ${
+                    className={`px-2.5 py-1 rounded-md text-[11px] font-medium border whitespace-nowrap shrink-0 transition-colors ${
                       selectedZenithBin === z
-                        ? 'bg-blue-600 text-white border-blue-600'
+                        ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
                         : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
                     }`}
                   >

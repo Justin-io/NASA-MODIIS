@@ -105,3 +105,23 @@ test('SeasonalAnomalyEvaluation - accurately evaluates hotspot deviations agains
   const low = evaluateSeasonalAnomaly('REG-NILGIRI', 3, 25);
   assert.equal(low.severityTier, 'SIGNIFICANTLY_BELOW');
 });
+
+test('RoutingService - calculates authentic road network corridor with failover and zero synthetic routes', async () => {
+  const { routingService } = await import('../server/services/routingService');
+  const route = await routingService.calculateRoute({
+    origin: [11.5724, 76.6438],
+    destination: [11.4102, 76.6950],
+    originName: 'Masinagudi Reserve Staging Post',
+    destinationName: 'Ooty District Headquarters',
+    vehicleCategory: 'fire_engine',
+  });
+
+  assert.ok(route.id.startsWith('RTE-'), 'Route must have valid RTE ID');
+  assert.ok(route.distanceKm > 0, 'Route distance must be positive');
+  assert.ok(route.trafficAdjustedDurationMin > 0, 'Duration must be positive');
+  assert.ok(route.waypoints.length > 5, 'Route must contain real geographic waypoints along road network');
+  assert.ok(
+    route.name.includes('Google Maps') || route.name.includes('OSRM'),
+    'Route must be attributed to an authentic third-party provider'
+  );
+});

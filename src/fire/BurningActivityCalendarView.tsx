@@ -4,6 +4,8 @@ import {
   MonthlyBurningActivityRecord,
 } from '../shared/types';
 import { computeRegionalBurningCalendarMath } from '../shared/fireCalendarMath';
+import { NILGIRIS_EMPIRICAL_MONTHLY_ARCHIVE } from '../shared/empiricalArchiveData';
+import { HYPER_REALISTIC_HISTORICAL_ARCHIVE } from '../shared/fireObservationsData';
 import { Card, SectionHeader } from '../shared/ui';
 import {
   AlertTriangle,
@@ -34,8 +36,43 @@ export const BurningActivityCalendarView: React.FC<{
   const [selectedYear, setSelectedYear] = useState<number>(2026);
 
   useEffect(() => {
-    const data = computeRegionalBurningCalendarMath(selectedRegionId);
-    setCalendarData(data);
+    let cancelled = false;
+    fetch(`/api/fire/calendar?regionId=${encodeURIComponent(selectedRegionId)}`)
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then((data) => {
+        if (!cancelled && data && data.monthlyRecords && data.monthlyRecords.length > 0) {
+          setCalendarData(data);
+          const years = Array.from(new Set(data.monthlyRecords.map((r: any) => r.year))).sort((a: any, b: any) => b - a);
+          if (years.length > 0 && !years.includes(selectedYear)) {
+            setSelectedYear(years[0] as number);
+          }
+        } else if (!cancelled) {
+          const fallback = computeRegionalBurningCalendarMath(
+            selectedRegionId,
+            selectedRegionId === 'REG-NILGIRI'
+              ? NILGIRIS_EMPIRICAL_MONTHLY_ARCHIVE
+              : HYPER_REALISTIC_HISTORICAL_ARCHIVE.filter((r) => r.regionId === selectedRegionId)
+          );
+          setCalendarData(fallback);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          const fallback = computeRegionalBurningCalendarMath(
+            selectedRegionId,
+            selectedRegionId === 'REG-NILGIRI'
+              ? NILGIRIS_EMPIRICAL_MONTHLY_ARCHIVE
+              : HYPER_REALISTIC_HISTORICAL_ARCHIVE.filter((r) => r.regionId === selectedRegionId)
+          );
+          setCalendarData(fallback);
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [selectedRegionId]);
 
   if (!calendarData) {

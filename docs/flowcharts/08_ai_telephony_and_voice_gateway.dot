@@ -1,0 +1,30 @@
+digraph TelephonyGateway {
+    graph [rankdir=TB, bgcolor="transparent", fontname="Helvetica,Arial,sans-serif", fontsize=12, nodesep=0.5, ranksep=0.6];
+    node [shape=box, style="rounded,filled", fontname="Helvetica,Arial,sans-serif", fontsize=11, penwidth=1.5, margin="0.2,0.12"];
+    edge [fontname="Helvetica,Arial,sans-serif", fontsize=10, color="#64748B", penwidth=1.5, arrowsize=0.8];
+
+    trigger [label="Casualty Dispatch / Urgent Briefing Trigger\nIncident: Masinagudi Complex | Recipient: Dr. Ramanathan", fillcolor="#BAE6FD", color="#0284C7", fontcolor="#0C4A6E"];
+
+    consent_gate [label="MANDATORY STATUTORY ANNOUNCEMENT\n'This is ALEX on behalf of District EOC. Call is recorded.'\nRecipient Legal Consent Verified?", shape=diamond, fillcolor="#FEF3C7", color="#D97706", fontcolor="#78350F"];
+
+    sip_trunk [label="SIP / PSTN Carrier Gateway (Twilio / WebRTC)\nCaller ID: +91-423-EOC-ALEX | Verified SIP Signaling", fillcolor="#E2E8F0", color="#475569", fontcolor="#0F172A"];
+
+    ws_pipeline [label="Bi-directional 24 kHz PCM WebSocket Stream\nAudioWorklet -> Live Speech-to-Speech / Gemini 2.0 Flash", fillcolor="#C7D2FE", color="#4F46E5", fontcolor="#1E1B4B"];
+
+    tool_call [label="AI Intelligence Tool Execution\nQuery Bed Availability · Confirm ETA · Check Road Blockages", fillcolor="#E2E8F0", color="#475569", fontcolor="#0F172A"];
+
+    action_accept [label="Recipient Commitment Formally Recorded\nBed Reserved · Code AUTH-OOTY-88 · Transcript Signed", fillcolor="#A7F3D0", color="#059669", fontcolor="#064E3B"];
+
+    ledger_log [label="Immutable Ledger Audit Record\nAppends Telephony Transcript & Commitment to Ledger", fillcolor="#6EE7B7", color="#059669", fontcolor="#064E3B"];
+
+    abort [label="Call Terminated Safely\nNon-Consent Logged Without Action", fillcolor="#FECACA", color="#EF4444", fontcolor="#7F1D1D"];
+
+    trigger -> sip_trunk;
+    sip_trunk -> consent_gate [label="Call Answered"];
+    consent_gate -> ws_pipeline [label="Consent Confirmed"];
+    consent_gate -> abort [label="Consent Refused"];
+
+    ws_pipeline -> tool_call [label="Voice Dialog"];
+    tool_call -> action_accept [label="Action Agreed"];
+    action_accept -> ledger_log;
+}

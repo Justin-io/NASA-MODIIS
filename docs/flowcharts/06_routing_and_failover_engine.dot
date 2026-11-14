@@ -1,0 +1,40 @@
+digraph RoutingFailover {
+    graph [rankdir=TB, bgcolor="transparent", fontname="Helvetica,Arial,sans-serif", fontsize=12, nodesep=0.5, ranksep=0.6];
+    node [shape=box, style="rounded,filled", fontname="Helvetica,Arial,sans-serif", fontsize=11, penwidth=1.5, margin="0.2,0.12"];
+    edge [fontname="Helvetica,Arial,sans-serif", fontsize=10, color="#64748B", penwidth=1.5, arrowsize=0.8];
+
+    req [label="Emergency Route Request (POST /api/routes/calculate)\nOrigin [lat,lng] -> Destination [lat,lng] | Vehicle Category", fillcolor="#BAE6FD", color="#0284C7", fontcolor="#0C4A6E"];
+    
+    key_check [label="GOOGLE_MAPS_API_KEY Configured?", shape=diamond, fillcolor="#FEF3C7", color="#D97706", fontcolor="#78350F"];
+    
+    google_api [label="Execute Google Routes API v2\n(https://routes.googleapis.com/directions/v2:computeRoutes)\nTraffic-Aware Real-Time Routing", fillcolor="#E2E8F0", color="#475569", fontcolor="#0F172A"];
+
+    google_success [label="Google Call Succeeded (HTTP 200)?", shape=diamond, fillcolor="#FEF3C7", color="#D97706", fontcolor="#78350F"];
+
+    osrm_fallback [label="FAILOVER TO OSRM PHYSICAL DRIVING ENGINE\n(https://router.project-osrm.org/route/v1/driving)\nOpenStreetMap Verified Topology", fillcolor="#FDE68A", color="#D97706", fontcolor="#78350F"];
+
+    osrm_success [label="OSRM Returned Valid Route?", shape=diamond, fillcolor="#FEF3C7", color="#D97706", fontcolor="#78350F"];
+
+    vehicle_calc [label="Ghat Vehicle Class Calibration\nFire Engine: 1.25x | Logistics: 1.35x | Ambulance: 0.95x", fillcolor="#E2E8F0", color="#475569", fontcolor="#0F172A"];
+
+    hazard_check [label="Hazard & Road Restriction Check\nBridge Weight Limits · Hairpin Clearances · Active Fire Buffer", fillcolor="#E2E8F0", color="#475569", fontcolor="#0F172A"];
+
+    route_ok [label="Publish Operational Route Option\nPolyline Waypoints · Duration · Turn Guidance · Ledger Event", fillcolor="#A7F3D0", color="#059669", fontcolor="#064E3B"];
+
+    reject [label="Reject Calculation (HTTP 503)\nZero Synthetic Fallbacks per Rules 1 & 3", fillcolor="#FECACA", color="#EF4444", fontcolor="#7F1D1D"];
+
+    req -> key_check;
+    key_check -> google_api [label="Yes"];
+    key_check -> osrm_fallback [label="No (Unset)"];
+
+    google_api -> google_success;
+    google_success -> vehicle_calc [label="HTTP 200 OK"];
+    google_success -> osrm_fallback [label="HTTP 403 / Timeout / Fail"];
+
+    osrm_fallback -> osrm_success;
+    osrm_success -> vehicle_calc [label="Path Found"];
+    osrm_success -> reject [label="Both Engines Unreachable"];
+
+    vehicle_calc -> hazard_check;
+    hazard_check -> route_ok;
+}

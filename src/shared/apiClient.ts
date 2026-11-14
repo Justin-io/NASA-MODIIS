@@ -3,6 +3,7 @@ import {
   CasualtyReportRecord,
   IncidentRecord,
   NewsIntelligenceItem,
+  ResourceAsset,
   RouteOption,
   WeatherStationSnapshot,
 } from './types';
@@ -129,6 +130,12 @@ export class AlexApiClient {
 
   public async getIncidents(): Promise<IncidentRecord[]> {
     const res = await fetch(`${API_BASE}/incidents`);
+    if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+    return res.json();
+  }
+
+  public async getResources(): Promise<ResourceAsset[]> {
+    const res = await fetch(`${API_BASE}/resources`);
     if (!res.ok) throw new Error(`HTTP error ${res.status}`);
     return res.json();
   }

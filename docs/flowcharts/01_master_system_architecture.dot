@@ -1,0 +1,110 @@
+digraph MasterArchitecture {
+    graph [rankdir=TB, bgcolor="transparent", fontname="Helvetica,Arial,sans-serif", fontsize=12, compound=true, nodesep=0.6, ranksep=0.7];
+    node [shape=box, style="rounded,filled", fontname="Helvetica,Arial,sans-serif", fontsize=11, penwidth=1.5, margin="0.2,0.12"];
+    edge [fontname="Helvetica,Arial,sans-serif", fontsize=10, color="#64748B", penwidth=1.5, arrowsize=0.8];
+
+    // Clusters
+    subgraph cluster_ingress {
+        label = "1. SATELLITE & TELEMETRY INGRESS";
+        style = "dashed,rounded";
+        color = "#0284C7";
+        bgcolor = "#F0F9FF";
+        fontcolor = "#0369A1";
+        fontsize = 13;
+
+        firms [label="NASA FIRMS\nMODIS C6.1 & VIIRS 375m", fillcolor="#BAE6FD", color="#0284C7", fontcolor="#0C4A6E"];
+        eonet [label="NASA EONET v3\nActive Wildfire Events", fillcolor="#BAE6FD", color="#0284C7", fontcolor="#0C4A6E"];
+        sgp4 [label="CelesTrak NORAD\nSGP4 Satellite Ephemeris", fillcolor="#BAE6FD", color="#0284C7", fontcolor="#0C4A6E"];
+        meteo [label="Open-Meteo NWP Grid\nHourly Weather Telemetry", fillcolor="#BAE6FD", color="#0284C7", fontcolor="#0C4A6E"];
+        gdelt [label="GDELT Natural Hazards\nSituational News & Claims", fillcolor="#BAE6FD", color="#0284C7", fontcolor="#0C4A6E"];
+    }
+
+    subgraph cluster_backend {
+        label = "2. APPLICATION CONTROLLER & SERVICES";
+        style = "dashed,rounded";
+        color = "#475569";
+        bgcolor = "#F8FAFC";
+        fontcolor = "#1E293B";
+        fontsize = 13;
+
+        router [label="Express 4.21 API Gateway\nTrace IDs · Security Headers · RBAC", fillcolor="#E2E8F0", color="#475569", fontcolor="#0F172A"];
+        firms_adapter [label="NASA FIRMS Adapter\nDeduplication & Provenance Checksums", fillcolor="#E2E8F0", color="#475569", fontcolor="#0F172A"];
+        intel_engine [label="Intelligence & Reconciliation Engine\nMulti-Modal Evidence Corroboration", fillcolor="#E2E8F0", color="#475569", fontcolor="#0F172A"];
+        spread_engine [label="Rothermel Spread Engine\nAnderson 13 Fuels & Isochrones", fillcolor="#E2E8F0", color="#475569", fontcolor="#0F172A"];
+        routing_service [label="Emergency Routing Engine\nGoogle Routes v2 + OSRM Failover", fillcolor="#E2E8F0", color="#475569", fontcolor="#0F172A"];
+        telephony [label="Voice Operations Gateway\nAI Disclosure & SIP Trunking", fillcolor="#E2E8F0", color="#475569", fontcolor="#0F172A"];
+    }
+
+    subgraph cluster_science {
+        label = "3. FIRELENS SCIENTIFIC LABORATORY";
+        style = "dashed,rounded";
+        color = "#D97706";
+        bgcolor = "#FFFBEB";
+        fontcolor = "#B45309";
+        fontsize = 13;
+
+        tier1 [label="Tier 1: Footprint Modeling\nScan x Track IFOV Expansion", fillcolor="#FDE68A", color="#D97706", fontcolor="#78350F"];
+        tier2 [label="Tier 2: Cross-Sensor Gating\nSpatial (2.5km) & Time (30m) Window", fillcolor="#FDE68A", color="#D97706", fontcolor="#78350F"];
+        tier3 [label="Tier 3: Space-Time Clustering\nDBSCAN Multi-Pass Fire Complexes", fillcolor="#FDE68A", color="#D97706", fontcolor="#78350F"];
+        tier4 [label="Tier 4: Effort Decomposition\nConstellation Expansion vs Ground Burn", fillcolor="#FDE68A", color="#D97706", fontcolor="#78350F"];
+    }
+
+    subgraph cluster_persistence {
+        label = "4. PERSISTENCE & CRYPTOGRAPHY";
+        style = "dashed,rounded";
+        color = "#059669";
+        bgcolor = "#ECFDF5";
+        fontcolor = "#047857";
+        fontsize = 13;
+
+        ledger [label="Cryptographic Ledger\nHMAC-SHA256 Chained Hash Blocks", fillcolor="#A7F3D0", color="#059669", fontcolor="#064E3B"];
+        store [label="Production State Store\nIncidents · Tasks · Routes · Inventory", fillcolor="#A7F3D0", color="#059669", fontcolor="#064E3B"];
+        archive [label="Empirical 2019-2026 Archive\n13,065 Observations & 25-Yr Baseline", fillcolor="#A7F3D0", color="#059669", fontcolor="#064E3B"];
+    }
+
+    subgraph cluster_frontend {
+        label = "5. PRESENTATION & 19 WORKSPACES";
+        style = "dashed,rounded";
+        color = "#4F46E5";
+        bgcolor = "#EEF2FF";
+        fontcolor = "#3730A3";
+        fontsize = 13;
+
+        globe [label="3D Earth Solar Globe\nWebGPU Terminator & Spatial Pins", fillcolor="#C7D2FE", color="#4F46E5", fontcolor="#1E1B4B"];
+        incident_view [label="Incident Dossier & Lab\nMulti-Tier Verification & Telemetry", fillcolor="#C7D2FE", color="#4F46E5", fontcolor="#1E1B4B"];
+        calendar_view [label="Burning Activity Calendar\n25-Year Climatology & Heatmap", fillcolor="#C7D2FE", color="#4F46E5", fontcolor="#1E1B4B"];
+        anomaly_view [label="FireLens Anomaly Lab\n2,619 Footprints & MCD64A1 Validation", fillcolor="#C7D2FE", color="#4F46E5", fontcolor="#1E1B4B"];
+        ops_views [label="Operations & Logistics\nCorridors · Assets · Voice · Audits", fillcolor="#C7D2FE", color="#4F46E5", fontcolor="#1E1B4B"];
+    }
+
+    // Ingress to Controller
+    firms -> firms_adapter [label="Active Hotspots"];
+    eonet -> intel_engine [label="Wildfire Perimeters"];
+    sgp4 -> intel_engine [label="Orbital Passes"];
+    meteo -> spread_engine [label="Wind & Humidity"];
+    gdelt -> intel_engine [label="Corroborating News"];
+
+    // Controller Connections
+    firms_adapter -> router;
+    intel_engine -> router;
+    spread_engine -> router;
+    routing_service -> router;
+    telephony -> router;
+
+    // Science Layer
+    firms_adapter -> tier1 [label="Raw Passes"];
+    tier1 -> tier2 -> tier3 -> tier4;
+    tier4 -> router [label="Calibrated Signals"];
+
+    // Persistence Layer
+    router -> ledger [label="Cryptographic Seal"];
+    router -> store [label="State Transitions"];
+    archive -> tier4 [label="25-Yr Ground Truth"];
+
+    // Presentation Layer
+    router -> globe [label="REST / SSE"];
+    router -> incident_view;
+    router -> calendar_view;
+    router -> anomaly_view;
+    router -> ops_views;
+}

@@ -51,10 +51,19 @@ import {
 } from '../src/shared/firePerimeterData';
 import {
   HISTORICAL_REGIONAL_MEDIANS,
+  HYPER_REALISTIC_HISTORICAL_ARCHIVE,
   evaluateSeasonalAnomaly,
   loadMockHistoricalArchive,
   unloadMockHistoricalArchive,
 } from '../src/shared/fireObservationsData';
+import { NILGIRIS_EMPIRICAL_MONTHLY_ARCHIVE } from '../src/shared/empiricalArchiveData';
+import {
+  INITIAL_RESOURCES,
+  INITIAL_CASUALTY_REPORTS,
+  INITIAL_AGENCY_TASKS,
+  EMERGENCY_ROUTES,
+  INITIAL_ADVISORIES,
+} from '../src/shared/dataAdapter';
 
 const app = express();
 const PORT = process.env.SERVER_PORT ? parseInt(process.env.SERVER_PORT, 10) : 3001;
@@ -114,7 +123,27 @@ app.get(['/health', '/api/health'], (req: Request, res: Response) => {
 
 // 2. Full State
 app.get('/api/state', (req: Request, res: Response) => {
-  res.json(globalStore.getState());
+  const state = globalStore.getState();
+  const storedIncidents = globalStore.getIncidents();
+  const incidents = storedIncidents && storedIncidents.length > 0
+    ? storedIncidents
+    : nasaEonetAdapter.getGroundedIncidents();
+  res.json({
+    ...state,
+    incidents,
+    resources: state.resources && state.resources.length > 0 ? state.resources : INITIAL_RESOURCES,
+    casualtyReports: state.casualtyReports && state.casualtyReports.length > 0 ? state.casualtyReports : INITIAL_CASUALTY_REPORTS,
+    agencyTasks: state.agencyTasks && state.agencyTasks.length > 0 ? state.agencyTasks : INITIAL_AGENCY_TASKS,
+    routes: state.routes && state.routes.length > 0 ? state.routes : EMERGENCY_ROUTES,
+    advisories: state.advisories && state.advisories.length > 0 ? state.advisories : INITIAL_ADVISORIES,
+  });
+});
+
+// 2b. Resources
+app.get('/api/resources', (_req: Request, res: Response) => {
+  const state = globalStore.getState();
+  const resources = state.resources && state.resources.length > 0 ? state.resources : INITIAL_RESOURCES;
+  res.json(resources);
 });
 
 // 3. Incidents
@@ -520,13 +549,19 @@ app.get('/api/orbital/opportunities', (req: Request, res: Response) => {
 // 13. ALEX FIRE — Burning Activity Calendar Endpoints
 app.get('/api/fire/calendar', (req: Request, res: Response) => {
   const regionId = (req.query.regionId as string) || 'REG-NILGIRI';
-  const calendar = fireCalendarService.getRegionalBurningCalendar(regionId);
+  const records = regionId === 'REG-NILGIRI'
+    ? NILGIRIS_EMPIRICAL_MONTHLY_ARCHIVE
+    : HYPER_REALISTIC_HISTORICAL_ARCHIVE.filter((r) => r.regionId === regionId);
+  const calendar = fireCalendarService.getRegionalBurningCalendar(regionId, records);
   res.json(calendar);
 });
 
 app.get('/api/fire/calendar/csv', (req: Request, res: Response) => {
   const regionId = (req.query.regionId as string) || 'REG-NILGIRI';
-  const csv = fireCalendarService.generateCalendarCsv(regionId);
+  const records = regionId === 'REG-NILGIRI'
+    ? NILGIRIS_EMPIRICAL_MONTHLY_ARCHIVE
+    : HYPER_REALISTIC_HISTORICAL_ARCHIVE.filter((r) => r.regionId === regionId);
+  const csv = fireCalendarService.generateCalendarCsv(regionId, records);
   res.setHeader('Content-Type', 'text/csv');
   res.setHeader('Content-Disposition', `attachment; filename="ALEX_Fire_Calendar_${regionId}.csv"`);
   res.send(csv);
@@ -534,7 +569,10 @@ app.get('/api/fire/calendar/csv', (req: Request, res: Response) => {
 
 app.get('/api/fire/calendar/geojson', (req: Request, res: Response) => {
   const regionId = (req.query.regionId as string) || 'REG-NILGIRI';
-  const geojson = fireCalendarService.generateCalendarGeoJson(regionId);
+  const records = regionId === 'REG-NILGIRI'
+    ? NILGIRIS_EMPIRICAL_MONTHLY_ARCHIVE
+    : HYPER_REALISTIC_HISTORICAL_ARCHIVE.filter((r) => r.regionId === regionId);
+  const geojson = fireCalendarService.generateCalendarGeoJson(regionId, undefined, undefined, records);
   res.setHeader('Content-Type', 'application/geo+json');
   res.setHeader('Content-Disposition', `attachment; filename="ALEX_Fire_Calendar_${regionId}.geojson"`);
   res.send(geojson);
@@ -657,7 +695,7 @@ app.get('/api/observations', (req: Request, res: Response) => {
   if (fs.existsSync(jsonPath)) {
     try {
       const canonical = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
-      const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 5000;
+      const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : canonical.length;
       const mapped = canonical.slice(0, limit).map((o: any) => ({
         id: o.id,
         sourceProvider: 'NASA_FIRMS',
@@ -707,7 +745,7 @@ app.get('/api/firelens/observations', (req: Request, res: Response) => {
     if (req.query.dayNight) {
       filtered = filtered.filter((o: any) => o.dayNight === req.query.dayNight);
     }
-    const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 5000;
+    const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : filtered.length;
     res.json({
       totalCount: rawData.length,
       returnedCount: Math.min(filtered.length, limit),
