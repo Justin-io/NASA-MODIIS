@@ -462,3 +462,4 @@ def render_diagrams():
 
 if __name__ == "__main__":
     render_diagrams()
+

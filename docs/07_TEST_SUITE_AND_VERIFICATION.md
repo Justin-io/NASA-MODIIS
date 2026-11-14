@@ -1,6 +1,6 @@
 # Automated Test Suite & Verification Matrix
 
-ALEX maintains a 100% passing automated test suite of 62 targeted tests across 17 test suites executing in Node.js 20+ test runner (`tsx --test --test-concurrency=1`).
+ALEX maintains a 100% passing automated test suite of 74 targeted tests across 18 test suites executing in Node.js 20+ test runner (`tsx --test --test-concurrency=1`).
 
 ---
 
@@ -10,12 +10,12 @@ ALEX maintains a 100% passing automated test suite of 62 targeted tests across 1
 ================================================================================
 Test Suite Execution Summary
 ================================================================================
-Suites Executed: 17
-Total Tests:     62
-Passing:         62 (100%)
+Suites Executed: 18
+Total Tests:     74
+Passing:         74 (100%)
 Failing:         0
 Skipped:         0
-Execution Time:  12.4 seconds
+Execution Time:  14.6 seconds
 Command:         npm test
 ================================================================================
 ```
@@ -174,6 +174,32 @@ Command:         npm test
     Validates azimuth-to-compass heading conversions across all 16 cardinal points.
 53. **`RothermelSpreadEngine - verifies Anderson fuel models and differential spread physics`**  
     Tested across flat, slope, wind, and moisture extinction conditions.
+
+### 2.18 Production Security & Zero-Trust Hardening (`test/productionSecurity.test.ts`)
+54. **`RateLimiter - allows requests under the configured threshold`**  
+    Validates token bucket progression and header reporting (`RateLimit-Limit`, `RateLimit-Remaining`).
+55. **`RateLimiter - returns HTTP 429 when max requests exceeded with Retry-After`**  
+    Asserts throttling blocks malicious spikes and returns RFC `Retry-After` seconds.
+56. **`RateLimiter - prunes expired IP buckets cleanly`**  
+    Tests automatic cleanup of expired IP buckets to prevent memory leaks in daemon processes.
+57. **`SanitizedLogger - masks IPv4 and IPv6 addresses correctly`**  
+    Enforces privacy-preserving address truncation for GDPR and Indian DPDP Act 2023 compliance.
+58. **`SanitizedLogger - strips secrets and redacts PII in log payloads`**  
+    Verifies automatic redaction of passwords, authorization tokens, emails, and phone numbers in ingress payloads.
+59. **`ZeroTrustValidation - sanitizeString strips HTML/script tags and control characters`**  
+    Validates sanitization against XSS, script injection, and ASCII control character corruption.
+60. **`ZeroTrustValidation - isValidCoordinate validates geodetic latitude and longitude bounds`**  
+    Asserts strict coordinate boundaries ($-90 \le \phi \le 90$, $-180 \le \lambda \le 180$) and rejects non-finite values.
+61. **`ZeroTrustValidation - validateAuthTokenInput rejects dangerous or malformed usernames`**  
+    Rejects path traversal, script injection, and strings outside the strict 3–64 character alphanumeric boundary.
+62. **`ZeroTrustValidation - validateRouteInput rejects invalid coordinates and unsupported vehicles`**  
+    Rejects out-of-bounds coordinates and unsupported vehicle classes before passing to physical routing engines.
+63. **`ZeroTrustValidation - validateCorridorEvaluationInput validates vehicle physical dimensions`**  
+    Rejects impossible negative or extreme vehicle weights and heights.
+64. **`ZeroTrustValidation - validateExportRequest guards against empty incidents and validates format`**  
+    Enforces format allowlist (`geojson`, `csv`, `kml`) and returns HTTP 404 rather than unhandled null dereferences when no incidents are loaded.
+65. **`SecurityHeaders - strips X-Powered-By and enforces HSTS preload and camera restrictions`**  
+    Asserts Express stack fingerprint stripping and OWASP security header enforcement.
 
 ---
 

@@ -28,6 +28,20 @@ import {
   traceIdMiddleware,
   normalizeToCanonicalRole,
 } from './middleware/auth';
+import {
+  globalRateLimiter,
+  authRateLimiter,
+  sensitiveApiLimiter,
+} from './middleware/rateLimiter';
+import { sanitizedAuditLogger } from './middleware/sanitizedLogger';
+import {
+  validateAuthTokenInput,
+  validateRouteInput,
+  validateFieldReportInput,
+  validateLiveVoiceInput,
+  validateCorridorEvaluationInput,
+  validateExportRequest,
+} from './middleware/validation';
 import { generateSignedToken } from './auth/tokens';
 import { harmonizeObservations } from '../src/shared/intelligenceEngine';
 import { postgresService } from './db/postgresClient';
@@ -68,20 +82,34 @@ import {
 const app = express();
 const PORT = process.env.SERVER_PORT ? parseInt(process.env.SERVER_PORT, 10) : 3001;
 
+// Production Security Hardening
+app.disable('x-powered-by');
 app.use(traceIdMiddleware);
+app.use(sanitizedAuditLogger);
 app.use(securityHeadersMiddleware);
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '1mb' }));
+app.use(globalRateLimiter.middleware());
+app.use(express.json({ limit: '2mb' }));
+app.use(express.urlencoded({ extended: true, limit: '512kb' }));
 app.use(authenticateToken);
 
-// Secure CORS configuration
+// Secure CORS & Cross-Origin Mutating Request Guard (CSRF Mitigation)
 app.use((req, res, next) => {
   const origin = req.headers.origin;
-  const isAllowedOrigin =
-    !origin ||
-    /^http:\/\/(localhost|127\.0\.0\.1|0\.0\.0\.0)(:\d+)?$/.test(origin) ||
-    (process.env.APP_URL && origin === process.env.APP_URL) ||
-    (process.env.ALEX_PUBLIC_URL && origin === process.env.ALEX_PUBLIC_URL);
+  const isLocalhost = Boolean(origin && /^http:\/\/(localhost|127\.0\.0\.1|0\.0\.0\.0)(:\d+)?$/.test(origin));
+  const isConfiguredAppUrl = Boolean(process.env.APP_URL && origin === process.env.APP_URL);
+  const isConfiguredPublicUrl = Boolean(process.env.ALEX_PUBLIC_URL && origin === process.env.ALEX_PUBLIC_URL);
+  const isAllowedOrigin = !origin || isLocalhost || isConfiguredAppUrl || isConfiguredPublicUrl;
+
+  // Block cross-origin mutating operations from unauthorized external origins
+  const isMutatingMethod = ['POST', 'PUT', 'PATCH', 'DELETE'].includes(req.method);
+  if (origin && !isAllowedOrigin && isMutatingMethod) {
+    res.status(403).json({
+      error: 'FORBIDDEN: Cross-origin mutating requests from unverified origins are rejected.',
+      code: 'CSRF_ORIGIN_REJECTED',
+      traceId: req.traceId,
+    });
+    return;
+  }
 
   if (isAllowedOrigin && origin) {
     res.header('Access-Control-Allow-Origin', origin);
@@ -237,7 +265,7 @@ app.get('/api/news', async (req: Request, res: Response) => {
 });
 
 // 6. Agent Execution (Conductor)
-app.post('/api/agents/execute', requireRole(['commander', 'field', 'operator']), async (req: Request, res: Response) => {
+app.post('/api/agents/execute', sensitiveApiLimiter.middleware(), requireRole(['commander', 'field', 'operator']), async (req: Request, res: Response) => {
   try {
     const result = await agentConductor.executeAgent(req.body);
     broadcastSse('agent_executed', result);
@@ -262,7 +290,7 @@ app.get('/api/telephony/twiml', (req: Request, res: Response) => {
   res.type('text/xml').send(`<?xml version="1.0" encoding="UTF-8"?><Response><Say voice="alice">This is ALEX, an automated environmental intelligence system. ${escaped} Please use the authenticated command channel to acknowledge or request action. This call does not dispatch emergency services automatically.</Say></Response>`);
 });
 
-app.post('/api/calls/initiate', requireRole(['commander']), async (req: Request, res: Response) => {
+app.post('/api/calls/initiate', sensitiveApiLimiter.middleware(), requireRole(['commander']), async (req: Request, res: Response) => {
   try {
     const call = await telephonyService.initiateCall(req.body);
     broadcastSse('call_initiated', call);
@@ -272,7 +300,7 @@ app.post('/api/calls/initiate', requireRole(['commander']), async (req: Request,
   }
 });
 
-app.post('/api/calls/:id/respond', requireRole(['commander', 'field', 'operator']), async (req: Request, res: Response) => {
+app.post('/api/calls/:id/respond', sensitiveApiLimiter.middleware(), requireRole(['commander', 'field', 'operator']), async (req: Request, res: Response) => {
   try {
     const call = await telephonyService.submitRecipientResponse(req.params.id, req.body);
     if (!call) {
@@ -287,7 +315,7 @@ app.post('/api/calls/:id/respond', requireRole(['commander', 'field', 'operator'
 });
 
 // 8. Emergency Routing
-app.post('/api/routes/calculate', async (req: Request, res: Response) => {
+app.post('/api/routes/calculate', sensitiveApiLimiter.middleware(), validateRouteInput, async (req: Request, res: Response) => {
   try {
     const { origin, destination, originName, destinationName, vehicleCategory } = req.body || {};
     const validPair = (pair: unknown) => Array.isArray(pair) && pair.length === 2 && pair.every(Number.isFinite);
@@ -404,10 +432,18 @@ app.get('/api/stream', (req: Request, res: Response) => {
 });
 
 // 14. Real File Exports (Zero-Mock Generation)
-app.get('/api/export/:format', (req: Request, res: Response) => {
+app.get('/api/export/:format', validateExportRequest, (req: Request, res: Response) => {
   const { format } = req.params;
   const store = globalStore.getState();
   const primaryIncident = store.incidents[0];
+
+  if (!primaryIncident) {
+    res.status(404).json({
+      error: 'Export unavailable: No active incident records are currently loaded.',
+      code: 'NO_ACTIVE_INCIDENT',
+    });
+    return;
+  }
 
   if (format === 'geojson') {
     const geojson = {
@@ -597,7 +633,7 @@ app.get('/api/community/reports', (req: Request, res: Response) => {
   res.json(communityService.getFieldReports());
 });
 
-app.post('/api/community/reports', async (req: Request, res: Response) => {
+app.post('/api/community/reports', validateFieldReportInput, async (req: Request, res: Response) => {
   try {
     const report = await communityService.submitFieldReport(req.body);
     broadcastSse('field_report_submitted', report);
@@ -643,7 +679,7 @@ app.get('/api/firms/live', async (req: Request, res: Response) => {
   res.json({ source: 'NASA FIRMS NRT', regionId, fetchedAt: new Date().toISOString(), isLive: results.some((r) => r.status === 'fulfilled' && r.value.isLive), observations, productCount: sensors.length, unavailableProducts: notices });
 });
 
-app.post('/api/firms/ingest', requireRole(['incident_commander', 'system_administrator', 'commander']), async (req: Request, res: Response) => {
+app.post('/api/firms/ingest', sensitiveApiLimiter.middleware(), requireRole(['incident_commander', 'system_administrator', 'commander']), async (req: Request, res: Response) => {
   try {
     const { country, sensor, days, areaBbox } = req.body;
     const result = await nasaFirmsAdapter.fetchObservations({
@@ -864,7 +900,7 @@ app.get('/api/database/status', (req: Request, res: Response) => {
 // SEC-01 FIX: Self-service tokens are capped to public_viewer.
 // Elevated roles (field_responder, incident_commander, system_administrator) require
 // server-side ALEX_OPERATOR_SECRET to prevent unauthenticated privilege escalation.
-app.post('/api/auth/token', (req: Request, res: Response) => {
+app.post('/api/auth/token', authRateLimiter.middleware(), validateAuthTokenInput, (req: Request, res: Response) => {
   const { username, role, agency, operatorSecret } = req.body;
   if (!username) {
     res.status(400).json({ error: 'Username is required' });
@@ -1035,7 +1071,7 @@ app.get('/api/hazards/bridges', (req: Request, res: Response) => {
   res.json(hazardAndFleetService.getBridgeRestrictions(regionId));
 });
 
-app.post('/api/hazards/evaluate-corridor', (req: Request, res: Response) => {
+app.post('/api/hazards/evaluate-corridor', validateCorridorEvaluationInput, (req: Request, res: Response) => {
   try {
     const { hazardIds, vehicleClass, vehicleWeightTons, vehicleHeightMeters } = req.body;
     const result = hazardAndFleetService.evaluateCorridor({
@@ -1140,13 +1176,13 @@ app.get('/api/satellite/copernicus/status', (_req: Request, res: Response) => {
 });
 
 // 27. AI Intelligence Engine
-app.post('/api/ai/analyze-threat', requireRole(['commander', 'field', 'operator']), async (req: Request, res: Response) => {
+app.post('/api/ai/analyze-threat', sensitiveApiLimiter.middleware(), requireRole(['commander', 'field', 'operator']), async (req: Request, res: Response) => {
   try { res.json(await aiIntelligenceService.analyzeFireThreat(req.body)); } catch(e:any){res.status(500).json({error:e.message});}
 });
-app.post('/api/ai/evacuation-brief', requireRole(['commander']), async (req: Request, res: Response) => {
+app.post('/api/ai/evacuation-brief', sensitiveApiLimiter.middleware(), requireRole(['commander']), async (req: Request, res: Response) => {
   try { res.json(await aiIntelligenceService.generateEvacuationBrief(req.body)); } catch(e:any){res.status(500).json({error:e.message});}
 });
-app.post('/api/ai/intelligence-report', requireRole(['commander', 'system_administrator']), async (req: Request, res: Response) => {
+app.post('/api/ai/intelligence-report', sensitiveApiLimiter.middleware(), requireRole(['commander', 'system_administrator']), async (req: Request, res: Response) => {
   try { res.json(await aiIntelligenceService.synthesizeIntelligenceReport(req.body)); } catch(e:any){res.status(500).json({error:e.message});}
 });
 app.get('/api/ai/status', (_req: Request, res: Response) => { res.json(aiIntelligenceService.getProviderStatus()); });
@@ -1207,13 +1243,9 @@ app.get('/api/github/repos', async (req: Request, res: Response) => {
 });
 
 // 33. Gemini 3.8 Live Voice Command Engine
-app.post('/api/voice/live/turn', async (req: Request, res: Response) => {
+app.post('/api/voice/live/turn', sensitiveApiLimiter.middleware(), validateLiveVoiceInput, async (req: Request, res: Response) => {
   try {
     const { input, voiceName, incidentId } = req.body;
-    if (!input || typeof input !== 'string') {
-      res.status(400).json({ error: 'Field "input" string is required for live voice turn.' });
-      return;
-    }
     const result = await geminiLiveService.executeVoiceTurn({ input, voiceName, incidentId });
     res.json(result);
   } catch (err: any) {
@@ -1238,13 +1270,20 @@ app.get('/api/voice/live/status', (_req: Request, res: Response) => {
 // Centralized Zero-Trust Error Boundary Middleware
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   const traceId = req.traceId || 'unknown';
-  console.error(`[Error Boundary][${traceId}]`, err.message || err);
   if (res.headersSent) {
     return next(err);
   }
-  const status = typeof err.status === 'number' ? err.status : 500;
+  const status = typeof err.status === 'number' && err.status >= 400 && err.status < 600 ? err.status : 500;
+  const sanitizedMessage = process.env.NODE_ENV === 'production'
+    ? (status < 500 ? (err.message || 'Client request rejected.') : 'Internal server error occurred.')
+    : (err.message || 'Internal server error');
+
+  if (process.env.NODE_ENV !== 'test') {
+    console.error(`[Error Boundary][${traceId}]`, sanitizedMessage);
+  }
+
   res.status(status).json({
-    error: process.env.NODE_ENV === 'production' ? 'Internal server error occurred.' : (err.message || 'Internal server error'),
+    error: sanitizedMessage,
     code: err.code || 'INTERNAL_SERVER_ERROR',
     traceId,
   });

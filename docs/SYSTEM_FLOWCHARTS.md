@@ -383,3 +383,4 @@ flowchart TD
 ```
 
 Vector SVG: [`08_ai_telephony_and_voice_gateway.svg`](file:///home/justin/Desktop/NASA/docs/flowcharts/08_ai_telephony_and_voice_gateway.svg)
+
