@@ -98,11 +98,19 @@ app.get('/api/state', (req: Request, res: Response) => {
 
 // 3. Incidents
 app.get('/api/incidents', (req: Request, res: Response) => {
-  res.json(globalStore.getIncidents());
+  const stored = globalStore.getIncidents();
+  if (stored && stored.length > 0) {
+    res.json(stored);
+    return;
+  }
+  const grounded = nasaEonetAdapter.getGroundedIncidents();
+  res.json(grounded);
 });
 
 app.get('/api/incidents/:id', (req: Request, res: Response) => {
-  const inc = globalStore.getIncidentById(req.params.id);
+  const inc =
+    globalStore.getIncidentById(req.params.id) ||
+    nasaEonetAdapter.getGroundedIncidents().find((i) => i.id === req.params.id);
   if (!inc) {
     res.status(404).json({ error: 'Incident not found' });
     return;
@@ -160,6 +168,10 @@ app.get('/api/weather', async (req: Request, res: Response) => {
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }
+});
+
+app.get('/api/weather/all', (_req: Request, res: Response) => {
+  res.json(weatherAdapter.getAllMonitoredStations());
 });
 
 // 5. Live News & Claims Integration
@@ -438,6 +450,22 @@ app.get('/api/export/:format', (req: Request, res: Response) => {
 // 12. ALEX ORBITAL Subsystem Endpoints
 app.get('/api/orbital/satellites', (req: Request, res: Response) => {
   res.json(orbitalService.getAllSatellites());
+});
+
+app.get('/api/orbital/tles', (_req: Request, res: Response) => {
+  res.json({
+    source: 'CelesTrak NORAD Ephemeris Service',
+    fetchedAt: new Date().toISOString(),
+    satellites: orbitalService.getLiveTleCatalog(),
+  });
+});
+
+app.post('/api/orbital/tles/sync', requireRole(['commander', 'incident_commander', 'system_administrator']), async (_req: Request, res: Response) => {
+  const success = await orbitalService.syncLiveTlesFromCelesTrak();
+  res.json({
+    success,
+    satellites: orbitalService.getLiveTleCatalog(),
+  });
 });
 
 app.get('/api/orbital/satellites/:id', (req: Request, res: Response) => {

@@ -46,3 +46,4 @@ To maintain scientific integrity:
 2. For secondary regions (`REG-SIERRA`, `REG-ARCADIA`, `REG-PANTANAL`), regional sensitivity scaling $S_{\text{region}}$ must be parameterized dynamically as a function of regional canopy closure $C_{\text{canopy}}$:
    $$S_{\text{region}} = 1.0 + f_{\text{VIIRS}} \cdot \left(0.8 + 1.4 \cdot C_{\text{canopy}}\right)$$
 3. The platform must never present the Nilgiris $E = 3.56$ index as an uncalibrated global multiplier.
+

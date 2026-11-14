@@ -93,3 +93,4 @@ When computed against the actual 24 monthly periods and 8 annual periods:
 - Monthly Adjusted Hotspots vs MCD64A1: **$R^2 = 0.202$**
 
 The values $0.420$ and $0.860$ were legacy fallback constants in `observationDecomposition.ts` (lines 320–321) that were mistakenly promoted as empirical results. The actual empirical correlation is modest ($R^2 \approx 0.12–0.27$). This claim is **REJECTED** and must be corrected across all documentation and UI components.
+

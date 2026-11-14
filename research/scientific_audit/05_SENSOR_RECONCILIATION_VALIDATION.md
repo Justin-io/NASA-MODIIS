@@ -59,3 +59,4 @@ For the $N = 1,019$ coincident pairs ($\Delta t \le 15$ min, $\Delta d \le 1.5$ 
 - **Bias ($\bar{d}$)**: Individual VIIRS pixels exhibit a negative bias relative to the coincident integrated MODIS pixel ($\bar{d} = -157.66\text{ MW}$ in extreme fires; median difference is $-18.4\text{ MW}$).
 - **Proportional Bias**: The discrepancy scales linearly with fire size ($r = -0.74$), proving that as fire size increases, MODIS integrates more sub-pixel flames into one pixel while VIIRS breaks it into multiple pixels.
 - **Audit Mandate**: Cross-sensor matching must evaluate **cluster-integrated FRP**, never comparing raw single VIIRS pixels to MODIS pixels without cluster multiplicity correction.
+

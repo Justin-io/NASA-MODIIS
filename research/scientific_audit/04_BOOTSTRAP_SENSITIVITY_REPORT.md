@@ -72,3 +72,4 @@ When the modern count did not increase, $0\%$ of the apparent growth is real bur
 - **Result**: The point estimate ($91.6\%$) is **robustly enclosed** within the 95% bootstrap interval $[73.3\%, 100.0\%]$.
 - **Limitation**: The small annual sample size ($N=3$ baseline, $N=4$ modern) limits resolution of the tail percentiles. However, across all 350 discrete cohort combinations, the minimum estimated attribution fraction never drops below $65.8\%$.
 - **Conclusion**: The statistical hypothesis that observing system expansion accounts for the majority of apparent growth ($F_{\text{effort}} > 50\%$) is verified with $p < 0.001$.
+

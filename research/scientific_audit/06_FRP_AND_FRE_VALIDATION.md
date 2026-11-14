@@ -60,3 +60,4 @@ const estGWh = Number((avgFrp * Math.max(1, durationHours) * 0.001).toFixed(3));
      `samplingDisclaimer: "Sparse snapshot sampling (2-4 passes/day) does not permit continuous FRE integration without unverified diurnal interpolation models."`
 2. In [FireLensResearchView.tsx](file:///home/justin/Desktop/NASA/src/fire/FireLensResearchView.tsx):
    - Remove "Estimated Thermal Energy (GWh)" from Tier 3 event cluster displays. Display instantaneous peak FRP and duration instead.
+

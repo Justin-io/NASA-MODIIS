@@ -1,6 +1,31 @@
+import fs from 'fs';
+import path from 'path';
 import { WeatherStationSnapshot } from '../../src/shared/types';
 
 export class WeatherAdapter {
+  private cachedGrid: WeatherStationSnapshot[] = [];
+
+  constructor() {
+    this.loadPersistedGrid();
+  }
+
+  private loadPersistedGrid(): void {
+    try {
+      const p = path.resolve(process.cwd(), 'data', 'open_meteo_weather_grid.json');
+      if (fs.existsSync(p)) {
+        this.cachedGrid = JSON.parse(fs.readFileSync(p, 'utf8'));
+      }
+    } catch {
+      this.cachedGrid = [];
+    }
+  }
+
+  public getAllMonitoredStations(): WeatherStationSnapshot[] {
+    if (this.cachedGrid.length === 0) {
+      this.loadPersistedGrid();
+    }
+    return this.cachedGrid;
+  }
   /**
    * Fetches real live weather data from Open-Meteo API.
    * Free and open public service. No fake data, direct sensor model observations.

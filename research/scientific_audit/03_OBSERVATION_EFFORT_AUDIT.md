@@ -93,3 +93,4 @@ $$E = 1.25 \times 3.2 \times 0.94 \times 0.92 = 3.4592 \approx 3.46$$
 | **Q (Cloud-Free)** | 0.94 | Not calculated | Omitted from calculation; present in metadata | **REJECTED AS MULTIPLIER** (Active fire table lacks non-fire clear passes) |
 | **D (Terra Drift)** | 0.92 | Sensor-weighted: 0.993 | Applied globally if `year >= 2024` | **REVISED** (Over-penalized constellation; corrected to sensor share weighting) |
 | **E (Composite)** | 3.4592 | **3.54 – 3.85** (Modern) / **3.01 – 3.08** (Baseline) | Calculated dynamically per year | **VERIFIED AS EMPIRICAL INDEX** |
+

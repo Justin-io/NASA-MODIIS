@@ -42,3 +42,4 @@ Calculated directly from all 13,065 observations in [data/firelens_nilgiris_2019
 - **VIIRS NOAA-20**: Collection 1 375m Active Fire (VJ114IMG).
 - **VIIRS NOAA-21**: Collection 2 375m Active Fire (VJ214IMG, operational since March 2023).
 - **Burned Area Validation**: NASA LP DAAC MCD64A1 Collection 6.1 (500m Monthly Burned Area).
+

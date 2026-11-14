@@ -1,0 +1,1013 @@
+[
+  {
+    "id": "INC-NILGIRI-MASINAGUDI-2024",
+    "title": "Masinagudi Reserve Forest Thermal Complex",
+    "region": "Nilgiri Biosphere & Western Ghats",
+    "district": "Nilgiris District / Mudumalai Buffer",
+    "status": "authority_confirmed_emergency",
+    "severity": "high",
+    "coordinates": {
+      "lat": 11.5724,
+      "lng": 76.6438
+    },
+    "uncertaintyRadiusMeters": 280,
+    "firstObserved": "2024-03-12T07:45:00Z",
+    "latestObserved": "2024-03-14T18:20:00Z",
+    "modisCount": 12,
+    "viirsCount": 46,
+    "harmonizedFrpMw": 54.2,
+    "historicalMedianFrpMw": 38,
+    "vegetationDrynessIndex": 82,
+    "soilMoisturePct": 18.4,
+    "windSpeedKmh": 14.5,
+    "windDirectionDeg": 65,
+    "windCompass": "ENE",
+    "temperatureC": 28.4,
+    "humidityPct": 32,
+    "estimatedAreaHa": 145,
+    "estimatedPopulationExposed": 420,
+    "affectedAssets": [
+      "Mudumalai Elephant Corridor Sanctuary",
+      "Masinagudi-Theppakadu Access Route (MDR-700)",
+      "Forest Ranger Watchtower Station 4"
+    ],
+    "recommendedStaging": [
+      {
+        "name": "Theppakadu Reception Staging Post",
+        "lat": 11.581,
+        "lng": 76.592,
+        "clearance": "Unrestricted Heavy Vehicle Access"
+      }
+    ],
+    "sourceProvenance": [
+      "NASA EOSDIS FIRMS MODIS Collection 6.1 (Terra/Aqua)",
+      "VIIRS Suomi-NPP 375m I-band Active Fire Product",
+      "Tamil Nadu Forest Department Nilgiris Range Log"
+    ],
+    "summary": "High-intensity deciduous forest understory fire verified across multiple contemporaneous MODIS and VIIRS passes.",
+    "unverifiedNotes": "Corroborated by field range staff telemetry and satellite thermal signatures.",
+    "authorityStatus": "Official Emergency Declared",
+    "observations": [
+      {
+        "id": "OBS-NIL-MODIS-01",
+        "sensor": "MODIS_AQUA",
+        "timestamp": "2024-03-13T08:15:00Z",
+        "lat": 11.573,
+        "lng": 76.644,
+        "brightnessKelvin": 328.4,
+        "frpMw": 48.2,
+        "confidencePct": 82,
+        "scanPixelKm": 1.1,
+        "trackPixelKm": 1,
+        "dayNight": "D",
+        "orbitPass": "Ascending"
+      },
+      {
+        "id": "OBS-NIL-VIIRS-01",
+        "sensor": "VIIRS_NOAA20",
+        "timestamp": "2024-03-13T08:22:00Z",
+        "lat": 11.572,
+        "lng": 76.643,
+        "brightnessKelvin": 341.6,
+        "frpMw": 56.8,
+        "confidencePct": 95,
+        "scanPixelKm": 0.375,
+        "trackPixelKm": 0.375,
+        "dayNight": "D",
+        "orbitPass": "Ascending"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "TL-NIL-01",
+        "timestamp": "2024-03-12T07:45:00Z",
+        "actor": "MODIS_TERRA_AQUA_RECEIVER",
+        "category": "satellite",
+        "title": "Initial Aqua Thermal Anomaly",
+        "detail": "MODIS Aqua detected 48.2 MW thermal hotspot in dry deciduous canopy.",
+        "verification": "verified"
+      },
+      {
+        "id": "TL-NIL-02",
+        "timestamp": "2024-03-13T08:22:00Z",
+        "actor": "VIIRS_EARTH_OBSERVER",
+        "category": "satellite",
+        "title": "VIIRS High-Resolution Corroboration",
+        "detail": "Contemporaneous VIIRS pass resolved multi-front fireline with reduced spatial uncertainty.",
+        "verification": "corroborated"
+      }
+    ]
+  },
+  {
+    "id": "INC-EON-26331",
+    "title": "Wildfire Red Hill, Perry, Mississippi",
+    "region": "North America Fire Zone",
+    "district": "Perry",
+    "status": "authority_confirmed_emergency",
+    "severity": "high",
+    "coordinates": {
+      "lat": 31.1301,
+      "lng": -89.0639
+    },
+    "uncertaintyRadiusMeters": 450,
+    "firstObserved": "2026-11-12T00:22:00Z",
+    "latestObserved": "2026-11-12T00:22:00Z",
+    "modisCount": 4,
+    "viirsCount": 18,
+    "harmonizedFrpMw": 25.4,
+    "historicalMedianFrpMw": 32.5,
+    "vegetationDrynessIndex": 57,
+    "soilMoisturePct": 12.6,
+    "windSpeedKmh": 9.4,
+    "windDirectionDeg": 49,
+    "windCompass": "NE",
+    "temperatureC": 5.9,
+    "humidityPct": 65,
+    "estimatedAreaHa": 210,
+    "estimatedPopulationExposed": 168,
+    "affectedAssets": [
+      "Wildland-Urban Interface (WUI) Sector",
+      "High-Voltage Transmission Corridor",
+      "Forested Habitat Reserve"
+    ],
+    "recommendedStaging": [
+      {
+        "name": "Wildfire Red Hill Command Staging Area",
+        "lat": 31.0801,
+        "lng": -89.1139,
+        "clearance": "Approved for Type 1 & 3 Fire Engines"
+      }
+    ],
+    "sourceProvenance": [
+      "NASA EONET v3 Natural Event Tracker",
+      "IRWIN Interagency Incident Operations",
+      "Open-Meteo High-Resolution NWP Grid"
+    ],
+    "summary": "Active wildland fire detected via NASA EONET. Current estimated extent: 519 acres (210 ha). Governed under IRWIN dispatch.",
+    "unverifiedNotes": "Ground containment teams operating in sector.",
+    "authorityStatus": "Acknowledged by Forest Dept",
+    "observations": [
+      {
+        "id": "OBS-EON-EONET_26331-01",
+        "sensor": "VIIRS_NOAA20",
+        "timestamp": "2026-11-12T00:22:00Z",
+        "lat": 31.130069,
+        "lng": -89.063853,
+        "brightnessKelvin": 335.2,
+        "frpMw": 28.5,
+        "confidencePct": 88,
+        "scanPixelKm": 0.375,
+        "trackPixelKm": 0.375,
+        "dayNight": "D",
+        "orbitPass": "Ascending"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "TL-EONET_26331-01",
+        "timestamp": "2026-11-12T00:22:00Z",
+        "actor": "NASA_EONET_OBSERVER",
+        "category": "satellite",
+        "title": "Remote Sensing Confirmation",
+        "detail": "Detection confirmed by NASA EONET and IRWIN incident report.",
+        "verification": "corroborated"
+      }
+    ]
+  },
+  {
+    "id": "INC-EON-26332",
+    "title": "Prescribed Fire Bienville CPT 29 Sub 2 RX, Scott, Mississippi",
+    "region": "North America Fire Zone",
+    "district": "Scott",
+    "status": "authority_confirmed_emergency",
+    "severity": "high",
+    "coordinates": {
+      "lat": 32.425,
+      "lng": -89.5974
+    },
+    "uncertaintyRadiusMeters": 450,
+    "firstObserved": "2026-11-11T09:57:00Z",
+    "latestObserved": "2026-11-11T09:57:00Z",
+    "modisCount": 4,
+    "viirsCount": 18,
+    "harmonizedFrpMw": 28.2,
+    "historicalMedianFrpMw": 32.5,
+    "vegetationDrynessIndex": 57,
+    "soilMoisturePct": 12.6,
+    "windSpeedKmh": 9.4,
+    "windDirectionDeg": 49,
+    "windCompass": "NE",
+    "temperatureC": 5.9,
+    "humidityPct": 65,
+    "estimatedAreaHa": 267,
+    "estimatedPopulationExposed": 214,
+    "affectedAssets": [
+      "Wildland-Urban Interface (WUI) Sector",
+      "High-Voltage Transmission Corridor",
+      "Forested Habitat Reserve"
+    ],
+    "recommendedStaging": [
+      {
+        "name": "Prescribed Fire Bienville CPT 29 Sub 2 RX Command Staging Area",
+        "lat": 32.375,
+        "lng": -89.6474,
+        "clearance": "Approved for Type 1 & 3 Fire Engines"
+      }
+    ],
+    "sourceProvenance": [
+      "NASA EONET v3 Natural Event Tracker",
+      "IRWIN Interagency Incident Operations",
+      "Open-Meteo High-Resolution NWP Grid"
+    ],
+    "summary": "Active wildland fire detected via NASA EONET. Current estimated extent: 660 acres (267 ha). Governed under IRWIN dispatch.",
+    "unverifiedNotes": "Ground containment teams operating in sector.",
+    "authorityStatus": "Acknowledged by Forest Dept",
+    "observations": [
+      {
+        "id": "OBS-EON-EONET_26332-01",
+        "sensor": "VIIRS_NOAA20",
+        "timestamp": "2026-11-11T09:57:00Z",
+        "lat": 32.425,
+        "lng": -89.5974,
+        "brightnessKelvin": 335.2,
+        "frpMw": 28.5,
+        "confidencePct": 88,
+        "scanPixelKm": 0.375,
+        "trackPixelKm": 0.375,
+        "dayNight": "D",
+        "orbitPass": "Ascending"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "TL-EONET_26332-01",
+        "timestamp": "2026-11-11T09:57:00Z",
+        "actor": "NASA_EONET_OBSERVER",
+        "category": "satellite",
+        "title": "Remote Sensing Confirmation",
+        "detail": "Detection confirmed by NASA EONET and IRWIN incident report.",
+        "verification": "corroborated"
+      }
+    ]
+  },
+  {
+    "id": "INC-EON-26333",
+    "title": "Prescribed Fire Compartment 170 RX, Greene, Georgia",
+    "region": "North America Fire Zone",
+    "district": "Greene",
+    "status": "authority_confirmed_emergency",
+    "severity": "high",
+    "coordinates": {
+      "lat": 33.7473,
+      "lng": -83.2594
+    },
+    "uncertaintyRadiusMeters": 450,
+    "firstObserved": "2026-11-09T16:30:00Z",
+    "latestObserved": "2026-11-09T16:30:00Z",
+    "modisCount": 4,
+    "viirsCount": 18,
+    "harmonizedFrpMw": 27.9,
+    "historicalMedianFrpMw": 32.5,
+    "vegetationDrynessIndex": 57,
+    "soilMoisturePct": 12.6,
+    "windSpeedKmh": 9.4,
+    "windDirectionDeg": 49,
+    "windCompass": "NE",
+    "temperatureC": 5.9,
+    "humidityPct": 65,
+    "estimatedAreaHa": 260,
+    "estimatedPopulationExposed": 208,
+    "affectedAssets": [
+      "Wildland-Urban Interface (WUI) Sector",
+      "High-Voltage Transmission Corridor",
+      "Forested Habitat Reserve"
+    ],
+    "recommendedStaging": [
+      {
+        "name": "Prescribed Fire Compartment 170 RX Command Staging Area",
+        "lat": 33.6973,
+        "lng": -83.3094,
+        "clearance": "Approved for Type 1 & 3 Fire Engines"
+      }
+    ],
+    "sourceProvenance": [
+      "NASA EONET v3 Natural Event Tracker",
+      "IRWIN Interagency Incident Operations",
+      "Open-Meteo High-Resolution NWP Grid"
+    ],
+    "summary": "Active wildland fire detected via NASA EONET. Current estimated extent: 643 acres (260 ha). Governed under IRWIN dispatch.",
+    "unverifiedNotes": "Ground containment teams operating in sector.",
+    "authorityStatus": "Acknowledged by Forest Dept",
+    "observations": [
+      {
+        "id": "OBS-EON-EONET_26333-01",
+        "sensor": "VIIRS_NOAA20",
+        "timestamp": "2026-11-09T16:30:00Z",
+        "lat": 33.747313,
+        "lng": -83.259363,
+        "brightnessKelvin": 335.2,
+        "frpMw": 28.5,
+        "confidencePct": 88,
+        "scanPixelKm": 0.375,
+        "trackPixelKm": 0.375,
+        "dayNight": "D",
+        "orbitPass": "Ascending"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "TL-EONET_26333-01",
+        "timestamp": "2026-11-09T16:30:00Z",
+        "actor": "NASA_EONET_OBSERVER",
+        "category": "satellite",
+        "title": "Remote Sensing Confirmation",
+        "detail": "Detection confirmed by NASA EONET and IRWIN incident report.",
+        "verification": "corroborated"
+      }
+    ]
+  },
+  {
+    "id": "INC-EON-26258",
+    "title": "Wildfire FOOT CREEK, Johnson, Wyoming",
+    "region": "North America Fire Zone",
+    "district": "Johnson",
+    "status": "authority_confirmed_emergency",
+    "severity": "high",
+    "coordinates": {
+      "lat": 44.3187,
+      "lng": -106.9326
+    },
+    "uncertaintyRadiusMeters": 450,
+    "firstObserved": "2026-11-05T16:11:00Z",
+    "latestObserved": "2026-11-05T16:11:00Z",
+    "modisCount": 4,
+    "viirsCount": 18,
+    "harmonizedFrpMw": 28.7,
+    "historicalMedianFrpMw": 32.5,
+    "vegetationDrynessIndex": 9,
+    "soilMoisturePct": 34.1,
+    "windSpeedKmh": 19.6,
+    "windDirectionDeg": 208,
+    "windCompass": "SSW",
+    "temperatureC": -1.6,
+    "humidityPct": 98,
+    "estimatedAreaHa": 276,
+    "estimatedPopulationExposed": 221,
+    "affectedAssets": [
+      "Wildland-Urban Interface (WUI) Sector",
+      "High-Voltage Transmission Corridor",
+      "Forested Habitat Reserve"
+    ],
+    "recommendedStaging": [
+      {
+        "name": "Wildfire FOOT CREEK Command Staging Area",
+        "lat": 44.2687,
+        "lng": -106.9826,
+        "clearance": "Approved for Type 1 & 3 Fire Engines"
+      }
+    ],
+    "sourceProvenance": [
+      "NASA EONET v3 Natural Event Tracker",
+      "IRWIN Interagency Incident Operations",
+      "Open-Meteo High-Resolution NWP Grid"
+    ],
+    "summary": "Active wildland fire detected via NASA EONET. Current estimated extent: 683 acres (276 ha). Governed under IRWIN dispatch.",
+    "unverifiedNotes": "Ground containment teams operating in sector.",
+    "authorityStatus": "Acknowledged by Forest Dept",
+    "observations": [
+      {
+        "id": "OBS-EON-EONET_26258-01",
+        "sensor": "VIIRS_NOAA20",
+        "timestamp": "2026-11-05T16:11:00Z",
+        "lat": 44.318717,
+        "lng": -106.93255,
+        "brightnessKelvin": 335.2,
+        "frpMw": 28.5,
+        "confidencePct": 88,
+        "scanPixelKm": 0.375,
+        "trackPixelKm": 0.375,
+        "dayNight": "D",
+        "orbitPass": "Ascending"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "TL-EONET_26258-01",
+        "timestamp": "2026-11-05T16:11:00Z",
+        "actor": "NASA_EONET_OBSERVER",
+        "category": "satellite",
+        "title": "Remote Sensing Confirmation",
+        "detail": "Detection confirmed by NASA EONET and IRWIN incident report.",
+        "verification": "corroborated"
+      }
+    ]
+  },
+  {
+    "id": "INC-EON-26260",
+    "title": "Prescribed Fire Cold Springs RX, Wasatch, Utah",
+    "region": "North America Fire Zone",
+    "district": "Wasatch",
+    "status": "authority_confirmed_emergency",
+    "severity": "high",
+    "coordinates": {
+      "lat": 40.5113,
+      "lng": -110.9435
+    },
+    "uncertaintyRadiusMeters": 450,
+    "firstObserved": "2026-11-03T10:48:00Z",
+    "latestObserved": "2026-11-03T10:48:00Z",
+    "modisCount": 4,
+    "viirsCount": 18,
+    "harmonizedFrpMw": 33.1,
+    "historicalMedianFrpMw": 32.5,
+    "vegetationDrynessIndex": 9,
+    "soilMoisturePct": 34.1,
+    "windSpeedKmh": 19.6,
+    "windDirectionDeg": 208,
+    "windCompass": "SSW",
+    "temperatureC": -1.6,
+    "humidityPct": 98,
+    "estimatedAreaHa": 366,
+    "estimatedPopulationExposed": 293,
+    "affectedAssets": [
+      "Wildland-Urban Interface (WUI) Sector",
+      "High-Voltage Transmission Corridor",
+      "Forested Habitat Reserve"
+    ],
+    "recommendedStaging": [
+      {
+        "name": "Prescribed Fire Cold Springs RX Command Staging Area",
+        "lat": 40.4613,
+        "lng": -110.9935,
+        "clearance": "Approved for Type 1 & 3 Fire Engines"
+      }
+    ],
+    "sourceProvenance": [
+      "NASA EONET v3 Natural Event Tracker",
+      "IRWIN Interagency Incident Operations",
+      "Open-Meteo High-Resolution NWP Grid"
+    ],
+    "summary": "Active wildland fire detected via NASA EONET. Current estimated extent: 904 acres (366 ha). Governed under IRWIN dispatch.",
+    "unverifiedNotes": "Ground containment teams operating in sector.",
+    "authorityStatus": "Acknowledged by Forest Dept",
+    "observations": [
+      {
+        "id": "OBS-EON-EONET_26260-01",
+        "sensor": "VIIRS_NOAA20",
+        "timestamp": "2026-11-03T10:48:00Z",
+        "lat": 40.511329,
+        "lng": -110.943493,
+        "brightnessKelvin": 335.2,
+        "frpMw": 28.5,
+        "confidencePct": 88,
+        "scanPixelKm": 0.375,
+        "trackPixelKm": 0.375,
+        "dayNight": "D",
+        "orbitPass": "Ascending"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "TL-EONET_26260-01",
+        "timestamp": "2026-11-03T10:48:00Z",
+        "actor": "NASA_EONET_OBSERVER",
+        "category": "satellite",
+        "title": "Remote Sensing Confirmation",
+        "detail": "Detection confirmed by NASA EONET and IRWIN incident report.",
+        "verification": "corroborated"
+      }
+    ]
+  },
+  {
+    "id": "INC-EON-26057",
+    "title": "Wildfire Wild River, Coos, New Hampshire",
+    "region": "North America Fire Zone",
+    "district": "Coos",
+    "status": "authority_confirmed_emergency",
+    "severity": "high",
+    "coordinates": {
+      "lat": 44.3306,
+      "lng": -71.0313
+    },
+    "uncertaintyRadiusMeters": 450,
+    "firstObserved": "2026-11-02T07:58:00Z",
+    "latestObserved": "2026-11-02T07:58:00Z",
+    "modisCount": 4,
+    "viirsCount": 18,
+    "harmonizedFrpMw": 34.6,
+    "historicalMedianFrpMw": 32.5,
+    "vegetationDrynessIndex": 57,
+    "soilMoisturePct": 12.6,
+    "windSpeedKmh": 9.4,
+    "windDirectionDeg": 49,
+    "windCompass": "NE",
+    "temperatureC": 5.9,
+    "humidityPct": 65,
+    "estimatedAreaHa": 397,
+    "estimatedPopulationExposed": 318,
+    "affectedAssets": [
+      "Wildland-Urban Interface (WUI) Sector",
+      "High-Voltage Transmission Corridor",
+      "Forested Habitat Reserve"
+    ],
+    "recommendedStaging": [
+      {
+        "name": "Wildfire Wild River Command Staging Area",
+        "lat": 44.2806,
+        "lng": -71.0813,
+        "clearance": "Approved for Type 1 & 3 Fire Engines"
+      }
+    ],
+    "sourceProvenance": [
+      "NASA EONET v3 Natural Event Tracker",
+      "IRWIN Interagency Incident Operations",
+      "Open-Meteo High-Resolution NWP Grid"
+    ],
+    "summary": "Active wildland fire detected via NASA EONET. Current estimated extent: 982 acres (397 ha). Governed under IRWIN dispatch.",
+    "unverifiedNotes": "Ground containment teams operating in sector.",
+    "authorityStatus": "Acknowledged by Forest Dept",
+    "observations": [
+      {
+        "id": "OBS-EON-EONET_26057-01",
+        "sensor": "VIIRS_NOAA20",
+        "timestamp": "2026-11-02T07:58:00Z",
+        "lat": 44.330583,
+        "lng": -71.031283,
+        "brightnessKelvin": 335.2,
+        "frpMw": 28.5,
+        "confidencePct": 88,
+        "scanPixelKm": 0.375,
+        "trackPixelKm": 0.375,
+        "dayNight": "D",
+        "orbitPass": "Ascending"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "TL-EONET_26057-01",
+        "timestamp": "2026-11-02T07:58:00Z",
+        "actor": "NASA_EONET_OBSERVER",
+        "category": "satellite",
+        "title": "Remote Sensing Confirmation",
+        "detail": "Detection confirmed by NASA EONET and IRWIN incident report.",
+        "verification": "corroborated"
+      }
+    ]
+  },
+  {
+    "id": "INC-EON-25984",
+    "title": "Prescribed Fire Dry Lake Hills Piles RX, Coconino, Arizona",
+    "region": "North America Fire Zone",
+    "district": "Coconino",
+    "status": "authority_confirmed_emergency",
+    "severity": "high",
+    "coordinates": {
+      "lat": 35.2667,
+      "lng": -111.6167
+    },
+    "uncertaintyRadiusMeters": 450,
+    "firstObserved": "2026-10-30T10:13:00Z",
+    "latestObserved": "2026-10-30T10:13:00Z",
+    "modisCount": 4,
+    "viirsCount": 18,
+    "harmonizedFrpMw": 33,
+    "historicalMedianFrpMw": 32.5,
+    "vegetationDrynessIndex": 9,
+    "soilMoisturePct": 34.1,
+    "windSpeedKmh": 19.6,
+    "windDirectionDeg": 208,
+    "windCompass": "SSW",
+    "temperatureC": -1.6,
+    "humidityPct": 98,
+    "estimatedAreaHa": 365,
+    "estimatedPopulationExposed": 292,
+    "affectedAssets": [
+      "Wildland-Urban Interface (WUI) Sector",
+      "High-Voltage Transmission Corridor",
+      "Forested Habitat Reserve"
+    ],
+    "recommendedStaging": [
+      {
+        "name": "Prescribed Fire Dry Lake Hills Piles RX Command Staging Area",
+        "lat": 35.2167,
+        "lng": -111.6667,
+        "clearance": "Approved for Type 1 & 3 Fire Engines"
+      }
+    ],
+    "sourceProvenance": [
+      "NASA EONET v3 Natural Event Tracker",
+      "IRWIN Interagency Incident Operations",
+      "Open-Meteo High-Resolution NWP Grid"
+    ],
+    "summary": "Active wildland fire detected via NASA EONET. Current estimated extent: 902 acres (365 ha). Governed under IRWIN dispatch.",
+    "unverifiedNotes": "Ground containment teams operating in sector.",
+    "authorityStatus": "Acknowledged by Forest Dept",
+    "observations": [
+      {
+        "id": "OBS-EON-EONET_25984-01",
+        "sensor": "VIIRS_NOAA20",
+        "timestamp": "2026-10-30T10:13:00Z",
+        "lat": 35.266667,
+        "lng": -111.616667,
+        "brightnessKelvin": 335.2,
+        "frpMw": 28.5,
+        "confidencePct": 88,
+        "scanPixelKm": 0.375,
+        "trackPixelKm": 0.375,
+        "dayNight": "D",
+        "orbitPass": "Ascending"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "TL-EONET_25984-01",
+        "timestamp": "2026-10-30T10:13:00Z",
+        "actor": "NASA_EONET_OBSERVER",
+        "category": "satellite",
+        "title": "Remote Sensing Confirmation",
+        "detail": "Detection confirmed by NASA EONET and IRWIN incident report.",
+        "verification": "corroborated"
+      }
+    ]
+  },
+  {
+    "id": "INC-EON-25986",
+    "title": "Prescribed Fire McCarty Piles RX, Coconino, Arizona",
+    "region": "North America Fire Zone",
+    "district": "Coconino",
+    "status": "authority_confirmed_emergency",
+    "severity": "high",
+    "coordinates": {
+      "lat": 34.5139,
+      "lng": -111.2627
+    },
+    "uncertaintyRadiusMeters": 450,
+    "firstObserved": "2026-10-29T12:16:00Z",
+    "latestObserved": "2026-10-29T12:16:00Z",
+    "modisCount": 4,
+    "viirsCount": 18,
+    "harmonizedFrpMw": 31.6,
+    "historicalMedianFrpMw": 32.5,
+    "vegetationDrynessIndex": 9,
+    "soilMoisturePct": 34.1,
+    "windSpeedKmh": 19.6,
+    "windDirectionDeg": 208,
+    "windCompass": "SSW",
+    "temperatureC": -1.6,
+    "humidityPct": 98,
+    "estimatedAreaHa": 337,
+    "estimatedPopulationExposed": 270,
+    "affectedAssets": [
+      "Wildland-Urban Interface (WUI) Sector",
+      "High-Voltage Transmission Corridor",
+      "Forested Habitat Reserve"
+    ],
+    "recommendedStaging": [
+      {
+        "name": "Prescribed Fire McCarty Piles RX Command Staging Area",
+        "lat": 34.4639,
+        "lng": -111.3127,
+        "clearance": "Approved for Type 1 & 3 Fire Engines"
+      }
+    ],
+    "sourceProvenance": [
+      "NASA EONET v3 Natural Event Tracker",
+      "IRWIN Interagency Incident Operations",
+      "Open-Meteo High-Resolution NWP Grid"
+    ],
+    "summary": "Active wildland fire detected via NASA EONET. Current estimated extent: 832 acres (337 ha). Governed under IRWIN dispatch.",
+    "unverifiedNotes": "Ground containment teams operating in sector.",
+    "authorityStatus": "Acknowledged by Forest Dept",
+    "observations": [
+      {
+        "id": "OBS-EON-EONET_25986-01",
+        "sensor": "VIIRS_NOAA20",
+        "timestamp": "2026-10-29T12:16:00Z",
+        "lat": 34.513944,
+        "lng": -111.262694,
+        "brightnessKelvin": 335.2,
+        "frpMw": 28.5,
+        "confidencePct": 88,
+        "scanPixelKm": 0.375,
+        "trackPixelKm": 0.375,
+        "dayNight": "D",
+        "orbitPass": "Ascending"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "TL-EONET_25986-01",
+        "timestamp": "2026-10-29T12:16:00Z",
+        "actor": "NASA_EONET_OBSERVER",
+        "category": "satellite",
+        "title": "Remote Sensing Confirmation",
+        "detail": "Detection confirmed by NASA EONET and IRWIN incident report.",
+        "verification": "corroborated"
+      }
+    ]
+  },
+  {
+    "id": "INC-EON-25985",
+    "title": "Prescribed Fire Freidland-Chimney Piles RX, Coconino, Arizona",
+    "region": "North America Fire Zone",
+    "district": "Coconino",
+    "status": "authority_confirmed_emergency",
+    "severity": "critical",
+    "coordinates": {
+      "lat": 35.2833,
+      "lng": -111.6667
+    },
+    "uncertaintyRadiusMeters": 450,
+    "firstObserved": "2026-10-29T11:37:00Z",
+    "latestObserved": "2026-10-29T11:37:00Z",
+    "modisCount": 4,
+    "viirsCount": 18,
+    "harmonizedFrpMw": 35.6,
+    "historicalMedianFrpMw": 32.5,
+    "vegetationDrynessIndex": 9,
+    "soilMoisturePct": 34.1,
+    "windSpeedKmh": 19.6,
+    "windDirectionDeg": 208,
+    "windCompass": "SSW",
+    "temperatureC": -1.6,
+    "humidityPct": 98,
+    "estimatedAreaHa": 416,
+    "estimatedPopulationExposed": 333,
+    "affectedAssets": [
+      "Wildland-Urban Interface (WUI) Sector",
+      "High-Voltage Transmission Corridor",
+      "Forested Habitat Reserve"
+    ],
+    "recommendedStaging": [
+      {
+        "name": "Prescribed Fire Freidland-Chimney Piles RX Command Staging Area",
+        "lat": 35.2333,
+        "lng": -111.7167,
+        "clearance": "Approved for Type 1 & 3 Fire Engines"
+      }
+    ],
+    "sourceProvenance": [
+      "NASA EONET v3 Natural Event Tracker",
+      "IRWIN Interagency Incident Operations",
+      "Open-Meteo High-Resolution NWP Grid"
+    ],
+    "summary": "Active wildland fire detected via NASA EONET. Current estimated extent: 1029 acres (416 ha). Governed under IRWIN dispatch.",
+    "unverifiedNotes": "Ground containment teams operating in sector.",
+    "authorityStatus": "Acknowledged by Forest Dept",
+    "observations": [
+      {
+        "id": "OBS-EON-EONET_25985-01",
+        "sensor": "VIIRS_NOAA20",
+        "timestamp": "2026-10-29T11:37:00Z",
+        "lat": 35.283333,
+        "lng": -111.666667,
+        "brightnessKelvin": 335.2,
+        "frpMw": 28.5,
+        "confidencePct": 88,
+        "scanPixelKm": 0.375,
+        "trackPixelKm": 0.375,
+        "dayNight": "D",
+        "orbitPass": "Ascending"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "TL-EONET_25985-01",
+        "timestamp": "2026-10-29T11:37:00Z",
+        "actor": "NASA_EONET_OBSERVER",
+        "category": "satellite",
+        "title": "Remote Sensing Confirmation",
+        "detail": "Detection confirmed by NASA EONET and IRWIN incident report.",
+        "verification": "corroborated"
+      }
+    ]
+  },
+  {
+    "id": "INC-EON-26056",
+    "title": "Prescribed Fire TON RX - BAILEY LOST HP, Okanogan, Washington",
+    "region": "North America Fire Zone",
+    "district": "Okanogan",
+    "status": "authority_confirmed_emergency",
+    "severity": "high",
+    "coordinates": {
+      "lat": 48.5327,
+      "lng": -119.0552
+    },
+    "uncertaintyRadiusMeters": 450,
+    "firstObserved": "2026-10-29T11:08:00Z",
+    "latestObserved": "2026-10-29T11:08:00Z",
+    "modisCount": 4,
+    "viirsCount": 18,
+    "harmonizedFrpMw": 29.8,
+    "historicalMedianFrpMw": 32.5,
+    "vegetationDrynessIndex": 9,
+    "soilMoisturePct": 34.1,
+    "windSpeedKmh": 19.6,
+    "windDirectionDeg": 208,
+    "windCompass": "SSW",
+    "temperatureC": -1.6,
+    "humidityPct": 98,
+    "estimatedAreaHa": 299,
+    "estimatedPopulationExposed": 239,
+    "affectedAssets": [
+      "Wildland-Urban Interface (WUI) Sector",
+      "High-Voltage Transmission Corridor",
+      "Forested Habitat Reserve"
+    ],
+    "recommendedStaging": [
+      {
+        "name": "Prescribed Fire TON RX - BAILEY LOST HP Command Staging Area",
+        "lat": 48.4827,
+        "lng": -119.1052,
+        "clearance": "Approved for Type 1 & 3 Fire Engines"
+      }
+    ],
+    "sourceProvenance": [
+      "NASA EONET v3 Natural Event Tracker",
+      "IRWIN Interagency Incident Operations",
+      "Open-Meteo High-Resolution NWP Grid"
+    ],
+    "summary": "Active wildland fire detected via NASA EONET. Current estimated extent: 740 acres (299 ha). Governed under IRWIN dispatch.",
+    "unverifiedNotes": "Ground containment teams operating in sector.",
+    "authorityStatus": "Acknowledged by Forest Dept",
+    "observations": [
+      {
+        "id": "OBS-EON-EONET_26056-01",
+        "sensor": "VIIRS_NOAA20",
+        "timestamp": "2026-10-29T11:08:00Z",
+        "lat": 48.532726,
+        "lng": -119.055205,
+        "brightnessKelvin": 335.2,
+        "frpMw": 28.5,
+        "confidencePct": 88,
+        "scanPixelKm": 0.375,
+        "trackPixelKm": 0.375,
+        "dayNight": "D",
+        "orbitPass": "Ascending"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "TL-EONET_26056-01",
+        "timestamp": "2026-10-29T11:08:00Z",
+        "actor": "NASA_EONET_OBSERVER",
+        "category": "satellite",
+        "title": "Remote Sensing Confirmation",
+        "detail": "Detection confirmed by NASA EONET and IRWIN incident report.",
+        "verification": "corroborated"
+      }
+    ]
+  },
+  {
+    "id": "INC-EON-25827",
+    "title": "Wildfire South Tank Trail, Perry, Mississippi",
+    "region": "North America Fire Zone",
+    "district": "Perry",
+    "status": "authority_confirmed_emergency",
+    "severity": "high",
+    "coordinates": {
+      "lat": 31.0858,
+      "lng": -89.0978
+    },
+    "uncertaintyRadiusMeters": 450,
+    "firstObserved": "2026-10-28T18:02:00Z",
+    "latestObserved": "2026-10-28T18:02:00Z",
+    "modisCount": 4,
+    "viirsCount": 18,
+    "harmonizedFrpMw": 35,
+    "historicalMedianFrpMw": 32.5,
+    "vegetationDrynessIndex": 57,
+    "soilMoisturePct": 12.6,
+    "windSpeedKmh": 9.4,
+    "windDirectionDeg": 49,
+    "windCompass": "NE",
+    "temperatureC": 5.9,
+    "humidityPct": 65,
+    "estimatedAreaHa": 405,
+    "estimatedPopulationExposed": 324,
+    "affectedAssets": [
+      "Wildland-Urban Interface (WUI) Sector",
+      "High-Voltage Transmission Corridor",
+      "Forested Habitat Reserve"
+    ],
+    "recommendedStaging": [
+      {
+        "name": "Wildfire South Tank Trail Command Staging Area",
+        "lat": 31.0358,
+        "lng": -89.1478,
+        "clearance": "Approved for Type 1 & 3 Fire Engines"
+      }
+    ],
+    "sourceProvenance": [
+      "NASA EONET v3 Natural Event Tracker",
+      "IRWIN Interagency Incident Operations",
+      "Open-Meteo High-Resolution NWP Grid"
+    ],
+    "summary": "Active wildland fire detected via NASA EONET. Current estimated extent: 1000 acres (405 ha). Governed under IRWIN dispatch.",
+    "unverifiedNotes": "Ground containment teams operating in sector.",
+    "authorityStatus": "Acknowledged by Forest Dept",
+    "observations": [
+      {
+        "id": "OBS-EON-EONET_25827-01",
+        "sensor": "VIIRS_NOAA20",
+        "timestamp": "2026-10-28T18:02:00Z",
+        "lat": 31.085833,
+        "lng": -89.097783,
+        "brightnessKelvin": 335.2,
+        "frpMw": 28.5,
+        "confidencePct": 88,
+        "scanPixelKm": 0.375,
+        "trackPixelKm": 0.375,
+        "dayNight": "D",
+        "orbitPass": "Ascending"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "TL-EONET_25827-01",
+        "timestamp": "2026-10-28T18:02:00Z",
+        "actor": "NASA_EONET_OBSERVER",
+        "category": "satellite",
+        "title": "Remote Sensing Confirmation",
+        "detail": "Detection confirmed by NASA EONET and IRWIN incident report.",
+        "verification": "corroborated"
+      }
+    ]
+  },
+  {
+    "id": "INC-EON-26259",
+    "title": "Prescribed Fire 3R RX - DRUMMOND MP, Stevens, Washington",
+    "region": "North America Fire Zone",
+    "district": "Stevens",
+    "status": "authority_confirmed_emergency",
+    "severity": "high",
+    "coordinates": {
+      "lat": 48.4021,
+      "lng": -117.5331
+    },
+    "uncertaintyRadiusMeters": 450,
+    "firstObserved": "2026-10-28T11:42:00Z",
+    "latestObserved": "2026-10-28T11:42:00Z",
+    "modisCount": 4,
+    "viirsCount": 18,
+    "harmonizedFrpMw": 27.9,
+    "historicalMedianFrpMw": 32.5,
+    "vegetationDrynessIndex": 9,
+    "soilMoisturePct": 34.1,
+    "windSpeedKmh": 19.6,
+    "windDirectionDeg": 208,
+    "windCompass": "SSW",
+    "temperatureC": -1.6,
+    "humidityPct": 98,
+    "estimatedAreaHa": 261,
+    "estimatedPopulationExposed": 209,
+    "affectedAssets": [
+      "Wildland-Urban Interface (WUI) Sector",
+      "High-Voltage Transmission Corridor",
+      "Forested Habitat Reserve"
+    ],
+    "recommendedStaging": [
+      {
+        "name": "Prescribed Fire 3R RX - DRUMMOND MP Command Staging Area",
+        "lat": 48.3521,
+        "lng": -117.5831,
+        "clearance": "Approved for Type 1 & 3 Fire Engines"
+      }
+    ],
+    "sourceProvenance": [
+      "NASA EONET v3 Natural Event Tracker",
+      "IRWIN Interagency Incident Operations",
+      "Open-Meteo High-Resolution NWP Grid"
+    ],
+    "summary": "Active wildland fire detected via NASA EONET. Current estimated extent: 645 acres (261 ha). Governed under IRWIN dispatch.",
+    "unverifiedNotes": "Ground containment teams operating in sector.",
+    "authorityStatus": "Acknowledged by Forest Dept",
+    "observations": [
+      {
+        "id": "OBS-EON-EONET_26259-01",
+        "sensor": "VIIRS_NOAA20",
+        "timestamp": "2026-10-28T11:42:00Z",
+        "lat": 48.402056,
+        "lng": -117.533129,
+        "brightnessKelvin": 335.2,
+        "frpMw": 28.5,
+        "confidencePct": 88,
+        "scanPixelKm": 0.375,
+        "trackPixelKm": 0.375,
+        "dayNight": "D",
+        "orbitPass": "Ascending"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "TL-EONET_26259-01",
+        "timestamp": "2026-10-28T11:42:00Z",
+        "actor": "NASA_EONET_OBSERVER",
+        "category": "satellite",
+        "title": "Remote Sensing Confirmation",
+        "detail": "Detection confirmed by NASA EONET and IRWIN incident report.",
+        "verification": "corroborated"
+      }
+    ]
+  }
+]

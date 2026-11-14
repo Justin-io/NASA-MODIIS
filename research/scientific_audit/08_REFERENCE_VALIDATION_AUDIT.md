@@ -64,3 +64,4 @@ MCD64A1 is an independent spectral product, but its region-growing algorithm uti
 - **Authoritative Ground Perimeters**:
   - Forest Department ranger boundary perimeters for Nilgiris are preserved in the ground verification service, but exist as discrete incident reports rather than continuous gridded rasters.
 - **Audit Mandate**: FireLens must transparently report the true empirical $R^2 \approx 0.20–0.27$ and eliminate all promotional claims of $R^2 = 0.860$.
+

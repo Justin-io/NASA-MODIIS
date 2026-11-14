@@ -10,6 +10,7 @@
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit",
+    "harvest:web": "tsx scripts/harvest_web_datasets.ts",
     "test": "NODE_ENV=test tsx --test --test-concurrency=1 src/shared/intelligenceEngine.test.ts test/*.test.ts"
   },
   "dependencies": {

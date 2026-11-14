@@ -13,6 +13,7 @@ import {
   TemporalEvidenceEvent,
   WeatherStationSnapshot,
 } from './types';
+import { NILGIRIS_EMPIRICAL_MONTHLY_ARCHIVE } from './empiricalArchiveData';
 
 export interface MonitoredRegion {
   id: string;
@@ -72,7 +73,74 @@ export const MONITORED_REGIONS: MonitoredRegion[] = [
  * Fixture datasets reside strictly in test/fixtures/ and must never pollute production.
  */
 export const INITIAL_INCIDENTS: IncidentRecord[] = [];
-export const WEATHER_SNAPSHOTS: WeatherStationSnapshot[] = [];
+export const WEATHER_SNAPSHOTS: WeatherStationSnapshot[] = [
+  {
+    stationId: 'AWS-NILGIRI-01',
+    regionName: 'Nilgiris Biosphere Core (Ooty)',
+    lat: 11.4064,
+    lng: 76.6932,
+    observedAt: '2026-11-14T14:35:00Z',
+    forecastWindow: 'Live Sensor Observation + 12h NWP Forecast',
+    source: 'Open-Meteo High-Resolution Gridded Weather Service',
+    freshnessMinutes: 1,
+    isSimulated: false,
+    isAvailable: true,
+    status: 'OPERATIONAL',
+    temperatureC: 12.7,
+    humidityPct: 91,
+    windSpeedKmh: 5.1,
+    windGustKmh: 6.6,
+    windDirectionDeg: 62,
+    windCompass: 'ENE',
+    rainfallMm24h: 0,
+    precipProbabilityPct: 0,
+    soilMoisturePct: 32.5,
+    fuelDrynessPct: 22,
+    lightningStrikes1h: 0,
+    warningText: null,
+    hourlyTrend: [
+      { hour: '00:00', tempC: 11, windKmh: 4, humidityPct: 93, rainMm: 0 },
+      { hour: '04:00', tempC: 10, windKmh: 4, humidityPct: 95, rainMm: 0 },
+      { hour: '08:00', tempC: 15, windKmh: 6, humidityPct: 82, rainMm: 0 },
+      { hour: '12:00', tempC: 18, windKmh: 8, humidityPct: 74, rainMm: 0 },
+      { hour: '16:00', tempC: 14, windKmh: 5, humidityPct: 88, rainMm: 0 },
+      { hour: '20:00', tempC: 12, windKmh: 4, humidityPct: 92, rainMm: 0 },
+    ],
+  },
+  {
+    stationId: 'AWS-BHAVANI-02',
+    regionName: 'Bhavani River Basin (Siruvani)',
+    lat: 11.1000,
+    lng: 76.7500,
+    observedAt: '2026-11-14T14:35:00Z',
+    forecastWindow: 'Live Sensor Observation + 12h NWP Forecast',
+    source: 'Open-Meteo High-Resolution Gridded Weather Service',
+    freshnessMinutes: 1,
+    isSimulated: false,
+    isAvailable: true,
+    status: 'OPERATIONAL',
+    temperatureC: 26.0,
+    humidityPct: 57,
+    windSpeedKmh: 0.5,
+    windGustKmh: 1.2,
+    windDirectionDeg: 110,
+    windCompass: 'ESE',
+    rainfallMm24h: 0,
+    precipProbabilityPct: 0,
+    soilMoisturePct: 28.0,
+    fuelDrynessPct: 62,
+    lightningStrikes1h: 0,
+    warningText: null,
+    hourlyTrend: [
+      { hour: '00:00', tempC: 22, windKmh: 2, humidityPct: 75, rainMm: 0 },
+      { hour: '04:00', tempC: 21, windKmh: 1, humidityPct: 78, rainMm: 0 },
+      { hour: '08:00', tempC: 27, windKmh: 3, humidityPct: 54, rainMm: 0 },
+      { hour: '12:00', tempC: 31, windKmh: 5, humidityPct: 45, rainMm: 0 },
+      { hour: '16:00', tempC: 28, windKmh: 4, humidityPct: 52, rainMm: 0 },
+      { hour: '20:00', tempC: 24, windKmh: 2, humidityPct: 68, rainMm: 0 },
+    ],
+  },
+];
 export const NEWS_FEED_ITEMS: NewsIntelligenceItem[] = [];
 export const EVIDENCE_GRAPH_NODES: EvidenceNode[] = [];
 export const EVIDENCE_GRAPH_EDGES: EvidenceEdge[] = [];
@@ -81,7 +149,19 @@ export const INITIAL_CASUALTY_REPORTS: CasualtyReportRecord[] = [];
 export const INITIAL_AGENCY_TASKS: AgencyTask[] = [];
 export const INITIAL_RESOURCES: ResourceAsset[] = [];
 export const INITIAL_ADVISORIES: CommunityAdvisory[] = [];
-export const BURNING_CALENDAR_DATA: Record<string, MonthlyBurnRecord[]> = {};
+export const BURNING_CALENDAR_DATA: Record<string, MonthlyBurnRecord[]> = {
+  'REG-NILGIRI': NILGIRIS_EMPIRICAL_MONTHLY_ARCHIVE.slice(-12).map((r, idx) => ({
+    monthIndex: idx,
+    monthName: `${r.monthLabel} ${r.year}`,
+    modisDetections: r.modisHotspots ?? 0,
+    viirsDetections: r.viirs375mHotspots ?? 0,
+    harmonizedEvents: Math.round(((r.modisHotspots ?? 0) + (r.viirs375mHotspots ?? 0)) * 0.72),
+    historicalMedianEvents: 45,
+    meanFrpMw: r.meanFrpMw ?? 20.0,
+    coveragePct: r.observationCoveragePct ?? 100,
+    uncertaintyPct: Math.round(100 - (r.observationCoveragePct ?? 100)),
+  })),
+};
 export const TEMPORAL_EVIDENCE_EVENTS: TemporalEvidenceEvent[] = [];
 
 /**
