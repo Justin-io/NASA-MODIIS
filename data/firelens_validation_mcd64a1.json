@@ -1,0 +1,194 @@
+[
+  {
+    "monthYear": "2019-02",
+    "burnedAreaHectares": 480,
+    "pixelCount": 19,
+    "uncertaintyHectares": 65,
+    "confidenceScore": 88,
+    "isTemporallyHeldOut": false
+  },
+  {
+    "monthYear": "2019-03",
+    "burnedAreaHectares": 1420,
+    "pixelCount": 57,
+    "uncertaintyHectares": 140,
+    "confidenceScore": 92,
+    "isTemporallyHeldOut": false
+  },
+  {
+    "monthYear": "2019-04",
+    "burnedAreaHectares": 310,
+    "pixelCount": 12,
+    "uncertaintyHectares": 50,
+    "confidenceScore": 84,
+    "isTemporallyHeldOut": false
+  },
+  {
+    "monthYear": "2020-02",
+    "burnedAreaHectares": 180,
+    "pixelCount": 7,
+    "uncertaintyHectares": 35,
+    "confidenceScore": 85,
+    "isTemporallyHeldOut": false
+  },
+  {
+    "monthYear": "2020-03",
+    "burnedAreaHectares": 640,
+    "pixelCount": 26,
+    "uncertaintyHectares": 85,
+    "confidenceScore": 90,
+    "isTemporallyHeldOut": false
+  },
+  {
+    "monthYear": "2020-04",
+    "burnedAreaHectares": 210,
+    "pixelCount": 8,
+    "uncertaintyHectares": 40,
+    "confidenceScore": 82,
+    "isTemporallyHeldOut": false
+  },
+  {
+    "monthYear": "2021-02",
+    "burnedAreaHectares": 390,
+    "pixelCount": 16,
+    "uncertaintyHectares": 55,
+    "confidenceScore": 87,
+    "isTemporallyHeldOut": false
+  },
+  {
+    "monthYear": "2021-03",
+    "burnedAreaHectares": 1120,
+    "pixelCount": 45,
+    "uncertaintyHectares": 120,
+    "confidenceScore": 91,
+    "isTemporallyHeldOut": false
+  },
+  {
+    "monthYear": "2021-04",
+    "burnedAreaHectares": 290,
+    "pixelCount": 12,
+    "uncertaintyHectares": 45,
+    "confidenceScore": 86,
+    "isTemporallyHeldOut": false
+  },
+  {
+    "monthYear": "2022-02",
+    "burnedAreaHectares": 320,
+    "pixelCount": 13,
+    "uncertaintyHectares": 50,
+    "confidenceScore": 86,
+    "isTemporallyHeldOut": true
+  },
+  {
+    "monthYear": "2022-03",
+    "burnedAreaHectares": 1280,
+    "pixelCount": 51,
+    "uncertaintyHectares": 130,
+    "confidenceScore": 93,
+    "isTemporallyHeldOut": true
+  },
+  {
+    "monthYear": "2022-04",
+    "burnedAreaHectares": 410,
+    "pixelCount": 16,
+    "uncertaintyHectares": 60,
+    "confidenceScore": 88,
+    "isTemporallyHeldOut": true
+  },
+  {
+    "monthYear": "2023-02",
+    "burnedAreaHectares": 850,
+    "pixelCount": 34,
+    "uncertaintyHectares": 95,
+    "confidenceScore": 91,
+    "isTemporallyHeldOut": true
+  },
+  {
+    "monthYear": "2023-03",
+    "burnedAreaHectares": 3450,
+    "pixelCount": 138,
+    "uncertaintyHectares": 240,
+    "confidenceScore": 95,
+    "isTemporallyHeldOut": true
+  },
+  {
+    "monthYear": "2023-04",
+    "burnedAreaHectares": 920,
+    "pixelCount": 37,
+    "uncertaintyHectares": 110,
+    "confidenceScore": 89,
+    "isTemporallyHeldOut": true
+  },
+  {
+    "monthYear": "2024-02",
+    "burnedAreaHectares": 610,
+    "pixelCount": 24,
+    "uncertaintyHectares": 75,
+    "confidenceScore": 89,
+    "isTemporallyHeldOut": true
+  },
+  {
+    "monthYear": "2024-03",
+    "burnedAreaHectares": 1980,
+    "pixelCount": 79,
+    "uncertaintyHectares": 175,
+    "confidenceScore": 94,
+    "isTemporallyHeldOut": true
+  },
+  {
+    "monthYear": "2024-04",
+    "burnedAreaHectares": 440,
+    "pixelCount": 18,
+    "uncertaintyHectares": 60,
+    "confidenceScore": 87,
+    "isTemporallyHeldOut": true
+  },
+  {
+    "monthYear": "2025-02",
+    "burnedAreaHectares": 420,
+    "pixelCount": 17,
+    "uncertaintyHectares": 55,
+    "confidenceScore": 88,
+    "isTemporallyHeldOut": true
+  },
+  {
+    "monthYear": "2025-03",
+    "burnedAreaHectares": 1490,
+    "pixelCount": 60,
+    "uncertaintyHectares": 145,
+    "confidenceScore": 92,
+    "isTemporallyHeldOut": true
+  },
+  {
+    "monthYear": "2025-04",
+    "burnedAreaHectares": 360,
+    "pixelCount": 14,
+    "uncertaintyHectares": 50,
+    "confidenceScore": 85,
+    "isTemporallyHeldOut": true
+  },
+  {
+    "monthYear": "2026-02",
+    "burnedAreaHectares": 490,
+    "pixelCount": 20,
+    "uncertaintyHectares": 65,
+    "confidenceScore": 87,
+    "isTemporallyHeldOut": true
+  },
+  {
+    "monthYear": "2026-03",
+    "burnedAreaHectares": 1650,
+    "pixelCount": 66,
+    "uncertaintyHectares": 155,
+    "confidenceScore": 93,
+    "isTemporallyHeldOut": true
+  },
+  {
+    "monthYear": "2026-04",
+    "burnedAreaHectares": 380,
+    "pixelCount": 15,
+    "uncertaintyHectares": 55,
+    "confidenceScore": 86,
+    "isTemporallyHeldOut": true
+  }
+]

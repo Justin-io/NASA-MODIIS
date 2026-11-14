@@ -1,0 +1,6 @@
+{
+  "name": "ALEX — Autonomous Live Environmental eXpert",
+  "description": "Scientific environmental intelligence, NASA MODIS/VIIRS hotspot harmonization, multi-agent evidence investigation, and emergency response coordination platform.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

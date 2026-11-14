@@ -1,0 +1,521 @@
+{
+  "incidents": [],
+  "weather": [
+    {
+      "stationId": "REGIONAL-REG-NILGIRI",
+      "regionName": "Nilgiri Biosphere & Western Ghats",
+      "lat": 11.4064,
+      "lng": 76.6932,
+      "observedAt": "2026-11-14T06:57:07.907Z",
+      "forecastWindow": "Service Disrupted",
+      "source": "Open-Meteo High-Resolution Grid (Offline / Rate-Limited)",
+      "freshnessMinutes": 999,
+      "isSimulated": false,
+      "isAvailable": false,
+      "status": "UNAVAILABLE",
+      "errorMessage": "fetch failed",
+      "temperatureC": null,
+      "humidityPct": null,
+      "windSpeedKmh": null,
+      "windGustKmh": null,
+      "windDirectionDeg": null,
+      "windCompass": "N/A",
+      "rainfallMm24h": null,
+      "precipProbabilityPct": 0,
+      "soilMoisturePct": null,
+      "fuelDrynessPct": null,
+      "lightningStrikes1h": null,
+      "warningText": "WEATHER SERVICE UNAVAILABLE: fetch failed. Per Non-Negotiable Rule 1 & 3, ALEX does not manufacture synthetic weather observations.",
+      "hourlyTrend": []
+    },
+    {
+      "stationId": "REGIONAL-REG-SIERRA",
+      "regionName": "Sierra Nevada Plumas Basin",
+      "lat": 39.9921,
+      "lng": 120.8031,
+      "observedAt": "2026-11-14T04:58:35.128Z",
+      "forecastWindow": "Live Open-Meteo Sensor Observation + 12h Forecast",
+      "source": "Open-Meteo High-Resolution Numerical Weather Prediction Grid",
+      "freshnessMinutes": 1,
+      "isSimulated": false,
+      "isAvailable": true,
+      "status": "OPERATIONAL",
+      "temperatureC": 10.7,
+      "humidityPct": 84,
+      "windSpeedKmh": 20.1,
+      "windGustKmh": 27,
+      "windDirectionDeg": 16,
+      "windCompass": "NNE",
+      "rainfallMm24h": 0,
+      "precipProbabilityPct": null,
+      "soilMoisturePct": null,
+      "fuelDrynessPct": null,
+      "lightningStrikes1h": null,
+      "warningText": null,
+      "hourlyTrend": [
+        {
+          "hour": "00:00",
+          "tempC": 11,
+          "windKmh": 15,
+          "humidityPct": 85,
+          "rainMm": 0
+        },
+        {
+          "hour": "02:00",
+          "tempC": 11,
+          "windKmh": 13,
+          "humidityPct": 81,
+          "rainMm": 0
+        },
+        {
+          "hour": "04:00",
+          "tempC": 11,
+          "windKmh": 17,
+          "humidityPct": 83,
+          "rainMm": 0.1
+        },
+        {
+          "hour": "06:00",
+          "tempC": 10,
+          "windKmh": 21,
+          "humidityPct": 85,
+          "rainMm": 0.1
+        },
+        {
+          "hour": "08:00",
+          "tempC": 10,
+          "windKmh": 18,
+          "humidityPct": 86,
+          "rainMm": 0
+        },
+        {
+          "hour": "10:00",
+          "tempC": 11,
+          "windKmh": 15,
+          "humidityPct": 75,
+          "rainMm": 0
+        }
+      ]
+    },
+    {
+      "stationId": "REGIONAL-REG-ARCADIA",
+      "regionName": "Peloponnese Arcadia Highlands",
+      "lat": 37.5102,
+      "lng": 22.3712,
+      "observedAt": "2026-11-14T04:58:23.040Z",
+      "forecastWindow": "Live Open-Meteo Sensor Observation + 12h Forecast",
+      "source": "Open-Meteo High-Resolution Numerical Weather Prediction Grid",
+      "freshnessMinutes": 1,
+      "isSimulated": false,
+      "isAvailable": true,
+      "status": "OPERATIONAL",
+      "temperatureC": 14.7,
+      "humidityPct": 91,
+      "windSpeedKmh": 5.6,
+      "windGustKmh": 10.4,
+      "windDirectionDeg": 230,
+      "windCompass": "SW",
+      "rainfallMm24h": 0,
+      "precipProbabilityPct": null,
+      "soilMoisturePct": null,
+      "fuelDrynessPct": null,
+      "lightningStrikes1h": null,
+      "warningText": null,
+      "hourlyTrend": [
+        {
+          "hour": "00:00",
+          "tempC": 15,
+          "windKmh": 10,
+          "humidityPct": 83,
+          "rainMm": 0
+        },
+        {
+          "hour": "02:00",
+          "tempC": 14,
+          "windKmh": 5,
+          "humidityPct": 86,
+          "rainMm": 0
+        },
+        {
+          "hour": "04:00",
+          "tempC": 15,
+          "windKmh": 4,
+          "humidityPct": 90,
+          "rainMm": 0
+        },
+        {
+          "hour": "06:00",
+          "tempC": 16,
+          "windKmh": 8,
+          "humidityPct": 90,
+          "rainMm": 0
+        },
+        {
+          "hour": "08:00",
+          "tempC": 18,
+          "windKmh": 20,
+          "humidityPct": 73,
+          "rainMm": 0
+        },
+        {
+          "hour": "10:00",
+          "tempC": 20,
+          "windKmh": 22,
+          "humidityPct": 63,
+          "rainMm": 0
+        }
+      ]
+    }
+  ],
+  "news": [],
+  "evidenceNodes": [],
+  "evidenceEdges": [],
+  "agents": [
+    {
+      "id": "AG-WATCHTOWER",
+      "name": "Watchtower",
+      "specialty": "Continuous Multi-Feed Satellite & Sensor Ingestion",
+      "status": "Idle / Standby",
+      "currentTask": "System standby. Awaiting NASA FIRMS or sensor feed trigger.",
+      "latestOutput": "System nominal. Awaiting satellite pass ingestion.",
+      "uncertaintyNote": null,
+      "invalidatedAssumption": null,
+      "recommendedAction": "Execute NASA FIRMS ingestion when satellite pass occurs.",
+      "sourceReferences": [
+        "NASA FIRMS API",
+        "Open-Meteo AWS Grid"
+      ],
+      "executionHistory": []
+    },
+    {
+      "id": "AG-INVESTIGATOR",
+      "name": "Investigator",
+      "specialty": "Evidence Retrieval & Cross-Provider Corroboration",
+      "status": "Idle / Standby",
+      "currentTask": "Standing by for candidate incident evidence.",
+      "latestOutput": "No active incident investigations.",
+      "uncertaintyNote": null,
+      "invalidatedAssumption": null,
+      "recommendedAction": "Await incident creation trigger.",
+      "sourceReferences": [
+        "District Police CAD",
+        "Forest Radio Log"
+      ],
+      "executionHistory": []
+    },
+    {
+      "id": "AG-SKEPTIC",
+      "name": "Skeptic",
+      "specialty": "Anomaly Debunking & Industrial Heat / Reflection Filtering",
+      "status": "Idle / Standby",
+      "currentTask": "Standing by for false-positive evaluation.",
+      "latestOutput": "No anomalies queued for debunking.",
+      "uncertaintyNote": null,
+      "invalidatedAssumption": null,
+      "recommendedAction": "Filter industrial or solar glint anomalies when detected.",
+      "sourceReferences": [
+        "Industrial Heat Inventory",
+        "Topographic Shading"
+      ],
+      "executionHistory": []
+    },
+    {
+      "id": "AG-VERIFIER",
+      "name": "Verifier",
+      "specialty": "Deterministic Numerical Verification & Provenance Validation",
+      "status": "Idle / Standby",
+      "currentTask": "Standing by for mathematical & coordinate validation.",
+      "latestOutput": "Numerical verification engine idle.",
+      "uncertaintyNote": null,
+      "invalidatedAssumption": null,
+      "recommendedAction": "Verify incoming observation spatial bounds and scan angle geometry.",
+      "sourceReferences": [
+        "MODIS Calibration Table Collection 6.1",
+        "VIIRS Calibration"
+      ],
+      "executionHistory": []
+    },
+    {
+      "id": "AG-IMPACT",
+      "name": "Impact Assessor",
+      "specialty": "Population Exposure & Critical Infrastructure Vulnerability",
+      "status": "Idle / Standby",
+      "currentTask": "Standing by for active fire footprint overlay.",
+      "latestOutput": "No active exposure perimeters.",
+      "uncertaintyNote": null,
+      "invalidatedAssumption": null,
+      "recommendedAction": "Compute exposure once fire front coordinates are established.",
+      "sourceReferences": [
+        "Census Settlement Grid",
+        "OSM Infrastructure Layer"
+      ],
+      "executionHistory": []
+    },
+    {
+      "id": "AG-PLANNER",
+      "name": "Mission Planner",
+      "specialty": "Resource Allocation, Staging & Contingency Planning",
+      "status": "Idle / Standby",
+      "currentTask": "Standing by for incident action planning.",
+      "latestOutput": "No active incidents requiring IAP generation.",
+      "uncertaintyNote": null,
+      "invalidatedAssumption": null,
+      "recommendedAction": "Generate staging plan when incident is confirmed.",
+      "sourceReferences": [
+        "District Resource Inventory",
+        "ICS Form 201"
+      ],
+      "executionHistory": []
+    },
+    {
+      "id": "AG-AUTHORITY",
+      "name": "Authority Liaison",
+      "specialty": "Multi-Agency Coordination & Formal Dispatch Packages",
+      "status": "Idle / Standby",
+      "currentTask": "Standing by for authorized dispatch requests.",
+      "latestOutput": "No pending multi-agency dispatches.",
+      "uncertaintyNote": null,
+      "invalidatedAssumption": null,
+      "recommendedAction": "Coordinate with incident commander upon emergency declaration.",
+      "sourceReferences": [
+        "State Emergency Protocol"
+      ],
+      "executionHistory": []
+    },
+    {
+      "id": "AG-COMMUNITY",
+      "name": "Community Liaison",
+      "specialty": "Multilingual Public Advisories & Accessibility",
+      "status": "Idle / Standby",
+      "currentTask": "Standing by for verified advisory distribution.",
+      "latestOutput": "No public safety advisories issued.",
+      "uncertaintyNote": null,
+      "invalidatedAssumption": null,
+      "recommendedAction": "Draft community alerts upon authority authorization.",
+      "sourceReferences": [
+        "District Public Information Guidelines"
+      ],
+      "executionHistory": []
+    },
+    {
+      "id": "AG-FLEET",
+      "name": "Fleet Manager",
+      "specialty": "Surface Fleet, Staging Yards & Ground Logistics Coordination",
+      "status": "Idle / Standby",
+      "currentTask": "Tracking apparatus availability in sector.",
+      "latestOutput": "Fleet inventory registered and awaiting dispatch orders.",
+      "uncertaintyNote": null,
+      "invalidatedAssumption": null,
+      "recommendedAction": "Monitor response corridors when units deploy.",
+      "sourceReferences": [
+        "Highway Telematics Grid"
+      ],
+      "executionHistory": []
+    },
+    {
+      "id": "AG-SCRIBE",
+      "name": "Mission Scribe",
+      "specialty": "Tamper-Evident Event Logging & Situation Report Generation",
+      "status": "Active Monitoring",
+      "currentTask": "Recording all system state transitions into SHA-256 cryptographic ledger.",
+      "latestOutput": "Ledger integrity verified. 0 breaks detected.",
+      "uncertaintyNote": null,
+      "invalidatedAssumption": null,
+      "recommendedAction": "Maintain cryptographic block chaining for all operations.",
+      "sourceReferences": [
+        "Cryptographic Event Ledger"
+      ],
+      "executionHistory": []
+    }
+  ],
+  "routes": [],
+  "casualtyReports": [],
+  "agencyTasks": [],
+  "resources": [],
+  "advisories": [],
+  "calls": [
+    {
+      "id": "CALL-665805",
+      "recipientName": "Dr. S. Ramanathan",
+      "recipientAgency": "Nilgiris District Headquarters Hospital",
+      "phoneNumber": "+91-423-2444108",
+      "role": "Hospital Chief of Trauma",
+      "state": "call_initiated",
+      "initiatedAt": "2026-11-13T15:44:25.805Z",
+      "updatedAt": "2026-11-13T15:44:25.805Z",
+      "durationSeconds": 0,
+      "aiIdentityAnnounced": true,
+      "legalConsentObtained": false,
+      "incidentId": "INC-2026-0842",
+      "transcript": [
+        {
+          "speaker": "ALEX",
+          "text": "Call initiated to Dr. S. Ramanathan (Nilgiris District Headquarters Hospital) at +91-423-2444108. Identifying as ALEX Emergency Intelligence Coordinator. Call draft registered for Dr. S. Ramanathan (Nilgiris District Headquarters Hospital) at +91-423-2444108. Gateway unconfigured (Awaiting TWILIO_ACCOUNT_SID and TWILIO_AUTH_TOKEN in server environment. In accordance with Rule 1 & 15, ALEX never simulates telephone call progression.). No synthetic call progression permitted.",
+          "timestamp": "2026-11-13T15:44:25.805Z"
+        }
+      ],
+      "extractedOutcome": {
+        "unitsCommitted": 0,
+        "etaMinutes": null,
+        "confirmationCode": null,
+        "operatorNotes": "Emergency hospital bed inquiry."
+      }
+    }
+  ],
+  "benchmarks": [],
+  "diagnostics": [
+    {
+      "providerName": "NASA FIRMS Near-Real-Time (NRT)",
+      "category": "satellite",
+      "status": "ONLINE",
+      "lastPingMs": 145,
+      "lastSuccessfulSync": "2026-11-14T06:42:33.541Z",
+      "errorCount24h": 0,
+      "lastErrorMessage": null,
+      "setupInstructions": "Register free at https://firms.modaps.eosdis.nasa.gov/api/map_key/ and add key to .env.local."
+    },
+    {
+      "providerName": "Open-Meteo Meteorological Service",
+      "category": "weather",
+      "status": "ONLINE",
+      "lastPingMs": 1180,
+      "lastSuccessfulSync": "2026-11-14T06:42:34.721Z",
+      "errorCount24h": 0,
+      "lastErrorMessage": null,
+      "setupInstructions": "Public open-access weather API active without credentials required."
+    },
+    {
+      "providerName": "Google Gemini 2.0 (Google GenAI)",
+      "category": "llm",
+      "status": "ONLINE",
+      "lastPingMs": 210,
+      "lastSuccessfulSync": "2026-11-14T06:42:34.721Z",
+      "errorCount24h": 0,
+      "lastErrorMessage": null,
+      "setupInstructions": "Obtain an API key from Google AI Studio and configure GEMINI_API_KEY."
+    },
+    {
+      "providerName": "OSRM Emergency Navigation Server",
+      "category": "routing",
+      "status": "DEGRADED",
+      "lastPingMs": 0,
+      "lastSuccessfulSync": null,
+      "errorCount24h": 1,
+      "lastErrorMessage": "The operation was aborted due to timeout",
+      "setupInstructions": "Using deterministic highway geometry fallback during network degradation."
+    },
+    {
+      "providerName": "Cryptographic Event Ledger (SHA-256)",
+      "category": "satellite",
+      "status": "ONLINE",
+      "lastPingMs": 1,
+      "lastSuccessfulSync": "2026-11-14T06:42:37.723Z",
+      "errorCount24h": 0,
+      "lastErrorMessage": null,
+      "setupInstructions": "Local tamper-evident cryptographic chain storing all decisions and evidence."
+    },
+    {
+      "providerName": "Voice Operations & Telephony Pipeline",
+      "category": "telephony",
+      "status": "ONLINE",
+      "lastPingMs": 45,
+      "lastSuccessfulSync": "2026-11-14T06:42:37.723Z",
+      "errorCount24h": 0,
+      "lastErrorMessage": null,
+      "setupInstructions": "Active telephony state engine with AI identification and consent enforcement."
+    },
+    {
+      "providerName": "Groq LLM (llama-3.3-70b-versatile)",
+      "category": "llm",
+      "status": "DEGRADED",
+      "lastPingMs": 0,
+      "lastSuccessfulSync": null,
+      "errorCount24h": 1,
+      "lastErrorMessage": "The operation was aborted due to timeout",
+      "setupInstructions": "Gemini fallback active during Groq degradation."
+    },
+    {
+      "providerName": "Telegram Alert Bot",
+      "category": "telephony",
+      "status": "ONLINE",
+      "lastPingMs": 3840,
+      "lastSuccessfulSync": "2026-11-14T06:42:45.565Z",
+      "errorCount24h": 0,
+      "lastErrorMessage": null,
+      "setupInstructions": "Bot: @Jarvis_justin_bot. Sends fire alerts and evacuation orders."
+    },
+    {
+      "providerName": "OpenSky Network (Aerial Responder Tracking)",
+      "category": "satellite",
+      "status": "ONLINE",
+      "lastPingMs": 3946,
+      "lastSuccessfulSync": "2026-11-14T06:42:49.511Z",
+      "errorCount24h": 0,
+      "lastErrorMessage": null,
+      "setupInstructions": "Live ADS-B aircraft tracking for aerial fire suppression resources."
+    },
+    {
+      "providerName": "Copernicus Sentinel Hub (ESA)",
+      "category": "satellite",
+      "status": "ONLINE",
+      "lastPingMs": 320,
+      "lastSuccessfulSync": "2026-11-14T06:42:49.511Z",
+      "errorCount24h": 0,
+      "lastErrorMessage": null,
+      "setupInstructions": "ESA Copernicus Data Space Ecosystem. Provides Sentinel-2 optical + Sentinel-1 SAR fire perimeter imagery."
+    },
+    {
+      "providerName": "Notion Intelligence Database",
+      "category": "satellite",
+      "status": "ONLINE",
+      "lastPingMs": 180,
+      "lastSuccessfulSync": "2026-11-14T06:42:49.511Z",
+      "errorCount24h": 0,
+      "lastErrorMessage": null,
+      "setupInstructions": "Persistent incident intelligence store. Configure NOTION_API_KEY and NOTION_DATABASE_ID."
+    },
+    {
+      "providerName": "ALEX Cryptographic Auth Layer",
+      "category": "satellite",
+      "status": "ONLINE",
+      "lastPingMs": 1,
+      "lastSuccessfulSync": "2026-11-14T06:42:49.511Z",
+      "errorCount24h": 0,
+      "lastErrorMessage": null,
+      "setupInstructions": "JWT signing + operator credential gating. Both secrets required for elevated role issuance."
+    },
+    {
+      "providerName": "Google Maps Platform + Earth Engine",
+      "category": "satellite",
+      "status": "ONLINE",
+      "lastPingMs": 95,
+      "lastSuccessfulSync": "2026-11-14T06:42:49.511Z",
+      "errorCount24h": 0,
+      "lastErrorMessage": null,
+      "setupInstructions": "Powers geospatial routing, satellite layer tiles, and Earth Engine analysis (project: gen-lang-client-0494322977)."
+    },
+    {
+      "providerName": "OpenRouter Multi-Model AI Gateway",
+      "category": "llm",
+      "status": "ONLINE",
+      "lastPingMs": 120,
+      "lastSuccessfulSync": "2026-11-14T06:42:49.511Z",
+      "errorCount24h": 0,
+      "lastErrorMessage": null,
+      "setupInstructions": "Tertiary multi-model LLM fallback (Claude, LLaMA, DeepSeek) for zero-downtime crisis reasoning."
+    },
+    {
+      "providerName": "GitHub Sovereign Incident & Ledger Audit",
+      "category": "satellite",
+      "status": "ONLINE",
+      "lastPingMs": 110,
+      "lastSuccessfulSync": "2026-11-14T06:42:49.511Z",
+      "errorCount24h": 0,
+      "lastErrorMessage": null,
+      "setupInstructions": "Syncs incident records, cryptographic ledger receipts, and post-incident reviews to GitHub."
+    }
+  ],
+  "burningCalendar": {},
+  "rawObservations": [],
+  "harmonizedEvents": []
+}
