@@ -99,3 +99,4 @@ export function sanitizedAuditLogger(req: Request, res: Response, next: NextFunc
 
   next();
 }
+

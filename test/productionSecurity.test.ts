@@ -376,3 +376,4 @@ test('SecurityHeaders - strips X-Powered-By and enforces HSTS preload and camera
   assert.ok(headersSet['Permissions-Policy'].includes('camera=()'));
   assert.equal(headersSet['Cross-Origin-Opener-Policy'], 'same-origin');
 });
+
