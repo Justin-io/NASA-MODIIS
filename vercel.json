@@ -3,7 +3,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "functions": {
-    "api/index.ts": {
+    "api/**": {
       "includeFiles": "data/**,dataset/**,server/db/migrations/**",
       "maxDuration": 60
     }
@@ -11,11 +11,11 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "/api"
+      "destination": "/api/index"
     },
     {
       "source": "/health",
-      "destination": "/api"
+      "destination": "/api/index"
     },
     {
       "source": "/((?!api/|health).*)",
